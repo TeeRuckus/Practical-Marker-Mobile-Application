@@ -1,5 +1,8 @@
 package com.example.assone;
 
+import java.util.LinkedList;
+import java.util.Hashtable;
+
 public class Practical {
     protected class taskNode
     {
@@ -72,8 +75,40 @@ public class Practical {
     //class fields for the outer class
     private String title;
     private String descrpt;
-    private taskNode[] marks;
+    private Hashtable<String, taskNode> marks;
     private float totalMarks;
+
+    //default constructor
+    public Practical()
+    {
+        title = "Practical title";
+        descrpt = "this is a description of the class";
+        marks = new Hashtable<String, taskNode>();
+        totalMarks = 100;
+    }
+
+    //ALTERNATE CONSTRUCTOR
+    public Practical(String inTitle, String inDescrpt, float inMarks)
+    {
+        if( validateTitle(inTitle) && validateDescrpt(inDescrpt) && validateMark(inMarks))
+        {
+            title = inTitle;
+            descrpt = inDescrpt;
+            totalMarks = inMarks;
+        }
+
+    }
+
+
+    //COPY CONSTRUCTOR
+    public Practical(Practical inPrac)
+    {
+        title = inPrac.getTitle();
+        descrpt = inPrac.getdescrp();
+        marks = inPrac.getMarks();
+        totalMarks = inPrac.getTotalMark();
+
+    }
 
     //ACCESSORS
     public String getTitle()
@@ -86,9 +121,9 @@ public class Practical {
         return new String(descrpt);
     }
 
-    public taskNode[] getMarks()
+    public Hashtable<String, taskNode>  getMarks()
     {
-        return marks.clone();
+        return new Hashtable<String, taskNode>(marks);
     }
 
     public float getTotalMark()
@@ -114,7 +149,7 @@ public class Practical {
         }
     }
 
-    public void setmarks(taskNode[] inMarks)
+    public void setmarks(Hashtable<String, taskNode> inMarks)
     {
         //this data should have already being validated, so no need to validate again
         marks = inMarks;
@@ -126,6 +161,22 @@ public class Practical {
         {
             totalMarks = inMark;
         }
+    }
+
+    //methods in which we can change the state of the taskNode
+    public void addMarks(String title, String inDescrpt, float inScore, int inAvailMarks)
+    {
+        //TODO: come back and finsih implementing these methods
+    }
+
+    public void delMark()
+    {
+        //TODO: come back and finish implementing these methods
+    }
+
+    public void findMark()
+    {
+
     }
 
     protected boolean validateTitle(String inTitle)
@@ -150,7 +201,7 @@ public class Practical {
         }
 
         int  words = countWords(inDescrpt);
-        if(words < 200)
+        if(words < 50)
         {
             throw new IllegalArgumentException("Error: Short description must be minimum of 200 words"+
                     " current word count: " + words);
@@ -163,7 +214,7 @@ public class Practical {
     {
         boolean valid = true;
 
-        if(inMark < 0)
+        if(inMark <= 0)
         {
             throw new IllegalArgumentException("Error: must enter a positive mark: " + inMark);
         }
