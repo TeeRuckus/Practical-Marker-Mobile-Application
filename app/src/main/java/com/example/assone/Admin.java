@@ -7,6 +7,8 @@ import java.util.*;
     - how you can send the prac from the current instructor to all the students
     - then the instructor can edit each one of those individual practicals which he created for
     each student in his class at the current moment
+    - you will need to remove the instructors from here, as it's not this class responsibility
+    to keep the instructors here, it's going to be the graphs responsibility to do that
  */
 
 public class Admin extends extends User{
