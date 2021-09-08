@@ -1,13 +1,9 @@
 package com.example.assone;
+import java.util.*;
 
 public class Graph
 {
-    //classfields for the outer class which we can use
-    private Hashtable<String, Vertex> vertices;
-    //this is going to be the admin of the whole applicatio
-    private Vertex rootNode;
-
-    private class Vertex()
+    private class Vertex
     {
         //using protected, so I can edit the class fields directly from parent class and avoids using accessors and mutators
         private String key;
@@ -22,13 +18,38 @@ public class Graph
             connections = new Hashtable<String, Vertex>();
         }
 
-        private Vertex(String inKey, Object inUser)
+        private Vertex(String inKey, Admin inUser)
         {
             if( validateKey(inKey) && validateUser(inUser))
             {
                 key = inKey;
                 value = inUser;
             }
+        }
+
+        private Vertex(String inKey, Instructor inUser)
+        {
+            if( validateKey(inKey) && validateUser(inUser))
+            {
+                key = inKey;
+                value = inUser;
+            }
+        }
+
+        private Vertex(String inKey, Student inUser)
+        {
+            if( validateKey(inKey) && validateUser(inUser))
+            {
+                key = inKey;
+                value = inUser;
+            }
+        }
+
+        private Vertex(Vertex inVert)
+        {
+            key = inVert.key;
+            value = inVert.value;
+            connections = inVert.connections;
         }
 
         //TODO: you will actually need to think on how you're going to use this function
@@ -45,7 +66,7 @@ public class Graph
         private boolean validateKey(String inKey)
         {
             boolean valid = true;
-            if(inKey.length == 0)
+            if(inKey.length() == 0)
             {
                 throw new IllegalArgumentException("ERROR: can't have an empty string as a key: " + inKey);
             }
@@ -84,11 +105,15 @@ public class Graph
 
     }
 
+    private Hashtable<String, Vertex> vertices;
+    //this is going to be the admin of the whole application, they're going to be stored here
+    private Vertex rootNode;
+
     //DEFAULT CONSTRUCTOR
     public Graph()
     {
         vertices = new Hashtable<String, Vertex>();
-        rootNone = null;
+        rootNode = null;
     }
 
     public int size()
@@ -96,16 +121,17 @@ public class Graph
         return vertices.size();
     }
 
-    public void addVertex(String key, Object value)
+    //TODO: you will need to add more addVertex method for the other of vertex types which you can use in the programme
+    public void addVertex(String key, Admin value)
     {
         key = cleanString(key);
-        Vertex newVert = Vertex(key, value);
+        Vertex newVert = new Vertex(key, value);
         vertices.put(key, newVert);
     }
 
     public  void delVertex(String key)
     {
-        if(connections.isEmpty())
+        if(vertices.isEmpty())
         {
             throw  new IllegalArgumentException("ERROR: no vertices have being added as yet: " + vertices.size());
         }
@@ -133,7 +159,7 @@ public class Graph
      * PUPROSE: to delete a directed edge from one node to another node. Otherwise, if this
      * relationship doesn't excist fail
      ***********************************************************************************************/
-    public void delEdge(Setring fromEdge, String toEdge)
+    public void delEdge(String fromEdge, String toEdge)
     {
         fromEdge = cleanString(fromEdge);
         toEdge = cleanString(toEdge);
@@ -147,13 +173,14 @@ public class Graph
     {
         nodeName = cleanString(nodeName);
         Vertex currVertex = vertices.get(nodeName);
-        return curreVertex.connections;
+        return currVertex.connections;
     }
 
-    public String [] toString()
+    public String toString()
     {
         throw new IllegalArgumentException("ERROR: to be implemented");
     }
+
     /***********************************************************************************************
       PURPOSE: children classes are going to use strings for look up functions, and deleting functions
       hence, the purpose of the function is to trim any leading or lagging white spaces, and to make
