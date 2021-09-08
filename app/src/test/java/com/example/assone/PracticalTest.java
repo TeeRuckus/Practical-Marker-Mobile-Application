@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class PracticalTest {
     //actually seeing if I can create a practical object
@@ -153,10 +154,33 @@ public class PracticalTest {
     }
 
     //testing invalid input for the accessors
+    @Test(expected = IllegalArgumentException.class)
+    public void testMutatorTaskNodeInvalidMarks()
+    {
+        Practical.taskNode newNOde = testPrac.new taskNode();
 
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testMutatorTaskNodeInvalidDescrpt()
+    {
+        Practical.taskNode newNOde = testPrac.new taskNode();
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testMutatorTaskNodeInvalidScoredMarks()
+    {
+        Practical.taskNode newNOde = testPrac.new taskNode();
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testMutatorTaskNodeInvalidTitle()
+    {
+        Practical.taskNode newNOde = testPrac.new taskNode();
+    }
 
     @Test
-    public void testAddPracticalSections() {
+    public void testAddPracticalSections()
+    {
+        List<String> testTitles = new LinkedList<String>();
+
 
     }
 
