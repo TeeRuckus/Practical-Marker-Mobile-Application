@@ -163,13 +163,15 @@ public class Practical {
         }
     }
 
-    //methods in which we can change the state of the taskNode
-    public void addMarks(String title, String inDescrpt, float inScore, int inAvailMarks)
+    //METHODS IN WHICH WE CAN CHANGE THE STATE OF THE TASKNODE ITSELF
+    public void addSection(String inTitle, String inDescrpt, float inScore, int inAvailMarks)
     {
-        //TODO: come back and finsih implementing these methods
+        taskNode newNode = new taskNode(inTitle, inDescrpt, inScore, inAvailMarks);
+        marks.put(inTitle, newNode);
+
     }
 
-    public void delMark()
+    public void delSection()
     {
         //TODO: come back and finish implementing these methods
     }

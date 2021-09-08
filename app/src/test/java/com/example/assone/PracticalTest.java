@@ -9,14 +9,12 @@ import static org.junit.Assert.*;
 import java.util.LinkedList;
 import java.util.Hashtable;
 
-public class PracticalTest
-{
+public class PracticalTest {
     //actually seeing if I can create a practical object
     private Practical testPrac = new Practical();
 
     @Test
-    public void testAccessors()
-    {
+    public void testAccessors() {
         //results which were obtained from the actual object
         float resultMarks = testPrac.getTotalMark();
         Hashtable<String, Practical.taskNode> resultSectionMarks = testPrac.getMarks();
@@ -37,8 +35,7 @@ public class PracticalTest
     }
 
     @Test
-    public void testMutators()
-    {
+    public void testMutators() {
         String actualTitle = "Practical One";
         String actualDescrpt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In " +
                 "consectetur lacinia efficitur. Nullam sed quam in libero auctor mollis sit amet " +
@@ -57,45 +54,39 @@ public class PracticalTest
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMutatorsInvalidInputTitle()
-    {
+    public void testMutatorsInvalidInputTitle() {
         //testing the mutators but I am going to try to set with invalid input for the mutators
         String invalidTitle = "";
         testPrac.setTitle(invalidTitle);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMutatorsInvalidDescriptionOne()
-    {
+    public void testMutatorsInvalidDescriptionOne() {
         String invalidDescrptOne = "";
         testPrac.setDescrpt(invalidDescrptOne);
 
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMutatorsInvalidDescriptionTwo()
-    {
+    public void testMutatorsInvalidDescriptionTwo() {
         String invalidDescrptTwo = "this doesn't have enough words to be a description";
         testPrac.setDescrpt(invalidDescrptTwo);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMutatorsInvalidMarksOne()
-    {
+    public void testMutatorsInvalidMarksOne() {
         float invalidTotalMarksOne = 0;
         testPrac.setTotalMarks(invalidTotalMarksOne);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMutatorsInvalidMarksTwo()
-    {
+    public void testMutatorsInvalidMarksTwo() {
         float invalidTotalMarksTwo = -1;
         testPrac.setTotalMarks(invalidTotalMarksTwo);
     }
 
     @Test
-    public void testAccessorsCopyReturn()
-    {
+    public void testAccessorsCopyReturn() {
         //making sure that the accessors are actually going to be returning a copy of the object, and
         //not returning the memory address of the object, and then being able to change it
 
@@ -112,8 +103,8 @@ public class PracticalTest
         retDescrpt = "make me fail";
 
         //getting what is going to be at the current memory addresses
-         retTitle = testPrac.getTitle();
-         retDescrpt = testPrac.getdescrp();
+        retTitle = testPrac.getTitle();
+        retDescrpt = testPrac.getdescrp();
 
         //chaning the returned string to see if it will effect the string in the actual object
         assertEquals("ACCESSOR: returning a copy of fields title", actualTitle, retTitle);
@@ -121,19 +112,22 @@ public class PracticalTest
     }
 
     @Test
-    public void testAddPracticals()
-    {
+    public void testAddPracticalSections() {
 
     }
 
     @Test
-    public void retrievePractical()
-    {
+    public void testRetrievePracticalSection() {
 
     }
 
     @Test
-    public void changeSetMarks()
+    public void testChangeSetMark() {
+
+    }
+
+    @Test
+    public void testDelPractical()
     {
 
     }
