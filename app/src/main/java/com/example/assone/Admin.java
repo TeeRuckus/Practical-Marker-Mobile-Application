@@ -2,54 +2,52 @@ package com.example.assone;
 import java.util.*;
 /*
  TODO:
-    - you will need to think of way which you can send data in between the classes
-    - so how you can send the practical from the admin to all the instructors
-    - how you can send the prac from the current instructor to all the students
+    - so how you can send the practical from the admin to all the instructors: you should handle this inside your graph class
+    - how you can send the prac from the current instructor to all the students: you should handle this inside your graph class
     - then the instructor can edit each one of those individual practicals which he created for
     each student in his class at the current moment
-    - you will need to remove the instructors from here, as it's not this class responsibility
-    to keep the instructors here, it's going to be the graphs responsibility to do that
+    - you will need to delete the code which was supposed to handle all the details of the instructor
  */
 
-public class Admin extends extends User{
+public class Admin extends User{
     //the classfieleds which are unique to the admin
-    private Hashtable<String, Instructor> instructors;
+    //private Hashtable<String, Instructor> instructors;
     private Hashtable<String, Practical> practicals;
 
 
     public Admin()
     {
         super();
-        instsructors = new Hashtable<String, Instructor>();
-        practicals = new Hashtable<String, Practical>():
+        //instructors = new Hashtable<String, Instructor>();
+        practicals = new Hashtable<String, Practical>();
     }
 
     //TOOD: you might not even need this method, you're going to load your data from a data base anyways
     //so you can use the laod method to just load all your data into this data strcutre
-    public Admin(String inName, String inUserName, String inEmail, String inCountry, int inPassword, /
+    public Admin(String inName, String inUserName, String inEmail, String inCountry, int inPassword,
                  Hashtable<String, Instructor> inInstructors, Hashtable<String, Practical> inPracs)
     {
-        super(inName, inUserNam, inEmail, inCountry, inPassword);
-        instructors = inInstructors.clone();
-        practicals = inPracs.clone();
+        super(inName, inUserName, inEmail, inCountry, inPassword);
+        //instructors = (Hashtable<String, Instructor>) inInstructors.clone();
+        practicals = (Hashtable<String, Practical>) inPracs.clone();
     }
 
     //TODO: what you will have to do here, is that you have to give the instructor the practicals which you have at the current moment
-    public void addInstructor(Instructor inInstructor)
+    /*public void addInstructor(Instructor inInstructor)
     {
         //making the keys case insentive
-        String nameKey = super.cleanString(inInstructor.getUserName);
-        instructors.put(nameKey, inStructor);
-    }
+        String nameKey = super.cleanString(inInstructor.getUserName());
+        instructors.put(nameKey, inInstructor);
+    }*/
 
-    public void delInstructor(String inName)
+    /*public void delInstructor(String inName)
     {
         //making sure the inputted instructor name is going to be a valid name
         if(super.validateName(inName))
         {
             if (instructors.isEmpty())
             {
-                throw new IllegalArgumentException("Error: no instrustors have being added as yet: " + instrusctors.size());
+                throw new IllegalArgumentException("Error: no instrustors have being added as yet: " + instructors.size());
             }
             else
             {
@@ -59,14 +57,9 @@ public class Admin extends extends User{
             }
         }
 
-    }
+    }*/
 
-    public void editInstructor()
-    {
-        //TODO: come back to this when you have actually implemented instructor, and have tested it
-    }
-
-    public void addPrac(Pracatical inPrac)
+    public void addPrac(Practical inPrac)
     {
         String titleKey = super.cleanString(inPrac.getTitle());
         practicals.put(titleKey, inPrac);
@@ -90,20 +83,8 @@ public class Admin extends extends User{
         }
     }
 
-    //YOU WILL NEED ANOTHER METHOD WHICH IS GOING TO DELETE THE PRACTICAL FROM AN ACTUAL STUDENT
-    //AND DO THE CHECKS TO MAKE SURE THAT THEY IS NO MEANINGFUL DATA INSIDE THEIR
-
-    public void editPrac()
-    {
-        //TODO: come back to  this when you have actaully implemented this code
-    }
-
-    public void dispStudents()
-    {
-
-    }
-
-    public String dispInstructors()
+    //TODO: you will need to get rid of this method completely
+    /*public String dispInstructors()
     {
         List<String> retInstructors = new LinkedList<String>();
         //getting all the keys of the instructors hashtable so we can iteratate over it
@@ -113,9 +94,9 @@ public class Admin extends extends User{
             retInstructors.addLast((instructors.get(key)).toString());
         }
         return retInstructors;
-    }
+    }*/
 
-    public String dispStudents()
+    /*public String dispStudents()
     {
         List<String> students = new LinkedList<String>();
         //getting all the keys of the instructors
@@ -134,11 +115,11 @@ public class Admin extends extends User{
         }
 
         return students;
-    }
+    }*/
 
 
     public String toString()
     {
-        return "Admin," + super().toString();
+        return "Admin," + super.toString();
     }
 }

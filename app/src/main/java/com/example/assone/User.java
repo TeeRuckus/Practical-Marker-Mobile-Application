@@ -27,13 +27,13 @@ public abstract class User
     public User()
     {
         name = "John Doe";
-        userName = 12345678;
+        userName = "12345678";
         email = "johnDoe@curtin.edu.au";
         country = "AUSTRALIA";
         password = 1234;
     }
 
-    public User(String inName, int inUserName, String inEmail, String inCountry, int inPassword)
+    public User(String inName, String inUserName, String inEmail, String inCountry, int inPassword)
     {
         if(validateName(inName) && validateUserName(inUserName) && validateEmail(inEmail))
         {
@@ -66,12 +66,12 @@ public abstract class User
 
     public String getCountry()
     {
-        return new String(countr);
+        return new String(country);
     }
 
     public int getPassword()
     {
-        return password
+        return password;
     }
 
     //MUTATOR METHODS
@@ -79,14 +79,14 @@ public abstract class User
     {
         if(validateName(inName))
         {
-            name = inName
+            name = inName;
         }
     }
 
     public void setUserName(String inUserName)
     {
 
-        if(vaidateUserName(inUserName))
+        if(validateUserName(inUserName))
         {
             userName = userName;
         }
@@ -159,7 +159,7 @@ public abstract class User
 
         //the string must match this following pattern otherwise, the string is not valid
         boolean valid = true;
-        String regex = ^[A-Za-z0-9+_.-]+@(.+)$";
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern  pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(inEmail);
 
@@ -176,12 +176,12 @@ public abstract class User
      * ASSERTION: a valid user name is going to have 6 numbers, followed by a captial letter for the
      * staff id
      ***********************************************************************************************/
-    protected validateUserName(String inUserName)
+    protected boolean validateUserName(String inUserName)
     {
         boolean valid = true;
         //what we will want to match
         String regex = "[0-9]{6}[A-Z]{1}";
-        Pattern pattern = Patter.comile(regex);
+        Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(inUserName);
 
         if(!(matcher.matches()))
@@ -196,12 +196,18 @@ public abstract class User
     protected boolean validateCountry(String inCountry)
     {
         //TODO: I will need to figure out how the country flags are going to be kept, and how to link flags to a drawable id
+        boolean valid = true;
+
+        return valid;
 
     }
 
     protected boolean validatePassword(int inPassword)
     {
         //TODO: I will need to figure out how I am going to be storing my password
+        boolean valid = true;
+
+        return valid;
     }
 
     /***********************************************************************************************

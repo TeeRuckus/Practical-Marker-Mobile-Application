@@ -1,37 +1,29 @@
 package com.example.assone;
 
 public class Practical {
-
-    //class fields for the outer class
-    private String title;
-    private String descrpt;
-    private taskNode[] marks;
-    private float totalMarks;
-
-    //private inner class only which practical can use
-    private class taskNode
+    protected class taskNode
     {
 
         /*inner class class fields. Making classfields protected to avoid making accessors and
         mutators as the practical class in the only calss to use use this inner class
          */
         protected String taskTitle;
-        protected String taskDescpt;
+        protected String taskDescrpt;
         protected float scoredMarks;
         protected int availMarks;
 
         //DEFUAULT CONSTRUCTOR
-        private taskNode();
+        protected taskNode()
         {
             taskTitle = "task sample";
             taskDescrpt = "description of the task which has to be completed";
-            scoredMarks = 0.0;
+            scoredMarks = 0;
             availMarks = 10;
 
         }
 
         //ALTERNATE CONSTRUCTOR
-        private taskNode(String inTitle, String inDescrpt, float inScore, int inAvailMarks)
+        protected taskNode(String inTitle, String inDescrpt, float inScore, int inAvailMarks)
         {
             if (validateTitle(inTitle) && validateDescrpt(inDescrpt))
                 {
@@ -45,28 +37,43 @@ public class Practical {
                 }
         }
 
+        //COPY CONSTRUCTOR
+        protected taskNode(taskNode inTaskNode)
+        {
+            taskTitle = inTaskNode.taskTitle;
+            taskDescrpt = inTaskNode.taskDescrpt;
+            scoredMarks = inTaskNode.scoredMarks;
+            availMarks = inTaskNode.availMarks;
+        }
+
         protected taskNode clone()
         {
             return new taskNode(this);
         }
 
-        protected boolean validateScoredMarks(float inMarks)
+        private boolean validateScoredMarks(float inMarks)
         {
             boolean valid = true;
 
-            //comaprisons must be made on the dame data type
-            currAvailMarks = float(availMarks);
+            //comaprisons must be made on the same data type
+            float currAvailMarks = (float) availMarks;
 
             if (inMarks > currAvailMarks)
             {
                 throw new IllegalArgumentException("Error: maxiumum marks allwoed for this section:"+
-                        availMarks.toString());
+                        availMarks);
             }
 
             return valid;
         }
 
     }
+
+    //class fields for the outer class
+    private String title;
+    private String descrpt;
+    private taskNode[] marks;
+    private float totalMarks;
 
     //ACCESSORS
     public String getTitle()
@@ -79,7 +86,7 @@ public class Practical {
         return new String(descrpt);
     }
 
-    public taskNode[] getMarks;
+    public taskNode[] getMarks()
     {
         return marks.clone();
     }
@@ -127,7 +134,7 @@ public class Practical {
         boolean valid = true;
         if( inTitle.length() == 0)
         {
-            throw new IllegalArgumentExcepiton("Error: invalid name: " + inTitle);
+            throw new IllegalArgumentException("Error: invalid name: " + inTitle);
         }
 
         return valid;
@@ -137,7 +144,7 @@ public class Practical {
     {
         boolean valid = true;
 
-        if (inDescrpt.length == 0)
+        if (inDescrpt.length() == 0)
         {
             throw new IllegalArgumentException("Error: short description is empty: " + inDescrpt);
         }
@@ -146,7 +153,7 @@ public class Practical {
         if(words < 200)
         {
             throw new IllegalArgumentException("Error: Short description must be minimum of 200 words"+
-                    " current word count: " + words.toString);
+                    " current word count: " + words);
         }
 
         return valid;
@@ -161,7 +168,7 @@ public class Practical {
             throw new IllegalArgumentException("Error: must enter a positive mark: " + inMark);
         }
 
-        return valid; ]
+        return valid;
     }
 
     protected int countWords(String inPara)

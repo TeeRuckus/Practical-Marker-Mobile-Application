@@ -1,3 +1,7 @@
+/* TODO:
+    - you will need to over ride the  validate user name method because the way which
+    a student and a staff's usert name is going to be stored is going to be really different
+ */
 package com.example.assone;
 
 public class Student extends User
