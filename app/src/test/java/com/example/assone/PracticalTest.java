@@ -112,6 +112,50 @@ public class PracticalTest {
     }
 
     @Test
+    public void testaccessorsTaskNode()
+    {
+        //Practical.taskNode newNode = new testPrac.taskNode();
+        Practical.taskNode newNode  = testPrac.new taskNode();
+        String defaultTitle = "task sample";
+        String defaultDescription = "description of the task which has to be completed";
+        float defaultScoredMarks = 0;
+        int defaultAvailMarks = 10;
+
+        assertEquals("ACCESSORS: task node normal use title", defaultTitle, newNode.getTaskTitle());
+        assertEquals("ACCESSORS: task node normal use description", defaultDescription, newNode.getTaskDescrpt());
+        assertEquals("ACCESSORS: task node normal use scored marks", defaultScoredMarks, newNode.getScoredMarks(), 0.001);
+        assertEquals("ACCESSORS: task node normal available marks", defaultAvailMarks, newNode.getAvailMarks());
+    }
+
+    @Test
+    public void testMutatorsTaskNode()
+    {
+        String newTitle = "UI rotation";
+        String  newShortDescrpt = "The task required the students to be able to rotate the UI in" +
+                " whatever activity which they’re in. Therefore, no information should be lost" +
+                " when the UI is rotated, and the UI should be consistent when rotation occurs as" +
+                " well. Full marks will be awarded for anyone which can complete all tasks successfully";
+        int newAvailMarks = 100;
+        float newScoredMarks = 75;
+
+        Practical.taskNode newNode = testPrac.new taskNode();
+
+        //making all the changes of the methods
+        newNode.setAvailMarks(newAvailMarks);
+        newNode.setTaskTitle(newTitle);
+        newNode.setTaskDescrpt(newShortDescrpt);
+        newNode.setScoredMarks(newScoredMarks);
+
+        assertEquals("MUTATORS: taskNode - setting the available marks", newAvailMarks, newNode.getAvailMarks());
+        assertEquals("MUTATORS: taskNode - setting the task title", newTitle, newNode.getTaskTitle());
+        assertEquals("MUTATORS: taskNode - setting the task description", newAvailMarks, newNode.getAvailMarks(), 0.001);
+        assertEquals("MUTATORS: taskNode - setting the scored marks", newScoredMarks, newNode.getScoredMarks(), 0.001);
+    }
+
+    //testing invalid input for the accessors
+
+
+    @Test
     public void testAddPracticalSections() {
 
     }

@@ -1,3 +1,8 @@
+/*
+TODO:
+    - you will need to change teh cleanString() method with the one which is going to be found inside myUtil class,
+    and use that instead so that you will not have code duplication throughout your project
+ */
 package com.example.assone;
 import java.util.*;
 

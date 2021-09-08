@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Hashtable;
 
 public class Practical {
-    protected class taskNode
+    public class taskNode
     {
 
         /*inner class class fields. Making classfields protected to avoid making accessors and
@@ -16,7 +16,7 @@ public class Practical {
         protected int availMarks;
 
         //DEFUAULT CONSTRUCTOR
-        protected taskNode()
+        public taskNode()
         {
             taskTitle = "task sample";
             taskDescrpt = "description of the task which has to be completed";
@@ -26,7 +26,7 @@ public class Practical {
         }
 
         //ALTERNATE CONSTRUCTOR
-        protected taskNode(String inTitle, String inDescrpt, float inScore, int inAvailMarks)
+        public taskNode(String inTitle, String inDescrpt, float inScore, int inAvailMarks)
         {
             if (validateTitle(inTitle) && validateDescrpt(inDescrpt))
                 {
@@ -41,7 +41,7 @@ public class Practical {
         }
 
         //COPY CONSTRUCTOR
-        protected taskNode(taskNode inTaskNode)
+        public taskNode(taskNode inTaskNode)
         {
             taskTitle = inTaskNode.taskTitle;
             taskDescrpt = inTaskNode.taskDescrpt;
@@ -49,9 +49,63 @@ public class Practical {
             availMarks = inTaskNode.availMarks;
         }
 
-        protected taskNode clone()
+        public taskNode clone()
         {
             return new taskNode(this);
+        }
+
+        //ACCESSORS
+        public String getTaskTitle()
+        {
+            return new String(taskTitle);
+        }
+
+        public String getTaskDescrpt()
+        {
+            return new String(taskDescrpt);
+        }
+
+        public float getScoredMarks()
+        {
+            return scoredMarks;
+        }
+
+        public int getAvailMarks()
+        {
+            return availMarks;
+        }
+
+        //MUTATORS
+        public void setTaskTitle(String inTitle)
+        {
+            if ( validateTitle(inTitle))
+            {
+                taskTitle = inTitle;
+            }
+        }
+
+        public void setTaskDescrpt(String inDescrpt)
+        {
+            if ( validateDescrpt(inDescrpt))
+            {
+                taskDescrpt = inDescrpt;
+            }
+        }
+
+        public void setScoredMarks(float inScoredMarks)
+        {
+            if( validateScoredMarks(inScoredMarks))
+            {
+                scoredMarks = inScoredMarks;
+            }
+        }
+
+        public void setAvailMarks(int inMark)
+        {
+            if(validateMark(inMark))
+            {
+                availMarks = inMark;
+            }
         }
 
         private boolean validateScoredMarks(float inMarks)
@@ -166,19 +220,26 @@ public class Practical {
     //METHODS IN WHICH WE CAN CHANGE THE STATE OF THE TASKNODE ITSELF
     public void addSection(String inTitle, String inDescrpt, float inScore, int inAvailMarks)
     {
+        inTitle = myUtils.cleanString(inTitle);
         taskNode newNode = new taskNode(inTitle, inDescrpt, inScore, inAvailMarks);
         marks.put(inTitle, newNode);
-
     }
 
-    public void delSection()
+    public void delSection(String inKey)
     {
-        //TODO: come back and finish implementing these methods
+        if(marks.isEmpty())
+        {
+            throw new IllegalArgumentException("ERROR: can't delete from an empty mark section");
+        }
+        inKey = myUtils.cleanString(inKey);
+        marks.remove(inKey);
     }
 
-    public void findMark()
+    public taskNode findMark(String inKey)
     {
-
+        inKey = myUtils.cleanString(inKey);
+        //this will throw its own exception if the key doesn't exist in the marks hashtable
+        return marks.get(inKey);
     }
 
     protected boolean validateTitle(String inTitle)
@@ -223,6 +284,20 @@ public class Practical {
 
         return valid;
     }
+
+    protected boolean validateMark(int inMark)
+    {
+        boolean valid = true;
+
+        if(inMark <= 0)
+        {
+            throw new IllegalArgumentException("Error: must enter a positive mark: " + inMark);
+        }
+
+        return valid;
+    }
+
+
 
     protected int countWords(String inPara)
     {
