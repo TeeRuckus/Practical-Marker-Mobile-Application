@@ -9,29 +9,29 @@ import java.util.*;
 public class Instructor extends User
 {
     //the classfields which are going to be unique to the instructor
-    private Hashtable<String, Student> students;
+    //private Hashtable<String, Student> students;
     private Hashtable<String, Practical> practicals;
 
     public Instructor()
     {
         super();
-        students = new Hashtable<String, Student>();
+        //students = new Hashtable<String, Student>();
         practicals = new Hashtable<String, Practical>();
     }
 
 
     //we will need an alternate constructor when the admin creates an instructor
-    public Instructor(String inName, String inUserName, String inEmail, String inCountry, int inPassword, /
+    public Instructor(String inName, String inUserName, String inEmail, String inCountry, int inPassword,
             Hashtable<String, Student> inStudents, Hashtable<String, Practical> inPracticals)
     {
-        super(inName, inUserNam, inEmail, inCountry, inPassword);
-        students = inStudents.clone();
-        practicals = inPracticals.clone();
+        super(inName, inUserName, inEmail, inCountry, inPassword);
+        //students = inStudents.clone();
+        practicals = (Hashtable<String, Practical>) inPracticals.clone();
     }
 
 
 
-    public String dispStudents()
+    /*public String dispStudents()
     {
         List<String> retStudents = new LinkedList<String>();
         //getting all the students which belong to the current instructor
@@ -44,7 +44,7 @@ public class Instructor extends User
         }
 
         return retStudents;
-    }
+    }*/
 
     public void editPrac()
     {
@@ -53,6 +53,6 @@ public class Instructor extends User
 
     public String toString()
     {
-        return   "Instructor," + super().toString();
+        return   "Instructor," + super.toString();
     }
 }

@@ -3,12 +3,13 @@
     a student and a staff's usert name is going to be stored is going to be really different
  */
 package com.example.assone;
+import java.util.*;
 
 public class Student extends User
 {
     //the classfield which are going to be unique to the student
     private Hashtable<String, Practical> markedPracs;
-    String currInstructor;
+    private String currInstructor;
 
     public Student()
     {
@@ -18,11 +19,11 @@ public class Student extends User
     }
 
     //we will need an alternate constructor when the admin will create student
-    public Student(String inName, String inUserName, String inEmail, String inCountry, int inPassword, /
-            Hashtable<String, Pracical> inPracs, String  inInstructor)
+    public Student(String inName, String inUserName, String inEmail, String inCountry, int inPassword,
+            Hashtable<String, Practical> inPracs, String  inInstructor)
     {
-        super(inName, inUserNam, inEmail, inCountry, inPassword);
-        markedPracs = inPacs;
+        super(inName, inUserName, inEmail, inCountry, inPassword);
+        markedPracs = inPracs;
         if (super.validateName(inInstructor))
         {
             currInstructor = inInstructor;
@@ -48,6 +49,32 @@ public class Student extends User
         }
 
         return pracDetails;
+    }
+
+    public String getInstructor()
+    {
+        return new String(currInstructor);
+    }
+
+    public void setInstructor(String inInstructor)
+    {
+        if(validateInstructor(inInstructor))
+        {
+            currInstructor = inInstructor;
+        }
+
+    }
+
+    private boolean validateInstructor(String inInstructor)
+    {
+        boolean valid = true;
+
+        if (inInstructor.length() == 0)
+        {
+            throw new IllegalArgumentException("ERROR: make sure that the instructor has more than one letter");
+        }
+
+        return valid;
     }
 
     //overriding all accessor methods so the user will not have permissions to change data
