@@ -9,7 +9,6 @@ import java.util.*;
 public class Instructor extends User
 {
     //the classfields which are going to be unique to the instructor
-    //private Hashtable<String, Student> students;
     private Hashtable<String, Practical> practicals;
 
     public Instructor()
@@ -28,23 +27,6 @@ public class Instructor extends User
         //students = inStudents.clone();
         practicals = (Hashtable<String, Practical>) inPracticals.clone();
     }
-
-
-
-    /*public String dispStudents()
-    {
-        List<String> retStudents = new LinkedList<String>();
-        //getting all the students which belong to the current instructor
-        Set<String> myKeys = retStudents.keySet();
-
-        //going through each student, and adding them to the return list
-        for (String key : myKeys)
-        {
-            retStudents.addLast((students.get(key)).toString());
-        }
-
-        return retStudents;
-    }*/
 
     public void editPrac()
     {
