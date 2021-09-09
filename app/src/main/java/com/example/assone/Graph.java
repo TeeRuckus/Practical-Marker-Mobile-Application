@@ -2,6 +2,8 @@
 TODO:
     - when you're adding your instructor, you will need to connect that edge to teh root
     node so that it will work properly and the way which you will expect it to work
+    - you will need to delete every where where you used rootNode, to make your code a lot
+    cleaner and easier to maintain
  */
 package com.example.assone;
 import static com.example.assone.myUtils.cleanString;
@@ -14,14 +16,14 @@ public class Graph
     {
         private String key;
         private Object value;
-        private Hashtable<String, Vertex> connections;
+        private HashMap<String, Vertex> connections;
 
 
         private Vertex()
         {
             key  = "EMPTY";
             value = null;
-            connections = new Hashtable<String, Vertex>();
+            connections = new HashMap<String, Vertex>();
         }
 
         private Vertex(String inKey, Admin inUser)
@@ -34,12 +36,12 @@ public class Graph
         }
 
         //copy constructor
-        private Vertex(Vertex inVert)
+       /* private Vertex(Vertex inVert)
         {
             key = inVert.key;
             value = inVert.value;
             connections = inVert.connections;
-        }
+        }*/
 
         private Vertex(String inKey, Instructor inUser)
         {
@@ -67,7 +69,7 @@ public class Graph
         }
 
         //TODO: you will actually need to think on how you're going to use this function
-        private Hashtable<String, Vertex> getEdges()
+        private HashMap<String, Vertex> getEdges()
         {
             return connections;
         }
@@ -119,15 +121,17 @@ public class Graph
 
     }
 
-    private Hashtable<String, Vertex> vertices;
+    private HashMap<String, Vertex> vertices;
     //this is going to be the admin of the whole application, they're going to be stored here
-    private Vertex rootNode;
+    //private Vertex rootNode;
 
     //DEFAULT CONSTRUCTOR
     public Graph()
     {
-        vertices = new Hashtable<String, Vertex>();
-        rootNode = null;
+        vertices = new HashMap<String, Vertex>();
+        //intialising where the admin node is going to be as null
+        vertices.put("ADMIN", null);
+        //rootNode = null;
     }
 
     public int size()
@@ -136,11 +140,50 @@ public class Graph
     }
 
     //TODO: you will need to add more addVertex method for the other of vertex types which you can use in the programme
-    public void addVertex(String key, Admin value)
+    public void addVertex(Instructor inInstrucor)
     {
-        key = cleanString(key);
-        Vertex newVert = new Vertex(key, value);
-        vertices.put(key, newVert);
+        //can't add a vertex if they is not root node in the programme
+        if(validateRootNode())
+        {
+            String key = myUtils.cleanString(inInstrucor.getUserName());
+            Vertex newVert = new Vertex(key, inInstrucor);
+            vertices.put(key, newVert);
+
+            //we add an instructor, we should immediately connect them to the root node
+        }
+    }
+
+    public void addVertex(Student inStudent)
+    {
+        //can't add a vertex if they is no root node
+        if(validateRootNode())
+        {
+            String key = myUtils.cleanString(inStudent.getUserName());
+            Vertex newVert = new Vertex(key, inStudent);
+            vertices.put(key, newVert);
+        }
+
+    }
+
+    public void addVertex(Admin inAdmin)
+    {
+        //they is going ot be null at the current location
+        Vertex adminVert = new Vertex("ADMIN", inAdmin);
+        vertices.replace("ADMIN", adminVert);
+
+    }
+
+    //no arguments is going to assumme to get what is at the admin vertex
+    public Vertex getVertex()
+    {
+        return vertices.get("ADMIN");
+    }
+
+    public Vertex getVertex(String inVertex)
+    {
+        //hashmap will throw an error if it doesn't exist in current table
+        inVertex = myUtils.cleanString(inVertex);
+        return vertices.get(inVertex);
     }
 
     public void delVertex(String key)
@@ -153,20 +196,21 @@ public class Graph
         vertices.remove(key);
     }
 
-    public Hashtable<String, Vertex> getVertices()
+    public HashMap<String, Vertex> getVertices()
     {
-        return new Hashtable<>(vertices);
+        return new HashMap<>(vertices);
     }
 
-    public Hashtable<String, Vertex> setVertics(Hashtable<String, Vertex> inVertices)
+    /*public HashMap<String, Vertex> setVertics(HashMap<String, Vertex> inVertices)
     {
-        //don't need to do any validation as the hashtable class will do validation for us
+        //don't need to do any validation as the HashMap class will do validation for us
         vertices = inVertices;
-    }
+    }*/
 
     public Vertex getRootNode()
     {
-        return new Vertex(rootNode);
+        //return new Vertex(rootNode);
+        return new Vertex(vertices.get("ADMIN"));
     }
 
     /***********************************************************************************************
@@ -199,7 +243,7 @@ public class Graph
         fromVertex.connections.remove(toEdge);
     }
 
-    public Hashtable<String, Vertex> getEdges(String nodeName)
+    public HashMap<String, Vertex> getEdges(String nodeName)
     {
         nodeName = myUtils.cleanString(nodeName);
         Vertex currVertex = vertices.get(nodeName);
@@ -209,9 +253,22 @@ public class Graph
     private boolean validateRootNode()
     {
         boolean valid = true;
+        //grab what is at the curren root place
+        Vertex rootNode = vertices.get("ADMIN");
         if(rootNode == null)
         {
             throw new IllegalArgumentException("ERROR: they is admin, must create admin first");
+        }
+        return valid;
+    }
+
+    private boolean rootExists()
+    {
+        boolean valid = true;
+        //if they is something here, it means that an admin node has already being created
+        if(vertices.get("ADMIN") != null)
+        {
+            throw new IllegalArgumentException("ERORR: an admin already exist for this application");
         }
 
         return valid;
