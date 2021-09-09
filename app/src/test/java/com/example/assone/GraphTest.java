@@ -14,6 +14,10 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
+
 public class GraphTest
 {
     Graph testGraph = new Graph();
@@ -66,6 +70,118 @@ public class GraphTest
     {
         testGraph.addVertex(admin);
         testGraph.addVertex(admin);
+    }
+
+    @Test
+    public void addInstructors()
+    {
+        //when adding instructors they should be automatically connected to the root node,
+        //hence, if I get all root nodes neighbours all the instructors should be their
+        testGraph.addVertex(admin);
+        testGraph.addVertex(teacherOne);
+        testGraph.addVertex(teacherTwo);
+        testGraph.addVertex(teacherThree);
+
+        //creating an array of the teacher names so they can be iterated over
+        String [] actualNames = new String[] {myUtils.cleanString(teacherOne.getName()),
+                myUtils.cleanString(teacherTwo.getName()),
+                myUtils.cleanString(teacherThree.getName())};
+
+        //getting everything which the admin node is currently connected too at the moment
+        Graph.Vertex adminNode = testGraph.getVertex();
+        HashMap<String, Graph.Vertex> connections = adminNode.getConnections();
+
+        Set<String> keys = connections.keySet();
+
+        for(String currKey : keys)
+        {
+            boolean hasKey = Arrays.asList(actualNames).contains(currKey);
+            assertTrue("Admin connection has instructor: "+ currKey, hasKey);
+        }
+    }
+
+    @Test
+    public void addStudentAdmin()
+    {
+        //testing the student to see if they will be initially connected to the admin node of the application
+        testGraph.addVertex(admin);
+        testGraph.addVertex(studentOne);
+        testGraph.addVertex(studentTwo);
+        testGraph.addVertex(studentThree);
+
+        //creating an array which are going to contain the actual names of the student
+        String [] actualNames = new String [] {myUtils.cleanString(studentOne.getName()),
+        myUtils.cleanString(studentTwo.getName()),
+        myUtils.cleanString(studentThree.getName())};
+
+        //getting everything which is connected to the current node at the moment
+        Graph.Vertex adminNode = testGraph.getVertex();
+        HashMap<String, Graph.Vertex> connections = adminNode.getConnections();
+
+        Set<String> keys = connections.keySet();
+
+        for (String currKey: keys)
+        {
+            boolean hasKey = Arrays.asList(actualNames).contains(currKey);
+            assertTrue("Admin has current student: " + currKey, hasKey);
+        }
+    }
+
+    @Test
+    public void addStudentInstructor()
+    {
+        //testing the students to see if they're going to be added to an instructor node
+
+        //setting up some basic connections in the network
+        testGraph.addVertex(admin);
+        testGraph.addVertex(teacherThree);
+
+        String currInstructor = teacherThree.getName();
+
+        //adding the student to the current instructor
+        testGraph.addVertex(studentThree, currInstructor);
+        testGraph.addVertex(studentFour, currInstructor);
+        testGraph.addVertex(studentFive, currInstructor);
+        testGraph.addVertex(studentOne, currInstructor);
+
+        //getting all the students names
+        String [] actualNames = new String [] {
+                myUtils.cleanString(studentThree.getName()),
+                myUtils.cleanString(studentFour.getName()),
+                myUtils.cleanString(studentFive.getName()),
+                myUtils.cleanString(studentOne.getName())
+        };
+
+        //retriving the current instructor node
+        Graph.Vertex instructorVertex = testGraph.getVertex(currInstructor);
+        HashMap<String, Graph.Vertex> connections = instructorVertex.getConnections();
+
+        Set<String> keys = connections.keySet();
+
+
+        //making sure that all the students are connected to their instructor
+        for (String currKey : keys)
+        {
+            boolean hasKey = Arrays.asList(actualNames).contains(currKey);
+            assertTrue("Instructor has curren student: " + currKey, hasKey);
+        }
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void deleteEmptyGraph()
+    {
+        testGraph.delVertex("ADMIN");
+    }
+
+    @Test
+    public void deleteNoChildren()
+    {
+        testGraph.addVertex(admin);
+        testGraph.addVertex(teacherOne);
+        testGraph.addVertex(teacherTwo);
+        testGraph.addVertex(teacherThree);
+
+
     }
 
 }

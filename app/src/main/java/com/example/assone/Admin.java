@@ -51,6 +51,12 @@ public class Admin extends User{
         return removedPrac;
     }
 
+    @Override
+    public String getType()
+    {
+        return "ADMIN";
+    }
+
     public String toString()
     {
         return "Admin," + super.toString();

@@ -43,6 +43,11 @@ public class Student extends User
 
     }
 
+    @Override
+    public String getType()
+    {
+        return "STUDENT";
+    }
     private boolean validateInstructor(String inInstructor)
     {
         boolean valid = true;

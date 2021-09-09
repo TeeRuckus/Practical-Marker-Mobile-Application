@@ -32,6 +32,7 @@ public class Graph
             {
                 key = inKey;
                 value = inUser;
+                connections = new HashMap<String, Vertex>();
             }
         }
 
@@ -41,6 +42,7 @@ public class Graph
             {
                 key = inKey;
                 value = inUser;
+                connections = new HashMap<String, Vertex>();
             }
         }
 
@@ -50,6 +52,7 @@ public class Graph
             {
                 key = inKey;
                 value = inUser;
+                connections = new HashMap<String, Vertex>();
             }
         }
 
@@ -178,11 +181,13 @@ public class Graph
         //can't add a vertex if they is not root node in the programme
         if(validateRootNode())
         {
-            String key = myUtils.cleanString(inInstrucor.getUserName());
+            String key = myUtils.cleanString(inInstrucor.getName());
             Vertex newVert = new Vertex(key, inInstrucor);
             vertices.put(key, newVert);
 
-            //we add an instructor, we should immediately connect them to the root node
+            //by default the instructor is going to be connected to teh admin node
+            Vertex adminNode = vertices.get("ADMIN");
+            adminNode.connections.put(myUtils.cleanString(inInstrucor.getName()), newVert);
         }
     }
 
@@ -191,22 +196,41 @@ public class Graph
         //can't add a vertex if they is no root node
         if(validateRootNode())
         {
-            String key = myUtils.cleanString(inStudent.getUserName());
+            String key = myUtils.cleanString(inStudent.getName());
             Vertex newVert = new Vertex(key, inStudent);
             vertices.put(key, newVert);
+
+            //by default the student must be connected to the root node
+            Vertex adminNode = vertices.get("ADMIN");
+            adminNode.connections.put(myUtils.cleanString(inStudent.getName()), newVert);
         }
 
+    }
+
+    //if we know the instructor we can connect the student to the instructor instead of making the
+    //default connection
+    public void addVertex(Student inStudent, String inInstructor)
+    {
+        //finding the vertex in the current vertices
+        inInstructor = myUtils.cleanString(inInstructor);
+        Vertex currInstructor = vertices.get(inInstructor);
+
+        if (validateInstructor(currInstructor))
+        {
+            String studentName = myUtils.cleanString(inStudent.getName());
+            Vertex currStudent = new Vertex(studentName, inStudent);
+            currInstructor.connections.put(studentName, currStudent);
+        }
     }
 
     public void addVertex(Admin inAdmin)
     {
         //they is going ot be null at the current location
-        if(validateRootNode())
+        if(rootExists())
         {
             Vertex adminVert = new Vertex("ADMIN", inAdmin);
             vertices.replace("ADMIN", adminVert);
         }
-
     }
 
     //no arguments is going to assumme to get what is at the admin vertex
@@ -222,14 +246,32 @@ public class Graph
         return vertices.get(inVertex);
     }
 
-    public void delVertex(String key)
+    public Vertex delVertex(String key)
     {
-        if(vertices.isEmpty())
+        Vertex delVert = null;
+        key = myUtils.cleanString(key);
+        //they is always going to be an admin key which exists, so when the vertices is empty
+        //it actually only has one node, which is the admin. Which either is null or has something
+        //in it, and since you can't delete the admin node this class should break
+        if(vertices.size() == 1)
         {
             throw  new IllegalArgumentException("ERROR: no vertices have being added as yet: " + vertices.size());
         }
+
         key = myUtils.cleanString(key);
-        vertices.remove(key);
+        Vertex currVert = vertices.get(key);
+
+        if (currVert.connections.isEmpty())
+        {
+            //if the vertex is not connected to anything else, just remove the vertex
+            delVert = vertices.remove(key)
+        }
+        else
+        {
+            //if the vertex is connected to other things, move all the connections to the
+            //admin node
+        }
+        return delVert;
     }
 
     public HashMap<String, Vertex> getVertices()
@@ -286,6 +328,17 @@ public class Graph
         return currVertex.connections;
     }
 
+    private boolean validateInstructor(Vertex inVert)
+    {
+        boolean valid = true;
+        String type = inVert.value.getType();
+
+        if (!(type.equals("INSTRUCTOR")))
+        {
+            throw new IllegalArgumentException("ERROR: students can only be added to an instructor");
+        }
+        return valid;
+    }
     private boolean validateRootNode()
     {
         boolean valid = true;

@@ -144,6 +144,11 @@ public abstract class User
         }
     }
 
+    public String getType()
+    {
+        return "USER";
+    }
+
 
     /***********************************************************************************************
      * ASSERTION: always return a string which is going to be in the following format
