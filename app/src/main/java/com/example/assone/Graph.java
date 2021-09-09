@@ -12,21 +12,21 @@ import java.util.*;
 
 public class Graph
 {
-    private class Vertex
+    public class Vertex
     {
         private String key;
-        private Object value;
+        private User value;
         private HashMap<String, Vertex> connections;
 
 
-        private Vertex()
+        public Vertex()
         {
             key  = "EMPTY";
             value = null;
             connections = new HashMap<String, Vertex>();
         }
 
-        private Vertex(String inKey, Admin inUser)
+        public Vertex(String inKey, Admin inUser)
         {
             if( validateKey(inKey) && validateUser(inUser))
             {
@@ -35,15 +35,7 @@ public class Graph
             }
         }
 
-        //copy constructor
-       /* private Vertex(Vertex inVert)
-        {
-            key = inVert.key;
-            value = inVert.value;
-            connections = inVert.connections;
-        }*/
-
-        private Vertex(String inKey, Instructor inUser)
+        public Vertex(String inKey, Instructor inUser)
         {
             if( validateKey(inKey) && validateUser(inUser))
             {
@@ -52,7 +44,7 @@ public class Graph
             }
         }
 
-        private Vertex(String inKey, Student inUser)
+        public Vertex(String inKey, Student inUser)
         {
             if( validateKey(inKey) && validateUser(inUser))
             {
@@ -61,20 +53,61 @@ public class Graph
             }
         }
 
-        private Vertex(Vertex inVert)
+        public Vertex(Vertex inVert)
         {
             key = inVert.key;
             value = inVert.value;
             connections = inVert.connections;
         }
 
-        //TODO: you will actually need to think on how you're going to use this function
-        private HashMap<String, Vertex> getEdges()
+        //ACCESSORS
+        public String getKey()
+        {
+            return new String(key);
+        }
+
+        public User getValue()
+        {
+            return value;
+        }
+
+        public HashMap<String, Vertex> getConnections()
         {
             return connections;
         }
 
-        private int size()
+
+        //MUTATORS
+        public void setKey(String inKey)
+        {
+            if(validateKey(inKey))
+            {
+                key = inKey;
+            }
+
+        }
+
+        public void setValue(Admin inUser)
+        {
+            value = inUser;
+        }
+
+        public void setValue(Instructor inUser)
+        {
+            value = inUser;
+        }
+
+        public void setValue(Student inUser)
+        {
+            value = inUser;
+        }
+
+        public HashMap<String, Vertex> getEdges()
+        {
+            return connections;
+        }
+
+        public int size()
         {
             return connections.size();
         }
@@ -168,8 +201,11 @@ public class Graph
     public void addVertex(Admin inAdmin)
     {
         //they is going ot be null at the current location
-        Vertex adminVert = new Vertex("ADMIN", inAdmin);
-        vertices.replace("ADMIN", adminVert);
+        if(validateRootNode())
+        {
+            Vertex adminVert = new Vertex("ADMIN", inAdmin);
+            vertices.replace("ADMIN", adminVert);
+        }
 
     }
 

@@ -1,3 +1,9 @@
+/*
+TODO
+    -  you will need to becareful on how you're going to be storing your keys
+    if you want them to be all case insensitve, make sure that they're all like that from
+    the beginning
+ */
 package com.example.assone;
 
 import org.junit.*;
@@ -51,8 +57,15 @@ public class GraphTest
     public void createAdmin()
     {
         testGraph.addVertex(admin);
+        Graph.Vertex adminVert = testGraph.getVertex();
+        assertEquals("returned admin ", "ADMIN", adminVert.getKey());
+    }
 
-
+    @Test(expected = IllegalArgumentException.class)
+    public void doubleAdmin()
+    {
+        testGraph.addVertex(admin);
+        testGraph.addVertex(admin);
     }
 
 }
