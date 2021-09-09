@@ -164,8 +164,6 @@ public class PracticalTest {
         newNode.setScoredMarks(20);
     }
 
-
-
     @Test(expected = IllegalArgumentException.class)
     public void testMutatorTaskNodeInvalidDescrpt()
     {
@@ -202,10 +200,72 @@ public class PracticalTest {
     }
 
     @Test
-    public void testAddPracticalSections()
+    public void testSectionMethods()
     {
-        List<String> testTitles = new LinkedList<String>();
+        String actualDescrpt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In " +
+                "consectetur lacinia efficitur. Nullam sed quam in libero auctor mollis sit amet " +
+                "nec magna. Donec sodales a ante et mattis. Pellentesque at ligula sed ex maximus " +
+                "fermentum vitae sit amet purus. Mauris laoreet hendrerit massa. Proin vitae e" +
+                "nim tellus. Maecenas malesuada.";
 
+        String  [] pracTitles = new String[] {"Practical one", "Practical two", "Practical three",
+                "Practical four", "Practical five"};
+        int []  availableMarks = new int [] {20, 20, 20, 20, 20};
+        float [] scoredMarks = new float [] {19, 18, 13, 10, 5};
+
+        float average = 0;
+        for (int ii = 0; ii < scoredMarks.length; ii++)
+        {
+            average += scoredMarks[ii];
+        }
+
+        int totalMarks = 0;
+        for (int ii = 0; ii < availableMarks.length; ii++)
+        {
+            totalMarks += availableMarks[ii];
+        }
+        average /= totalMarks;
+
+        //adding all five practical sections to the object
+        for(int ii = 0; ii < pracTitles.length; ii++)
+        {
+            testPrac.addSection(pracTitles[ii], actualDescrpt, scoredMarks[ii], availableMarks[ii]);
+        }
+
+        //testing finding sections
+        for(int ii = 0; ii < pracTitles.length; ii++)
+        {
+            Practical.taskNode currSection = testPrac.findSection(pracTitles[ii]);
+
+            //asserting if the title, description, scored marks, and available marks will match
+            //to the ones which were stored in the object
+            assertEquals("Retrieved title from practical section: " +pracTitles[ii],
+                    myUtils.cleanString(pracTitles[ii]), currSection.getTaskTitle());
+            assertEquals("Retrieved description from practical section: " +pracTitles[ii],
+                    actualDescrpt, currSection.getTaskDescrpt());
+            assertEquals("Retrieved available marks from practical section: " +pracTitles[ii],
+                    availableMarks[ii], currSection.getAvailMarks());
+            assertEquals("Retrieved scored mark from practical section: " +pracTitles[ii],
+                    scoredMarks[ii], currSection.getScoredMarks(), TOL);
+        }
+
+        //validating that you can get the average for the current made practical
+        assertEquals("Testing if the current average of the pracs can be obtained", average,
+                testPrac.getAverage(), TOL);
+
+        //deleting a practical from the pracs which are going to be available
+
+        int toBedeleted = 3;
+        Practical.taskNode deletedPrac = testPrac.delSection(pracTitles[toBedeleted]);
+
+        //ensuring the deleted is actually corresponding the correct poistion
+        assertEquals("Delete task Node, checking if it was the right one which was deleted",
+                myUtils.cleanString(pracTitles[toBedeleted]), deletedPrac.getTaskTitle());
+        assertEquals("Deleted task Node: checking the description", actualDescrpt, deletedPrac.getTaskDescrpt());
+        assertEquals("Deleted task NOde: checking available marks", availableMarks[toBedeleted],
+                deletedPrac.getAvailMarks());
+        assertEquals("Deleted task Node: checking the scored marks", scoredMarks[toBedeleted],
+                deletedPrac.getScoredMarks(), TOL);
 
     }
 

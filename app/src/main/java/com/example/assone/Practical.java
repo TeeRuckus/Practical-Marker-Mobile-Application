@@ -1,7 +1,17 @@
+/*
+TODO:
+    - you will need ot implement a function which is going to go through all the pracitcals
+    and find out what your mark was for that practical. I.e. what percentage you actuall got for that
+    week
+    - I am also really considiring chaing the scoredMarks from a float to a double
+    - I should also be able to find out how much they scored in each section from this class whcih I am
+    making at the current moment
+ */
 package com.example.assone;
 
 import java.util.LinkedList;
 import java.util.Hashtable;
+import java.util.Set;
 
 public class Practical {
     public class taskNode
@@ -28,15 +38,18 @@ public class Practical {
         //ALTERNATE CONSTRUCTOR
         public taskNode(String inTitle, String inDescrpt, float inScore, int inAvailMarks)
         {
-            if (validateTitle(inTitle) && validateDescrpt(inDescrpt))
+            if (validateTitle(inTitle) && validateDescrpt(inDescrpt) && validateMark(inAvailMarks))
                 {
-                    if(validateScoredMarks(inScore) && validateMark(inAvailMarks))
-                        {
                             taskTitle = inTitle;
                             taskDescrpt = inDescrpt;
-                            scoredMarks = inScore;
                             availMarks = inAvailMarks;
-                    }
+                            //we can only validate teh scored marks, once a mark has being set in the class,
+                            //as wee need to compare if the scored marks is going to be greater than
+                            //the marks which are available
+                            if (validateScoredMarks(inScore))
+                            {
+                                scoredMarks = inScore;
+                            }
                 }
         }
 
@@ -117,7 +130,7 @@ public class Practical {
 
             if (inMarks > currAvailMarks)
             {
-                throw new IllegalArgumentException("Error: maxiumum marks allwoed for this section:"+
+                throw new IllegalArgumentException("Error: maximum marks allowed for this section:"+
                         availMarks);
             }
 
@@ -225,21 +238,44 @@ public class Practical {
         marks.put(inTitle, newNode);
     }
 
-    public void delSection(String inKey)
+    public taskNode delSection(String inKey)
     {
         if(marks.isEmpty())
         {
             throw new IllegalArgumentException("ERROR: can't delete from an empty mark section");
         }
         inKey = myUtils.cleanString(inKey);
-        marks.remove(inKey);
+        taskNode removedObj = marks.remove(inKey);
+
+        //we should return what was deleted
+        return removedObj;
     }
 
-    public taskNode findMark(String inKey)
+    public taskNode findSection(String inKey)
     {
         inKey = myUtils.cleanString(inKey);
         //this will throw its own exception if the key doesn't exist in the marks hashtable
         return marks.get(inKey);
+    }
+
+    public float getAverage()
+    {
+        float average = 0;
+        int  totalScore = 0;
+        Set<String> myKeys = marks.keySet();
+
+        for (String currKey: myKeys)
+        {
+            taskNode currNode = marks.get(currKey);
+            average += currNode.getScoredMarks();
+            totalScore += currNode.getAvailMarks();
+        }
+        return average / (float) totalScore;
+    }
+
+    public String toString()
+    {
+        return "";
     }
 
     protected boolean validateTitle(String inTitle)
