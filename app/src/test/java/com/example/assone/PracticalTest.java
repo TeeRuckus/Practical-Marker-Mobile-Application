@@ -13,6 +13,7 @@ import java.util.List;
 public class PracticalTest {
     //actually seeing if I can create a practical object
     private Practical testPrac = new Practical();
+    private static final double TOL = 0.001;
 
     @Test
     public void testAccessors() {
@@ -29,7 +30,7 @@ public class PracticalTest {
         Hashtable<String, Practical.taskNode> sectionMarks = new Hashtable<String, Practical.taskNode>();
 
         //testing if the obtained results are going to meet our expected results from the experimentation
-        assertEquals("ACCESSOR: default constructor: getTotalMarks", actualMarks, resultMarks, 0.001);
+        assertEquals("ACCESSOR: default constructor: getTotalMarks", actualMarks, resultMarks, TOL);
         assertEquals("ACCESSOR: default constructor: getTitle", actualTitle, resultTitle);
         assertEquals("ACCESSOR: default constructor: getDescp", actualDescrpt, resultDescription);
         assertEquals("ACCESSOR: default constructor: getMarks", sectionMarks, resultSectionMarks);
@@ -51,7 +52,7 @@ public class PracticalTest {
 
         assertEquals("MUTATOR: setting data valid for title", actualTitle, testPrac.getTitle());
         assertEquals("MUTATOR: setting data valid for description", actualDescrpt, testPrac.getdescrp());
-        assertEquals("MUTATOR: setting data valid for total marks", actualAvailMarks, testPrac.getTotalMark(), 0.001);
+        assertEquals("MUTATOR: setting data valid for total marks", actualAvailMarks, testPrac.getTotalMark(), TOL);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -124,7 +125,7 @@ public class PracticalTest {
 
         assertEquals("ACCESSORS: task node normal use title", defaultTitle, newNode.getTaskTitle());
         assertEquals("ACCESSORS: task node normal use description", defaultDescription, newNode.getTaskDescrpt());
-        assertEquals("ACCESSORS: task node normal use scored marks", defaultScoredMarks, newNode.getScoredMarks(), 0.001);
+        assertEquals("ACCESSORS: task node normal use scored marks", defaultScoredMarks, newNode.getScoredMarks(), TOL);
         assertEquals("ACCESSORS: task node normal available marks", defaultAvailMarks, newNode.getAvailMarks());
     }
 
@@ -149,31 +150,55 @@ public class PracticalTest {
 
         assertEquals("MUTATORS: taskNode - setting the available marks", newAvailMarks, newNode.getAvailMarks());
         assertEquals("MUTATORS: taskNode - setting the task title", newTitle, newNode.getTaskTitle());
-        assertEquals("MUTATORS: taskNode - setting the task description", newAvailMarks, newNode.getAvailMarks(), 0.001);
-        assertEquals("MUTATORS: taskNode - setting the scored marks", newScoredMarks, newNode.getScoredMarks(), 0.001);
+        assertEquals("MUTATORS: taskNode - setting the task description", newAvailMarks, newNode.getAvailMarks(), TOL);
+        assertEquals("MUTATORS: taskNode - setting the scored marks", newScoredMarks, newNode.getScoredMarks(), TOL);
     }
 
     //testing invalid input for the accessors
     @Test(expected = IllegalArgumentException.class)
-    public void testMutatorTaskNodeInvalidMarks()
+    public void testMutatorTaskNodeInvalidScoredMarks()
     {
-        Practical.taskNode newNOde = testPrac.new taskNode();
-
+        //you should not be able to assign marks which are higher than the actuall available marks
+        Practical.taskNode newNode = testPrac.new taskNode();
+        newNode.setAvailMarks(10);
+        newNode.setScoredMarks(20);
     }
+
+
+
     @Test(expected = IllegalArgumentException.class)
     public void testMutatorTaskNodeInvalidDescrpt()
     {
-        Practical.taskNode newNOde = testPrac.new taskNode();
+        Practical.taskNode newNode = testPrac.new taskNode();
+        newNode.setTaskDescrpt("");
     }
+
     @Test(expected = IllegalArgumentException.class)
-    public void testMutatorTaskNodeInvalidScoredMarks()
+    public void testMutatorTaskNodeInvalidDescrptTwo()
     {
-        Practical.taskNode newNOde = testPrac.new taskNode();
+        Practical.taskNode newNode = testPrac.new taskNode();
+        newNode.setTaskDescrpt("this description is not long enough for it to be one");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMutatorTaskNodeInvalidMarks()
+    {
+        Practical.taskNode newNode = testPrac.new taskNode();
+        newNode.setAvailMarks(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMutatorTaskNodeInvalidMarksTwo()
+    {
+        Practical.taskNode newNode = testPrac.new taskNode();
+        newNode.setAvailMarks(-1);
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testMutatorTaskNodeInvalidTitle()
     {
-        Practical.taskNode newNOde = testPrac.new taskNode();
+        Practical.taskNode newNode = testPrac.new taskNode();
+        newNode.setTaskTitle("");
     }
 
     @Test
