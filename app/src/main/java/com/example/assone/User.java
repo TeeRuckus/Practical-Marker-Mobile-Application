@@ -1,17 +1,11 @@
+/*
+TODO:
+    - add code to manage your data base more efficiently and effectively after
+ */
 package com.example.assone;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.lang.String;
-
-/*
-    TODO:
-        - I will need to implment the following methods from my UML diagram
-            - addStdnt()
-            - delStdnt()
-            - editStdnt()
-        - I have not included a copy constructor because I don't think that I will need it anywhere
-        in my programme
- */
 
 public abstract class User
 {
@@ -202,11 +196,30 @@ public abstract class User
 
     }
 
+    protected boolean managePassWord(int inPassword)
+    {
+        boolean valid = true;
+        if (validatePassword(inPassword))
+        {
+            //if the password is going to be valid
+
+            //TODO: you will need to add code to hash your password so it's more secure to store your password
+
+            //adding the password into my database
+
+        }
+
+        return valid;
+    }
+
     protected boolean validatePassword(int inPassword)
     {
-        //TODO: I will need to figure out how I am going to be storing my password
         boolean valid = true;
-
+        int numDigits = String.valueOf(inPassword).length();
+        if (numDigits != 4)
+        {
+            throw new IllegalArgumentException("ERROR: you must have four digits for your pin");
+        }
         return valid;
     }
 

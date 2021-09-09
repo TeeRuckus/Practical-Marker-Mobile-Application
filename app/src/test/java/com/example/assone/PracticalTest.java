@@ -268,21 +268,4 @@ public class PracticalTest {
                 deletedPrac.getScoredMarks(), TOL);
 
     }
-
-    @Test
-    public void testRetrievePracticalSection() {
-
-    }
-
-    @Test
-    public void testChangeSetMark() {
-
-    }
-
-    @Test
-    public void testDelPractical()
-    {
-
-    }
-
 }
