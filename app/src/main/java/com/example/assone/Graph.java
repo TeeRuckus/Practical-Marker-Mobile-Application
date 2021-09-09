@@ -64,7 +64,7 @@ public class Graph
                 is a clone method in user
              */
             value = inVert.value;
-            connections = new HashMap<>(inVert.connections);
+            connections = new HashMap<String, Vertex>(inVert.connections);
         }
 
         //ACCESSORS
@@ -107,11 +107,6 @@ public class Graph
         public void setValue(Student inUser)
         {
             value = inUser;
-        }
-
-        public HashMap<String, Vertex> getEdges()
-        {
-            return connections;
         }
 
         public int size()
@@ -301,11 +296,6 @@ public class Graph
         vertices = inVertices;
     }*/
 
-    public Vertex getRootNode()
-    {
-        //return new Vertex(rootNode);
-        return new Vertex(vertices.get("ADMIN"));
-    }
 
     /***********************************************************************************************
      * PUPROSE: to add a directed edge from one node to another node. Otherwise, if this relationship

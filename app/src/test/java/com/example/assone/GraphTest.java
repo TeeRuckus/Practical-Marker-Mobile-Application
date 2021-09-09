@@ -191,8 +191,6 @@ public class GraphTest
     @Test
     public void deleteWithChildren()
     {
-        //wiping out the graph, and making a completely new one
-        testGraph = new Graph();
         testGraph.addVertex(admin);
         Graph.Vertex adminNode = testGraph.getVertex();
         testGraph.addVertex(teacherThree);
@@ -218,15 +216,38 @@ public class GraphTest
 
         for (String currKey : keys)
         {
-            System.out.println(currKey);
             boolean hasKey = Arrays.asList(actualNames).contains(currKey);
             assertTrue("Admin doesn't have deleted student: " + currKey, hasKey);
         }
     }
 
 
+    @Test
     public void deleteStudent()
     {
+        testGraph.addVertex(admin);
+        testGraph.addVertex(teacherThree);
 
+        //adding students onto the teacher
+        testGraph.addVertex(studentThree, teacherThree.getName());
+        testGraph.addVertex(studentFour, teacherThree.getName());
+        testGraph.addVertex(studentFive, teacherThree.getName());
+
+        testGraph.delVertex(studentFour.getName());
+
+        Graph.Vertex teacherNode = testGraph.getVertex(teacherThree.getName());
+
+        String [] remainingStudents = new String [] {
+                myUtils.cleanString(studentThree.getName()),
+                myUtils.cleanString(studentFive.getName())};
+
+        //getting everything whcih the teacher node is going to be connected too
+        Set<String> myKeys = teacherNode.getConnections().keySet();
+
+        for (String currKey : myKeys)
+        {
+            boolean hasKey = Arrays.asList(remainingStudents).contains(currKey);
+            assertTrue("the instructor has studetnt: " +currKey, hasKey);
+        }
     }
 }
