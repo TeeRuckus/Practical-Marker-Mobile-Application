@@ -5,6 +5,7 @@ TODO:
     respoinsbility of the application which is going to be the graph data structure
  */
 package com.example.assone;
+import java.util.Hashtable;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.lang.String;
@@ -18,6 +19,7 @@ public abstract class User
     private String userName;
     private String email;
     private String country;
+    protected Hashtable<String, Practical> practicals;
     private int password;
 
     public User()
@@ -27,20 +29,20 @@ public abstract class User
         email = "johnDoe@curtin.edu.au";
         country = "AUSTRALIA";
         password = 1234;
+        practicals = new Hashtable<String, Practical>();
     }
 
-    public User(String inName, String inUserName, String inEmail, String inCountry, int inPassword)
+    public User(String inName, String inUserName, String inEmail, String inCountry)
     {
-        if(validateName(inName) && validateUserName(inUserName) && validateEmail(inEmail))
+        if(validateName(inName) && validateUserName(inUserName) && validateEmail(inEmail) &&
+            validateCountry(inCountry))
         {
-            if(validateCountry(inCountry) && validatePassword(inPassword))
-            {
-                name = inName;
-                userName = inUserName;
-                email = inEmail;
-                country = inCountry;
-                password = inPassword;
-            }
+            name = inName;
+            userName = inUserName;
+            email = inEmail;
+            country = inCountry;
+            password = 1234;
+            practicals = new Hashtable<String, Practical>();
         }
     }
 
@@ -63,6 +65,14 @@ public abstract class User
     public String getCountry()
     {
         return new String(country);
+    }
+
+    public Practical getPrac(String inTitle)
+    {
+        String titleKey = myUtils.cleanString(inTitle);
+        //if this doesn't exist it should be picked up the dictonary object
+        return practicals.get(titleKey);
+
     }
 
     public int getPassword()
@@ -224,19 +234,4 @@ public abstract class User
         }
         return valid;
     }
-
-    /***********************************************************************************************
-     * PURPOSE: children classes are going to use strings for look up functions, and deleting functions
-     * hence, the purpose of the function is to trim any leading or lagging white spaces, and to make
-     * the look up string case insenstive
-     ***********************************************************************************************/
-    protected String cleanString(String inString)
-    {
-        //deleting all leading and lagging white spaces
-        inString = inString.trim();
-        inString = inString.toUpperCase();
-        return inString;
-    }
-
-
 }

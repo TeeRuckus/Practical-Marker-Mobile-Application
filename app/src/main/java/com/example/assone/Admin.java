@@ -6,35 +6,34 @@ import java.util.*;
     - how you can send the prac from the current instructor to all the students: you should handle this inside your graph class
     - then the instructor can edit each one of those individual practicals which he created for
     each student in his class at the current moment
+    - you will need to come back and do the flag stuff later on
  */
 
 public class Admin extends User{
-    private Hashtable<String, Practical> practicals;
 
     public Admin()
     {
         super();
-        practicals = new Hashtable<String, Practical>();
     }
 
     //TOOD: you might not even need this method, you're going to load your data from a data base anyways
     //so you can use the laod method to just load all your data into this data strcutre
-    public Admin(String inName, String inUserName, String inEmail, String inCountry, int inPassword,
-                 Hashtable<String, Instructor> inInstructors, Hashtable<String, Practical> inPracs)
+    public Admin(String inName, String inUserName, String inEmail, String inCountry)
     {
-        super(inName, inUserName, inEmail, inCountry, inPassword);
-        //instructors = (Hashtable<String, Instructor>) inInstructors.clone();
-        practicals = (Hashtable<String, Practical>) inPracs.clone();
+        super(inName, inUserName, inEmail, inCountry);
     }
 
     public void addPrac(Practical inPrac)
     {
-        String titleKey = super.cleanString(inPrac.getTitle());
+        String titleKey = myUtils.cleanString(inPrac.getTitle());
         practicals.put(titleKey, inPrac);
     }
 
-    public void delPrac(String pracName)
+
+    public Practical delPrac(String pracName)
     {
+        Practical removedPrac = null;
+
         if(super.validateName(pracName))
         {
             if (practicals.isEmpty())
@@ -44,11 +43,12 @@ public class Admin extends User{
             else
             {
                 //cleaning any white spaces, and making the look up name case insensitive
-                pracName = super.cleanString(pracName);
-                practicals.remove(pracName);
+                pracName = myUtils.cleanString(pracName);
+                removedPrac = practicals.remove(pracName);
             }
-
         }
+
+        return removedPrac;
     }
 
     public String toString()

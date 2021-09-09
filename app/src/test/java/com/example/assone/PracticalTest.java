@@ -1,3 +1,7 @@
+/*
+TODO:
+    - you have not tested to see if you can delete non existent pracitcals from the system
+ */
 package com.example.assone;
 
 //adding this shit in, I don't know if I will actually need ior not in running my code
@@ -53,6 +57,22 @@ public class PracticalTest {
         assertEquals("MUTATOR: setting data valid for title", actualTitle, testPrac.getTitle());
         assertEquals("MUTATOR: setting data valid for description", actualDescrpt, testPrac.getdescrp());
         assertEquals("MUTATOR: setting data valid for total marks", actualAvailMarks, testPrac.getTotalMark(), TOL);
+    }
+
+    @Test
+    public void testAlternateConstructor()
+    {
+        String newTitle = "legend of Zelda";
+        String newDescrpt = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In " +
+                "consectetur lacinia efficitur. Nullam sed quam in libero auctor mollis sit amet " +
+                "nec magna. Donec sodales a ante et mattis. Pellentesque at ligula sed ex maximus " +
+                "fermentum vitae sit amet purus. Mauris laoreet hendrerit massa. Proin vitae e" +
+                "nim tellus. Maecenas malesuada.";
+        Practical newPrac = new Practical(newTitle, newDescrpt);
+
+        assertEquals("Practical alteranate construcor title", newTitle, newPrac.getTitle());
+        assertEquals("Practical alteranate construcor description", newDescrpt, newPrac.getdescrp());
+
     }
 
     @Test(expected = IllegalArgumentException.class)

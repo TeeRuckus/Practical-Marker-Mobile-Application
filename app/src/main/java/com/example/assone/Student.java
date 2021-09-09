@@ -8,13 +8,11 @@ import java.util.*;
 public class Student extends User
 {
     //the classfield which are going to be unique to the student
-    private Hashtable<String, Practical> markedPracs;
     private String currInstructor;
 
     public Student()
     {
         super();
-        markedPracs = new Hashtable<String, Practical>();
         currInstructor = "Admin";
     }
 

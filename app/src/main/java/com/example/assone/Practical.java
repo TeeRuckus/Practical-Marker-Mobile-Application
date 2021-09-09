@@ -155,15 +155,13 @@ public class Practical {
     }
 
     //ALTERNATE CONSTRUCTOR
-    public Practical(String inTitle, String inDescrpt, float inMarks)
+    public Practical(String inTitle, String inDescrpt)
     {
-        if( validateTitle(inTitle) && validateDescrpt(inDescrpt) && validateMark(inMarks))
+        if( validateTitle(inTitle) && validateDescrpt(inDescrpt))
         {
             title = inTitle;
             descrpt = inDescrpt;
-            totalMarks = inMarks;
         }
-
     }
 
 
