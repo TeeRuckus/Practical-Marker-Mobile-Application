@@ -115,7 +115,7 @@ public abstract class User
 
         if(validateUserName(inUserName))
         {
-            userName = userName;
+            userName = inUserName;
         }
 
     }
@@ -222,9 +222,12 @@ public abstract class User
 
     protected boolean validateCountry(String inCountry)
     {
-        //TODO: I will need to figure out how the country flags are going to be kept, and how to link flags to a drawable id
         boolean valid = true;
 
+        if (inCountry.length() == 0)
+        {
+            throw new IllegalArgumentException("Error: country can't be an empty string" + inCountry);
+        }
         return valid;
 
     }

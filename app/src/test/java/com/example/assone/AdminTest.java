@@ -94,6 +94,12 @@ public class AdminTest {
         String newEmail = "tawana.kwaramba@curtin.edu.au";
         String newCountry = "Zimbabwe";
 
+        //setting all the values to the new ones which we made
+        testAdmin.setName(newName);
+        testAdmin.setUserName(newUserName);
+        testAdmin.setEmail(newEmail);
+        testAdmin.setCountry(newCountry);
+
         //getting the stored strings
         String retName = testAdmin.getName();
         String retUserName = testAdmin.getUserName();
@@ -153,14 +159,9 @@ public class AdminTest {
 
         //ensuring the returned pracs were the ones which were actually added to the methods
         assertEquals("adding and deleting practical practical two", pracTwoName, retPracTwo.getTitle());
-    }
 
-    @Test
-    public void deletingPrac()
-    {
-        String name = "google";
-        Practical removedPrac = testAdmin.delPrac(name);
-        assertEquals("deleting practical from test Admin", name, removedPrac.getTitle());
+        //testing if I can delete the practicals from the adming class
+        Practical removedPrac = testAdmin.delPrac(pracTwoName);
+        assertEquals("deleting practical from test Admin", pracTwoName, removedPrac.getTitle());
     }
-
 }
