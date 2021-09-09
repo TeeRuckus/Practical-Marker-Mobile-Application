@@ -1,3 +1,8 @@
+/*
+TODO:
+    - you will need to add code her for validating all your passwords, to make sure that the
+    right passwords were set
+ */
 package com.example.assone;
 
 /*

@@ -1,16 +1,17 @@
 /*
 TODO:
-    - you will need to change teh cleanString() method with the one which is going to be ound inside myUtil class,
-    and use that instead so that you will not have code duplication throughout your project
+    - when you're adding your instructor, you will need to connect that edge to teh root
+    node so that it will work properly and the way which you will expect it to work
  */
 package com.example.assone;
+import static com.example.assone.myUtils.cleanString;
+
 import java.util.*;
 
 public class Graph
 {
     private class Vertex
     {
-        //using protected, so I can edit the class fields directly from parent class and avoids using accessors and mutators
         private String key;
         private Object value;
         private Hashtable<String, Vertex> connections;
@@ -30,6 +31,14 @@ public class Graph
                 key = inKey;
                 value = inUser;
             }
+        }
+
+        //copy constructor
+        private Vertex(Vertex inVert)
+        {
+            key = inVert.key;
+            value = inVert.value;
+            connections = inVert.connections;
         }
 
         private Vertex(String inKey, Instructor inUser)
@@ -134,14 +143,30 @@ public class Graph
         vertices.put(key, newVert);
     }
 
-    public  void delVertex(String key)
+    public void delVertex(String key)
     {
         if(vertices.isEmpty())
         {
             throw  new IllegalArgumentException("ERROR: no vertices have being added as yet: " + vertices.size());
         }
-        key = cleanString(key);
+        key = myUtils.cleanString(key);
         vertices.remove(key);
+    }
+
+    public Hashtable<String, Vertex> getVertices()
+    {
+        return new Hashtable<>(vertices);
+    }
+
+    public Hashtable<String, Vertex> setVertics(Hashtable<String, Vertex> inVertices)
+    {
+        //don't need to do any validation as the hashtable class will do validation for us
+        vertices = inVertices;
+    }
+
+    public Vertex getRootNode()
+    {
+        return new Vertex(rootNode);
     }
 
     /***********************************************************************************************
@@ -150,8 +175,8 @@ public class Graph
      ***********************************************************************************************/
     public void addEdge(String fromEdge, String toEdge)
     {
-        fromEdge = cleanString(fromEdge);
-        toEdge = cleanString(toEdge);
+        fromEdge = myUtils.cleanString(fromEdge);
+        toEdge = myUtils.cleanString(toEdge);
         //if the vertex doesn't exist, these operations will fail
         Vertex fromVertex = vertices.get(fromEdge);
         Vertex toVertex = vertices.get(toEdge);
@@ -166,8 +191,8 @@ public class Graph
      ***********************************************************************************************/
     public void delEdge(String fromEdge, String toEdge)
     {
-        fromEdge = cleanString(fromEdge);
-        toEdge = cleanString(toEdge);
+        fromEdge = myUtils.cleanString(fromEdge);
+        toEdge = myUtils.cleanString(toEdge);
         //if the vertex doesn't exist, these operations will fail
         Vertex fromVertex = vertices.get(fromEdge);
         Vertex toVertex = vertices.get(toEdge);
@@ -176,26 +201,24 @@ public class Graph
 
     public Hashtable<String, Vertex> getEdges(String nodeName)
     {
-        nodeName = cleanString(nodeName);
+        nodeName = myUtils.cleanString(nodeName);
         Vertex currVertex = vertices.get(nodeName);
         return currVertex.connections;
+    }
+
+    private boolean validateRootNode()
+    {
+        boolean valid = true;
+        if(rootNode == null)
+        {
+            throw new IllegalArgumentException("ERROR: they is admin, must create admin first");
+        }
+
+        return valid;
     }
 
     public String toString()
     {
         throw new IllegalArgumentException("ERROR: to be implemented");
-    }
-
-    /***********************************************************************************************
-      PURPOSE: children classes are going to use strings for look up functions, and deleting functions
-      hence, the purpose of the function is to trim any leading or lagging white spaces, and to make
-      the look up string case insenstive
-     ***********************************************************************************************/
-    protected String cleanString(String inString)
-    {
-        //deleting all leading and lagging white spaces
-        inString = inString.trim();
-        inString = inString.toUpperCase();
-        return inString;
     }
 }
