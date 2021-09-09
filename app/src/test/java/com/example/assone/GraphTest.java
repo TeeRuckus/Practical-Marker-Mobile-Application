@@ -181,7 +181,52 @@ public class GraphTest
         testGraph.addVertex(teacherTwo);
         testGraph.addVertex(teacherThree);
 
+        Graph.Vertex deleted = testGraph.delVertex(teacherThree.getName());
 
+        //checking if the right node was deleted
+        assertEquals("Deleted vertex no children", myUtils.cleanString(teacherThree.getName()),
+                deleted.getKey());
     }
 
+    @Test
+    public void deleteWithChildren()
+    {
+        //wiping out the graph, and making a completely new one
+        testGraph = new Graph();
+        testGraph.addVertex(admin);
+        Graph.Vertex adminNode = testGraph.getVertex();
+        testGraph.addVertex(teacherThree);
+
+        //adding the students onto the teacher
+        testGraph.addVertex(studentThree, teacherThree.getName());
+        testGraph.addVertex(studentFour, teacherThree.getName());
+        testGraph.addVertex(studentFive, teacherThree.getName());
+
+        Graph.Vertex deletedVert = testGraph.delVertex(teacherThree.getName());
+
+        //creating a list with the students names, we also have to count for the instructo attached to admin
+        String [] actualNames = new String [] {myUtils.cleanString(studentThree.getName()),
+                myUtils.cleanString(studentFour.getName()),
+                myUtils.cleanString(studentFive.getName()),
+                myUtils.cleanString(teacherThree.getName())};
+
+        //ensuring the expected vertex was deleted
+        assertEquals("Deleted teacher with children from graph", myUtils.cleanString(teacherThree.getName()),
+                deletedVert.getKey());
+        //seeing if the students are going to be attached to the admin node
+        Set<String> keys = adminNode.getConnections().keySet();
+
+        for (String currKey : keys)
+        {
+            System.out.println(currKey);
+            boolean hasKey = Arrays.asList(actualNames).contains(currKey);
+            assertTrue("Admin doesn't have deleted student: " + currKey, hasKey);
+        }
+    }
+
+
+    public void deleteStudent()
+    {
+
+    }
 }

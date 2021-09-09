@@ -9,7 +9,6 @@ package com.example.assone;
 import static com.example.assone.myUtils.cleanString;
 
 import java.util.*;
-
 public class Graph
 {
     public class Vertex
@@ -58,9 +57,14 @@ public class Graph
 
         public Vertex(Vertex inVert)
         {
-            key = inVert.key;
+            key = new String(inVert.key);
+            /*
+            TODO:
+                - I don't know how you're going to have a copy of this maybe what you could have
+                is a clone method in user
+             */
             value = inVert.value;
-            connections = inVert.connections;
+            connections = new HashMap<>(inVert.connections);
         }
 
         //ACCESSORS
@@ -257,20 +261,32 @@ public class Graph
         {
             throw  new IllegalArgumentException("ERROR: no vertices have being added as yet: " + vertices.size());
         }
-
-        key = myUtils.cleanString(key);
         Vertex currVert = vertices.get(key);
 
         if (currVert.connections.isEmpty())
         {
             //if the vertex is not connected to anything else, just remove the vertex
-            delVert = vertices.remove(key)
+            delVert = vertices.remove(key);
         }
         else
         {
             //if the vertex is connected to other things, move all the connections to the
             //admin node
+            Set<String> keys = currVert.connections.keySet();
+
+            //grabbing the admin node
+            Vertex adminNode = vertices.get("ADMIN");
+
+            for (String currKey : keys)
+            {
+                Vertex copyVert = currVert.connections.get(currKey);
+                //making a copy so that the deletion process won't conflict with the nodes in admin
+                adminNode.connections.put(currKey, new Vertex(copyVert));
+            }
+            //once the copy process has completed we can now actually delete the node of interest
+            delVert = vertices.remove(key);
         }
+
         return delVert;
     }
 
