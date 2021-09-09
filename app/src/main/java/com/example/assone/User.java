@@ -1,6 +1,8 @@
 /*
 TODO:
     - add code to manage your data base more efficiently and effectively after
+    - password should not be the responsibility of the user but, it should be the
+    respoinsbility of the application which is going to be the graph data structure
  */
 package com.example.assone;
 import java.util.regex.Pattern;
