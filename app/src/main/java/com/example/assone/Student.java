@@ -17,37 +17,15 @@ public class Student extends User
     }
 
     //we will need an alternate constructor when the admin will create student
-    public Student(String inName, String inUserName, String inEmail, String inCountry, int inPassword,
-            Hashtable<String, Practical> inPracs, String  inInstructor)
+    public Student(String inName, String inUserName, String inEmail, String inCountry, String inInstructor)
     {
-        super(inName, inUserName, inEmail, inCountry, inPassword);
-        markedPracs = inPracs;
+        super(inName, inUserName, inEmail, inCountry);
         if (super.validateName(inInstructor))
         {
             currInstructor = inInstructor;
         }
     }
 
-    public String dispPrac(String title)
-    {
-        String pracDetails = "";
-        if(super.validateName(title))
-        {
-            if (markedPracs.isEmpty())
-            {
-                throw new IllegalArgumentException("Error: no practicals added for current student: " + markedPracs.size());
-            }
-            else
-            {
-                //cleaning any white spaves, and making the title case insensitive
-                title = super.cleanString(title);
-                Practical currPrac = markedPracs.get(title);
-                pracDetails = currPrac.toString();
-            }
-        }
-
-        return pracDetails;
-    }
 
     public String getInstructor()
     {

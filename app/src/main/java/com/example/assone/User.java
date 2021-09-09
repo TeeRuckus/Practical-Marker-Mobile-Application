@@ -75,6 +75,27 @@ public abstract class User
 
     }
 
+    public String dispPrac(String title)
+    {
+        String pracDetails = "";
+        if(validateName(title))
+        {
+            if (practicals.isEmpty())
+            {
+                throw new IllegalArgumentException("Error: no practicals added for current student: " + practicals.size());
+            }
+            else
+            {
+                //cleaning any white spaves, and making the title case insensitive
+                title = myUtils.cleanString(title);
+                Practical currPrac = practicals.get(title);
+                pracDetails = currPrac.toString();
+            }
+        }
+
+        return pracDetails;
+    }
+
     public int getPassword()
     {
         return password;
