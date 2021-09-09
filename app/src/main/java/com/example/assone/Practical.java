@@ -273,6 +273,16 @@ public class Practical {
 
     public String toString()
     {
+        /*
+        the format of the string is going to be the following
+            - class name
+            - title of the whole practical
+            - description of the whole practical
+            - list of all the other practicals which are going to be displayed in the following
+            manner
+                -
+         */
+
         return "";
     }
 

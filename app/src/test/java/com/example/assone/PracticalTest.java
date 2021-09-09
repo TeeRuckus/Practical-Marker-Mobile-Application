@@ -1,6 +1,7 @@
 /*
 TODO:
-    - you have not tested to see if you can delete non existent pracitcals from the system
+    - you have not testted the taskNode, and the practical toString() methods, you actually have not
+    even implemented them as yet
  */
 package com.example.assone;
 

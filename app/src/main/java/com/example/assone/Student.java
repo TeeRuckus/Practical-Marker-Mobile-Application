@@ -54,6 +54,8 @@ public class Student extends User
     }
 
     //overriding all accessor methods so the user will not have permissions to change data
+    //this made sense to me when I was making it but it doesn't make that much sense to me at the moment
+    /*
     public void setName(String inName)
     {
         throw new IllegalArgumentException("Error: don't have apporpriate permissions to set name");
@@ -77,7 +79,7 @@ public class Student extends User
     public void setPassword(int inPassword)
     {
         throw new IllegalArgumentException("Error: don't have appropriate permissions to set password");
-    }
+    }*/
 
 
     //you will need to override the other methods so when they're used they can't be used at all

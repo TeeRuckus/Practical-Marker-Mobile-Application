@@ -4,6 +4,7 @@ TODO:
     they're going to inheret from teh same parent class which is is going to be user
     - I am not going to be testing password in here, as that's going to be the responsibility of the application
     - I am going to leave the flag stuff to the end, you will need to come back and finish that off
+    - you will need to test display practical
  */
 package com.example.assone;
 
@@ -163,5 +164,9 @@ public class AdminTest {
         //testing if I can delete the practicals from the adming class
         Practical removedPrac = testAdmin.delPrac(pracTwoName);
         assertEquals("deleting practical from test Admin", pracTwoName, removedPrac.getTitle());
+
+
+        //testing  displaying practicals
+
     }
 }
