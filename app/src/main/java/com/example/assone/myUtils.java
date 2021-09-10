@@ -17,4 +17,26 @@ public final class myUtils
         inString = inString.toUpperCase();
         return inString;
     }
+
+    public static boolean validatePassword(Admin inAdmin)
+    {
+        return true;
+    }
+
+    public static boolean validatePassword(Student inStudent)
+    {
+        return true;
+    }
+
+    public static boolean validatePassword(Instructor inInstructor)
+    {
+        return true;
+    }
+
+    //The following functions are going to be respoinsible for the passowrd managment
+    public static int getPassword(Admin inAdmin)
+    {
+        return 0;
+    }
+
 }
