@@ -7,6 +7,9 @@ TODO:
  */
 package com.example.assone;
 
+import android.database.Cursor;
+import android.database.CursorWrapper;
+
 public class PasswordSchema
 {
     public static class PassWordTable
@@ -15,12 +18,30 @@ public class PasswordSchema
         public static final String NAME = "passwords";
 
         //creating the class of the table
-        public static class cols
+        public static class Cols
         {
             //the name of each column in the created table
             public static final String USER_NAME = "user_name";
             public static final String PASSWORD = "user_password";
         }
+
+    }
+
+    public class PasswordCursor extends CursorWrapper
+    {
+        public PasswordCursor(Cursor cursor)
+        {
+            super(cursor);
+        }
+
+        public String getPassword()
+        {
+            int password = getInt(getColumnIndex(PassWordTable.Cols.PASSWORD));
+            //TODO: you will need to de-crypt the password so you can see what is being stored properly
+
+            return password;
+        }
+
 
     }
 }

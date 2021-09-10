@@ -6,6 +6,10 @@ TODO:
 package com.example.assone;
 
 import static java.util.Map.entry;
+import com.example.assone.PasswordSchema.PassWordTable;
+import com.example.assone.PasswordSchema.PasswordCursor;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +19,7 @@ import java.util.Map;
  */
 public final class myUtils
 {
-    /*private static final HashMap<String, String> countryLookUp = (HashMap<String, String>) Map.ofEntries(
-        entry("ANDORRO", "ad"),
-        entry("UNITED ARAB EMIRATES", "ae"),
-        entry("AFGHANISTAN", "af")
-    );*/
-
+    //a look up table which we can use to find what the file code is for the current flag
     private static final HashMap<String, String> countryLookUp = new HashMap<String, String>() {{
         put("ANDORRO", "ad");
         put("UNITED ARAB EMIRATES", "ae");
@@ -28,8 +27,43 @@ public final class myUtils
         put("ANTIGUA AND BARBUDA", "ag");
         put("ANGUILLA", "ai");
         put("ALBANIA", "al");
-        //TODO: come back and finish this off
+        put("ARMENIA", "am");
+        put("ARGENTINA", "ar");
+        put("AUSTRIA", "at");
+        put("AUSTRALIA", "au");
+        put("AZERBAIJAN", "az");
+        put("BOSNIA AND HERZEGOVINA", "ba");
+        put("BELGIUM", "bd");
+        put("BURKINA FASO", "bf");
+        put("BULGARIA", "bg");
+        put("BRAZIL", "br");
+        put("CANADA", "ca");
+        put("SWITZERLAND", "ch");
+        put("CHINA", "cn");
+        put("CZECK REPUBLIC", "cz");
+        put("GERMANY", "de");
+        put("DENMARK", "dk");
+        put("SPAIN", "es");
+        put("FRANCE", "fr");
+        put("GREAT BRITAIN", "gb");
+        put("GEORGIA", "ge");
+        put("GREECE", "gr");
+        put("HONG KONG", "hk");
+        put("ITALY", "it");
+        put("JAPAN", "jp");
+        put("LITHUANIA", "lt");
+        put("MEXIXO", "mx");
+        put("MALAYSIA", "my");
+        put("NEEHTERLANDS", "nl");
+        put("POLLAND", "pl");
+        put("QATAR", "qa");
+        put("RUSSIA", "ru");
+        put("UNITED KINGDOM", "uk");
+        put("USA", "us");
+        put("VIET NAM", "vn");
     }};
+
+    private SQLiteDatabase db;
 
     //look up table for the country name which correspond to which country ID
     public static String cleanString(String inString)
@@ -40,25 +74,184 @@ public final class myUtils
         return inString;
     }
 
-    public static boolean validatePassword(Admin inAdmin)
+    public static String getCountryCode(String country)
     {
-        return true;
+        country = cleanString(country);
+        String retString = countryLookUp.get(country);
+        validateRetrival(retString, country);
+        return retString;
+
     }
 
-    public static boolean validatePassword(Student inStudent)
+    //these are going to be all database retrievals to make sure that the inputted password, matches
+    //the inputted password
+    public static boolean validatePassword(Admin inAdmin, int inPassword)
     {
-        return true;
+        boolean valid = false;
+        int actualPassword = getPassword(inAdmin);
+        if ( actualPassword == inPassword)
+        {
+            valid = true;
+        }
+        return valid;
     }
 
-    public static boolean validatePassword(Instructor inInstructor)
+    public static boolean validatePassword(Instructor inInstructor, int inPassword)
     {
-        return true;
+        boolean valid = false;
+        int actualPassword = getPassword(inInstructor);
+        if ( actualPassword == inPassword)
+        {
+            valid = true;
+        }
+        return valid;
     }
 
-    //The following functions are going to be respoinsible for the passowrd managment
+    public static boolean validatePassword(Student inStudent, int inPassword)
+    {
+        boolean valid = false;
+        int actualPassword = getPassword(inStudent);
+        if ( actualPassword == inPassword)
+        {
+            valid = true;
+        }
+        return valid;
+    }
+
+    //database operations for creating the password inside the data base
+    public void createPassword(Admin inAdmin, int inPassword)
+    {
+        String userName = cleanString(inAdmin.getName());
+
+    }
+
+    public void createPassword(Instructor inInstructor, int inPassword)
+    {
+    }
+
+    public void createPassword(Student inStudent, int inPassword)
+    {
+    }
+
+    //these are  all going to be database access to set the pass word for the inputted user
+    //TODO: you will need a cursor for getting the password  from your data base
     public static int getPassword(Admin inAdmin)
     {
-        return 0;
+        int password = 0;
+
+        return  password;
     }
+
+    public static int getPassword(Instructor inInstructor)
+    {
+        int password = 0;
+
+        return  password;
+    }
+
+    public static int getPassword(Student inStudent)
+    {
+        int password = 0;
+
+        return  password;
+    }
+
+    //this will be passed in from the remove method when you delete a user from the graph
+    public void removePassword(Admin inAdmin)
+    {
+        String[] whereValue = {inAdmin.getName()};
+        db.delete(PassWordTable.NAME,
+                PassWordTable.Cols.USER_NAME + " = ?", whereValue);
+    }
+
+    public void removePassword(Instructor inInstructor)
+    {
+        String[] whereValue = {inInstructor.getName()};
+        db.delete(PassWordTable.NAME,
+                PassWordTable.Cols.USER_NAME + " = ?", whereValue);
+    }
+
+    public void removePassword(Student inStudent)
+    {
+        String[] whereValue = {inStudent.getName()};
+        db.delete(PassWordTable.NAME,
+                PassWordTable.Cols.USER_NAME + " = ?", whereValue);
+    }
+
+    //this will be responsible for updating the password given a user
+    public void updatePassword(Admin inAdmin, int newPassword)
+    {
+        ContentValues cv = accessDb(inAdmin, newPassword);
+        String userName = cleanString(inAdmin.getName());
+        String[] whereValues ={userName};
+        db.update(PassWordTable.NAME, cv,
+                PassWordTable.Cols.USER_NAME + " = ?", whereValues);
+    }
+    public void updatePassword(Instructor inInstructor, int newPassword)
+    {
+        ContentValues cv = accessDb(inInstructor, newPassword);
+        String userName = cleanString(inInstructor.getName());
+        String[] whereValues ={userName};
+        db.update(PassWordTable.NAME, cv,
+                PassWordTable.Cols.USER_NAME + " = ?", whereValues);
+    }
+
+    public void updatePassword(Student inStudent, int newPassword)
+    {
+        ContentValues cv = accessDb(inStudent, newPassword);
+        String userName = cleanString(inStudent.getName());
+        String[] whereValues ={userName};
+        db.update(PassWordTable.NAME, cv,
+                PassWordTable.Cols.USER_NAME + " = ?", whereValues);
+    }
+
+    //only the methods which this class needs to kow about
+    private static boolean validateRetrival(Object inObj, String lookUpKey)
+    {
+        boolean valid = true;
+        if(inObj == null)
+        {
+            throw new IllegalArgumentException("ERROR: " +lookUpKey+ "is not a registerd country");
+        }
+        return valid;
+    }
+
+    //method which is going to help this class to access data from the data base
+    private ContentValues accessDb(Admin inAdmin, int inPassword)
+    {
+        //adding the data into the database whcih was created
+        ContentValues cv = new ContentValues();
+
+        //TODO: you will need to add some type of encryption before you actually store your password inside the database
+        String userName = cleanString(inAdmin.getName());
+        cv.put(PassWordTable.Cols.USER_NAME, userName);
+        cv.put(PassWordTable.Cols.PASSWORD, inPassword);
+        return cv;
+    }
+
+    private ContentValues accessDb(Instructor inInstructor, int inPassword)
+    {
+        //adding the data into the database whcih was created
+        ContentValues cv = new ContentValues();
+
+        //TODO: you will need to add some type of encryption before you actually store your password inside the database
+        String userName = cleanString(inInstructor.getName());
+        cv.put(PassWordTable.Cols.USER_NAME, userName);
+        cv.put(PassWordTable.Cols.PASSWORD, inPassword);
+        return cv;
+    }
+
+    private ContentValues accessDb(Student inStudent, int inPassword)
+    {
+        //adding the data into the database whcih was created
+        ContentValues cv = new ContentValues();
+
+        //TODO: you will need to add some type of encryption before you actually store your password inside the database
+        String userName = cleanString(inStudent.getName());
+        cv.put(PassWordTable.Cols.USER_NAME, userName);
+        cv.put(PassWordTable.Cols.PASSWORD, inPassword);
+        return cv;
+    }
+
 
 }
