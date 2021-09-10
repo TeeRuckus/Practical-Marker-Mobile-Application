@@ -27,7 +27,7 @@
             android:id="@+id/adminName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:background="@color/dark_second"
             android:gravity="center"
             android:hint="Admin Name"
@@ -50,7 +50,7 @@
             android:id="@+id/adminUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:background="@color/dark_second"
             android:gravity="center"
             android:hint="Staff ID"
@@ -73,7 +73,7 @@
             android:id="@+id/adminEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:background="@color/dark_second"
             android:gravity="center"
             android:hint="Email address"
@@ -83,7 +83,7 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/registerErrorStaffID"
+            android:id="@+id/registerErrorEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -96,7 +96,7 @@
             android:id="@+id/adminCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:background="@color/dark_second"
             android:gravity="center"
             android:hint="Country"
@@ -115,11 +115,17 @@
             android:textColor="@color/paleNight_error"
             android:textSize="10dp" />
 
+        <Spinner
+            android:id="@+id/countryList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
         <EditText
             android:id="@+id/adminPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:background="@color/dark_second"
             android:gravity="center"
             android:hint="New Password"

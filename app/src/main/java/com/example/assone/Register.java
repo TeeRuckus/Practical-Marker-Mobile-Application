@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class Register extends AppCompatActivity {
 
@@ -19,6 +23,14 @@ public class Register extends AppCompatActivity {
     EditText country;
     EditText passWord;
     Button register;
+    TextView errorName;
+    TextView errorStaffID;
+    TextView errorEmail;
+    TextView errorCountry;
+    TextView errorPassword;
+    Spinner countryFlags;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,6 +48,17 @@ public class Register extends AppCompatActivity {
         country = (EditText) findViewById(R.id.adminCountry);
         passWord = (EditText) findViewById(R.id.adminPassword);
         register = (Button) findViewById(R.id.registerBttn);
+
+        errorName = (TextView) findViewById(R.id.registerErrorUser);
+        errorStaffID = (TextView) findViewById(R.id.registerErrorStaffID);
+        errorEmail = (TextView) findViewById(R.id.registerErrorEmail);
+        errorCountry = (TextView) findViewById(R.id.registerErrorCountry);
+        errorPassword = (TextView) findViewById(R.id.errorPassword);
+
+
+        //playing around with the spinner to see if I can display country flags
+        countryFlags = (Spinner) findViewById(R.id.countryList);
+
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,30 +84,37 @@ public class Register extends AppCompatActivity {
                 {
                     newAdmin.setName(adminNameStr);
                     checks++;
+                    errorName.setText("");
                 }
                 catch (IllegalArgumentException err)
                 {
                     Log.i(TAG, err.getMessage());
+                    errorName.setText("username cannot be blank");
+                    //display meaningful information
                 }
 
                 try
                 {
                     newAdmin.setUserName(staffIDStr);
                     checks++;
+                    errorStaffID.setText("");
                 }
                 catch (IllegalArgumentException err)
                 {
                     Log.i(TAG, err.getMessage());
+                    errorStaffID.setText("Staff ID must be 6 digits then letter");
                 }
 
                 try
                 {
                     newAdmin.setEmail(emailAddressStr);
                     checks++;
+                    errorEmail.setText("");
                 }
                 catch (IllegalArgumentException err)
                 {
                     Log.i(TAG, err.getMessage());
+                    errorEmail.setText("invalid email format");
                 }
 
                 try
@@ -92,10 +122,13 @@ public class Register extends AppCompatActivity {
                     countryCode = myUtils.getCountryCode(countryStr);
                     newAdmin.setCountry(countryStr);
                     checks++;
+                    errorCountry.setText("");
                 }
                 catch (IllegalArgumentException err)
                 {
+                    //TODO: this is kinda of redantant, as you're required to create a drop down menu
                     Log.i(TAG, err.getMessage());
+                    errorCountry.setText("Country doesn't exist");
                 }
 
                 //password, they is no need for validation as android studio is going to make sure that it's going to be a length of four

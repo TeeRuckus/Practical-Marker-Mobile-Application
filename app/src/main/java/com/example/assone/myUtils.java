@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /*
     my utility class which are going to have common functions which are used in the programme
@@ -64,6 +65,18 @@ public final class myUtils
 
     private SQLiteDatabase db;
 
+    public static String[] getCountryName()
+    {
+        int amountNames = countryLookUp.size();
+        String [] retCountrys = new String[amountNames];
+
+        Set<String> keySet =  countryLookUp.keySet();
+        for (int ii = 0; ii < amountNames; ii++)
+        {
+        }
+
+        return retCountrys;
+    }
     //look up table for the country name which correspond to which country ID
     public static String cleanString(String inString)
     {
