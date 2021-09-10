@@ -294,6 +294,13 @@ public class Graph
                 instructorNode.connections.remove(studentName);
             }
 
+            //need to check if the current need is going to be an instructor node for deletion from the admin vertices
+            if(currVert.getType().equals("INSTRUCTOR"))
+            {
+                Vertex adminNode = vertices.get("ADMIN");
+                adminNode.connections.remove(key);
+            }
+
             //if the vertex is not connected to anything else, just remove the vertex
             delVert = vertices.remove(key);
         }
