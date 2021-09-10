@@ -67,7 +67,7 @@ public final class myUtils
     //look up table for the country name which correspond to which country ID
     public static String cleanString(String inString)
     {
-        //deleting all leading and lagging white spaces
+        //deleting all leading and lagging white spaces;
         inString = inString.trim();
         inString = inString.toUpperCase();
         return inString;
@@ -79,6 +79,23 @@ public final class myUtils
         String retString = countryLookUp.get(country);
         validateRetrival(retString, country);
         return retString;
+
+    }
+
+    //joining two strings integers together to make a single integer
+    public static int makePassword(int a, int b, int c, int d)
+    {
+        String s1 = Integer.toString(a);
+        String s2 = Integer.toString(b);
+        String s3 = Integer.toString(c);
+        String s4 = Integer.toString(d);
+
+        //joining all the numbers togger
+        String password = s1 + s2 + s3 + s4;
+
+        int retPassword = Integer.parseInt(password);
+
+        return retPassword;
 
     }
 
@@ -208,9 +225,8 @@ public final class myUtils
     private static boolean validateRetrival(Object inObj, String lookUpKey)
     {
         boolean valid = true;
-        if(inObj == null)
-        {
-            throw new IllegalArgumentException("ERROR: " +lookUpKey+ "is not a registerd country");
+        if (inObj == null) {
+            throw new IllegalArgumentException("ERROR: " + lookUpKey + " is not a registerd country");
         }
         return valid;
     }
@@ -251,6 +267,4 @@ public final class myUtils
         cv.put(PassWordTable.Cols.PASSWORD, inPassword);
         return cv;
     }
-
-
 }

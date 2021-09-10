@@ -4,10 +4,11 @@
  */
 package com.example.assone;
 import java.util.*;
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Student extends User
+public class Student extends User implements Serializable
 {
     //the classfield which are going to be unique to the student
     private String currInstructor;

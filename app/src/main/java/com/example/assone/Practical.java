@@ -10,11 +10,13 @@ TODO:
 package com.example.assone;
 
 import java.util.LinkedList;
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Set;
 
-public class Practical {
-    public class taskNode
+public class Practical implements Serializable
+{
+    public class taskNode implements Serializable
     {
 
         /*inner class class fields. Making classfields protected to avoid making accessors and

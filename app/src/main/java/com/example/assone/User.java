@@ -9,8 +9,9 @@ import java.util.Hashtable;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.lang.String;
+import java.io.Serializable;
 
-public abstract class User
+public abstract class User implements Serializable
 {
 
     //PRIVATE CLASS FIELDS
@@ -234,7 +235,6 @@ public abstract class User
             throw new IllegalArgumentException("Error: country can't be an empty string" + inCountry);
         }
         return valid;
-
     }
 
     protected boolean managePassWord(int inPassword)

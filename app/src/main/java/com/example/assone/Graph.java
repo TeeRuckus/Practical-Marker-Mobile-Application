@@ -8,11 +8,12 @@ TODO:
 
 package com.example.assone;
 import static com.example.assone.myUtils.cleanString;
+import java.io.Serializable;
 
 import java.util.*;
-public class Graph
+public class Graph implements Serializable
 {
-    public class Vertex
+    public class Vertex implements Serializable
     {
         private String key;
         private User value;

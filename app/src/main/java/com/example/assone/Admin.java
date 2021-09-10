@@ -1,5 +1,6 @@
 package com.example.assone;
 import java.util.*;
+import java.io.Serializable;
 /*
  TODO:
     - so how you can send the practical from the admin to all the instructors: you should handle this inside your graph class
@@ -9,7 +10,8 @@ import java.util.*;
     - you will need to come back and do the flag stuff later on
  */
 
-public class Admin extends User{
+public class Admin extends User implements Serializable
+{
 
     public Admin()
     {

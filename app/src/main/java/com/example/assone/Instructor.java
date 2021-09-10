@@ -5,8 +5,9 @@ TODO:
  */
 package com.example.assone;
 import java.util.*;
+import java.io.Serializable;
 
-public class Instructor extends User
+public class Instructor extends User implements Serializable
 {
     public Instructor()
     {
