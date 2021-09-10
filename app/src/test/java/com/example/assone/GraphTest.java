@@ -233,7 +233,11 @@ public class GraphTest
         testGraph.addVertex(studentFour, teacherThree.getName());
         testGraph.addVertex(studentFive, teacherThree.getName());
 
-        testGraph.delVertex(studentFour.getName());
+        Graph.Vertex deleted = testGraph.delVertex(studentFour.getName());
+
+        System.out.println("The student which was deleted");
+        System.out.println(deleted.getKey());
+        System.out.println("END");
 
         Graph.Vertex teacherNode = testGraph.getVertex(teacherThree.getName());
 
@@ -249,5 +253,7 @@ public class GraphTest
             boolean hasKey = Arrays.asList(remainingStudents).contains(currKey);
             assertTrue("the instructor has studetnt: " +currKey, hasKey);
         }
+
+        //TODO: you will need to test if it's going to be still attached to the admin node
     }
 }

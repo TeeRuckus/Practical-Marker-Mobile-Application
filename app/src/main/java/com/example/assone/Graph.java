@@ -4,6 +4,9 @@ TODO:
     node so that it will work properly and the way which you will expect it to work
     - you will need to delete every where where you used rootNode, to make your code a lot
     cleaner and easier to maintain
+    - some potential refactoring which you could do is that, you can remove the place where
+    you make a hard code call to an admin, to some variable. So that the admin can be named whatever you want
+    - you could potentially consider using a switch case statement inside the delete vertex function
  */
 package com.example.assone;
 import static com.example.assone.myUtils.cleanString;
@@ -114,6 +117,11 @@ public class Graph
             return connections.size();
         }
 
+        public String getType()
+        {
+            return value.getType();
+        }
+
         private boolean validateKey(String inKey)
         {
             boolean valid = true;
@@ -157,16 +165,12 @@ public class Graph
     }
 
     private HashMap<String, Vertex> vertices;
-    //this is going to be the admin of the whole application, they're going to be stored here
-    //private Vertex rootNode;
 
     //DEFAULT CONSTRUCTOR
     public Graph()
     {
         vertices = new HashMap<String, Vertex>();
-        //intialising where the admin node is going to be as null
         vertices.put("ADMIN", null);
-        //rootNode = null;
     }
 
     public int size()
@@ -184,7 +188,7 @@ public class Graph
             Vertex newVert = new Vertex(key, inInstrucor);
             vertices.put(key, newVert);
 
-            //by default the instructor is going to be connected to teh admin node
+            //the instructor node is always going to be connected to the admin node
             Vertex adminNode = vertices.get("ADMIN");
             adminNode.connections.put(myUtils.cleanString(inInstrucor.getName()), newVert);
         }
@@ -199,11 +203,10 @@ public class Graph
             Vertex newVert = new Vertex(key, inStudent);
             vertices.put(key, newVert);
 
-            //by default the student must be connected to the root node
+            //if a vertex is not added with an owning instructor, the node is going to be attached to the admin node
             Vertex adminNode = vertices.get("ADMIN");
             adminNode.connections.put(myUtils.cleanString(inStudent.getName()), newVert);
         }
-
     }
 
     //if we know the instructor we can connect the student to the instructor instead of making the
@@ -219,6 +222,8 @@ public class Graph
             String studentName = myUtils.cleanString(inStudent.getName());
             Vertex currStudent = new Vertex(studentName, inStudent);
             currInstructor.connections.put(studentName, currStudent);
+            //putting the student vertex on the main graph data structure
+            vertices.put(studentName, currStudent);
         }
     }
 
@@ -256,31 +261,63 @@ public class Graph
         {
             throw  new IllegalArgumentException("ERROR: no vertices have being added as yet: " + vertices.size());
         }
+
+        //if the code has made it here, means that they is more than one node in the network
         Vertex currVert = vertices.get(key);
+
+        System.out.println("current node inside the delete function");
+        System.out.println(currVert.getType());
+        System.out.println(currVert.getType().equals("STUDENT"));
+        System.out.println("END");
 
         if (currVert.connections.isEmpty())
         {
+            //students are not going to be connected to anything therefore need to check if it's a student
+            if (currVert.getType().equals("STUDENT"))
+            {
+            /*
+            for a student the student must be deleted in two places, the first place being inside
+            the actual graph itself and the second place being in th connections of the instructor
+            node which it was connected too previously
+             */
+
+                User currUser = currVert.value;
+                Student currStudent  = (Student) currUser;
+                String currInstructor = currStudent.getInstructor();
+
+                //getting the instructor node from the main graph
+                currInstructor = myUtils.cleanString(currInstructor);
+                Vertex instructorNode = vertices.get(currInstructor);
+
+                //deleting the student from the ins
+                String studentName = myUtils.cleanString(currStudent.getName());
+                instructorNode.connections.remove(studentName);
+            }
+
             //if the vertex is not connected to anything else, just remove the vertex
             delVert = vertices.remove(key);
         }
-        else
+        else if (currVert.getType().equals("INSTRUCTOR"))
         {
-            //if the vertex is connected to other things, move all the connections to the
-            //admin node
+            //get everything which the instructor is connected too which is going to be all the students
             Set<String> keys = currVert.connections.keySet();
 
             //grabbing the admin node
             Vertex adminNode = vertices.get("ADMIN");
 
+            //going through everything which the to be deleted node was attached too, and attaching to admin node
             for (String currKey : keys)
             {
                 Vertex copyVert = currVert.connections.get(currKey);
                 //making a copy so that the deletion process won't conflict with the nodes in admin
                 adminNode.connections.put(currKey, new Vertex(copyVert));
             }
+
             //once the copy process has completed we can now actually delete the node of interest
             delVert = vertices.remove(key);
+            System.out.println("YOLO SWAG: I am inside the instructor righ now");
         }
+
 
         return delVert;
     }
@@ -289,13 +326,6 @@ public class Graph
     {
         return new HashMap<>(vertices);
     }
-
-    /*public HashMap<String, Vertex> setVertics(HashMap<String, Vertex> inVertices)
-    {
-        //don't need to do any validation as the HashMap class will do validation for us
-        vertices = inVertices;
-    }*/
-
 
     /***********************************************************************************************
      * PUPROSE: to add a directed edge from one node to another node. Otherwise, if this relationship
