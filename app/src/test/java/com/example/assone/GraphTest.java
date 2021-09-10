@@ -106,15 +106,15 @@ public class GraphTest
         int lengthNames = actualNames.length;
         String [] actualVertices = new String[lengthNames];
 
+        //adding the admin to the expected results of the test
         for (int ii = 0; ii < lengthNames; ii++)
         {
             actualVertices[ii] = actualNames[ii];
         }
-        actualVertices[lengthNames - 1 ] = "ADMIN";
+        actualVertices[lengthNames - 1] = "ADMIN";
 
-        for(String currKey : allVerticesString)
+        for(String currKey : actualVertices)
         {
-            System.out.println(currKey);
             //making sure that the graph has the newly added instructor nodes
             boolean hasKey = Arrays.asList(actualVertices).contains(currKey);
             assertTrue("Graph doesn't have: " + currKey, hasKey);
@@ -143,8 +143,30 @@ public class GraphTest
 
         for (String currKey: keys)
         {
+            //making sure that the admin is going to be connected to teh current student
             boolean hasKey = Arrays.asList(actualNames).contains(currKey);
             assertTrue("Admin has current student: " + currKey, hasKey);
+        }
+
+        //making sure that the student is going to be added to the whole graph data structure
+        HashMap<String, Graph.Vertex> allVertices = testGraph.getVertices();
+        Set<String> allVerticesStr = allVertices.keySet();
+
+        int lengthNames = actualNames.length;
+        String [] actualVertices = new String [lengthNames + 1];
+
+        //adding the admin to the expected results of the test
+        for (int ii = 0; ii < lengthNames; ii++)
+        {
+            actualVertices[ii] = actualNames[ii];
+        }
+        actualVertices[lengthNames - 1] = "ADMIN";
+
+        for(String currKey : actualVertices)
+        {
+            //going through the whole graph and making sure that the students are in the graph
+            boolean hasKey = Arrays.asList(actualVertices).contains(currKey);
+            assertTrue("Graph doesn't have: "+ currKey, hasKey);
         }
     }
 
@@ -178,13 +200,32 @@ public class GraphTest
         HashMap<String, Graph.Vertex> connections = instructorVertex.getConnections();
 
         Set<String> keys = connections.keySet();
-
-
         //making sure that all the students are connected to their instructor
         for (String currKey : keys)
         {
             boolean hasKey = Arrays.asList(actualNames).contains(currKey);
             assertTrue("Instructor has curren student: " + currKey, hasKey);
+        }
+
+        //making sure that the instructors, and the students are going to be connected to the whole entire graph structure
+        HashMap<String, Graph.Vertex> allVertices = testGraph.getVertices();
+        Set<String> retVertices = allVertices.keySet();
+
+        //making sure the expected results are going to contain the added admin and instructor
+        int lengthStudent = actualNames.length;
+        String [] actualVertices = new String[lengthStudent + 1];
+
+        for (int ii = 0; ii < lengthStudent; ii++)
+        {
+            actualVertices[ii] = actualNames[ii];
+        }
+        actualVertices[lengthStudent] = "ADMIN";
+        actualVertices[lengthStudent - 1] = myUtils.cleanString(currInstructor);
+
+        for(String currKey : actualVertices)
+        {
+            boolean hasKey = Arrays.asList(actualVertices).contains(currKey);
+            assertTrue("Graph doesn't have: " + currKey, hasKey);
         }
     }
 
@@ -245,14 +286,23 @@ public class GraphTest
         //ensuring the expected vertex was deleted
         assertEquals("Deleted teacher with children from graph", myUtils.cleanString(teacherThree.getName()),
                 deletedVert.getKey());
+
         //seeing if the students are going to be attached to the admin node
         Set<String> keys = adminNode.getConnections().keySet();
-
         for (String currKey : keys)
         {
+            //checking if the admin is still connected to the right nodes
             boolean hasKey = Arrays.asList(actualNames).contains(currKey);
             assertTrue("Admin doesn't have deleted student: " + currKey, hasKey);
         }
+
+        //checking if the graph is still going to have the deleted teacher
+        HashMap<String, Graph.Vertex> allVertices = testGraph.getVertices();
+        Set<String> actualVertices = allVertices.keySet();
+        String teachName = myUtils.cleanString(teacherThree.getName());
+        boolean hasKey = actualVertices.contains(teachName);
+        assertFalse("Graph still has the deleted vert: " + teachName, hasKey);
+
     }
 
 
@@ -300,7 +350,6 @@ public class GraphTest
 
         //checking if the student might be attached to the admin node of the graph
         Graph.Vertex adminNode = testGraph.getVertex();
-
         Set<String> connectedAdmin = adminNode.getConnections().keySet();
         boolean hasStudentAdmin = connectedAdmin.contains(studentName);
         assertFalse("Admin doesn't have the connected node", hasStudentAdmin);

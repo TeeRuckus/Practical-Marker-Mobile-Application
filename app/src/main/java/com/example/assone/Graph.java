@@ -265,11 +265,6 @@ public class Graph
         //if the code has made it here, means that they is more than one node in the network
         Vertex currVert = vertices.get(key);
 
-        System.out.println("current node inside the delete function");
-        System.out.println(currVert.getType());
-        System.out.println(currVert.getType().equals("STUDENT"));
-        System.out.println("END");
-
         if (currVert.connections.isEmpty())
         {
             //students are not going to be connected to anything therefore need to check if it's a student
@@ -322,7 +317,6 @@ public class Graph
 
             //once the copy process has completed we can now actually delete the node of interest
             delVert = vertices.remove(key);
-            System.out.println("YOLO SWAG: I am inside the instructor righ now");
         }
 
 
@@ -334,6 +328,7 @@ public class Graph
         return new HashMap<>(vertices);
     }
 
+    //TODO: you can honestly delete all these functions which are going to be below here
     /***********************************************************************************************
      * PUPROSE: to add a directed edge from one node to another node. Otherwise, if this relationship
      * doesn't exist fail
