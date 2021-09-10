@@ -1,18 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/paleNight_background">
+
+    <LinearLayout
+        android:id="@+id/firsLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/paleNight_white"
+            android:background="@color/dark_second"
+            android:text="Log In"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:layout_marginBottom="15dp"
+            android:textSize="50dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:hint="LOG IN NAME"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/paleNight_yellow"
+            android:background="@color/dark_second"
+            android:textColor="@color/paleNight_white"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/errorUser"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/paleNight_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/errorPassword"
+        android:textAllCaps="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/secondLinearLayout"
+        android:textColor="@color/paleNight_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/secondLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firsLinearLayout"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/passOne"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/dark_second"
+            android:gravity="center"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:textColor="@color/paleNight_white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/passTwo"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/dark_second"
+            android:gravity="center"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:textColor="@color/paleNight_white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/passThree"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/dark_second"
+            android:gravity="center"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:textColor="@color/paleNight_white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/passFour"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/dark_second"
+            android:gravity="center"
+            android:inputType="numberPassword"
+            android:maxLength="1"
+            android:textColor="@color/paleNight_white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:layout_below="@id/secondLinearLayout">
+
+        <Button
+            android:id="@+id/logInBttn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="30dp"
+            android:textAllCaps="false"
+            android:text="Sign in"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
