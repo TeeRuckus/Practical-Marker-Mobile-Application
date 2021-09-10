@@ -354,4 +354,35 @@ public class GraphTest
         boolean hasStudentAdmin = connectedAdmin.contains(studentName);
         assertFalse("Admin doesn't have the connected node", hasStudentAdmin);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getInvalidVertex()
+    {
+        //setting up some simple connections
+        testGraph.addVertex(admin);
+        testGraph.addVertex(teacherThree);
+
+        //adding students onto the teacher
+        testGraph.addVertex(studentThree, teacherThree.getName());
+        testGraph.addVertex(studentFour, teacherThree.getName());
+        testGraph.addVertex(studentFive, teacherThree.getName());
+
+        Graph.Vertex user = testGraph.getVertex("Spider man");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidDelete()
+    {
+        //setting up some simple connections
+        testGraph.addVertex(admin);
+        testGraph.addVertex(teacherThree);
+
+        //adding students onto the teacher
+        testGraph.addVertex(studentThree, teacherThree.getName());
+        testGraph.addVertex(studentFour, teacherThree.getName());
+        testGraph.addVertex(studentFive, teacherThree.getName());
+
+        Graph.Vertex user = testGraph.delVertex("Spider man");
+    }
+
 }

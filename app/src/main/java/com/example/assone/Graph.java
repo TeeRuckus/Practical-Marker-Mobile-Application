@@ -1,13 +1,11 @@
 /*
 TODO:
-    - when you're adding your instructor, you will need to connect that edge to teh root
-    node so that it will work properly and the way which you will expect it to work
-    - you will need to delete every where where you used rootNode, to make your code a lot
-    cleaner and easier to maintain
     - some potential refactoring which you could do is that, you can remove the place where
     you make a hard code call to an admin, to some variable. So that the admin can be named whatever you want
-    - you could potentially consider using a switch case statement inside the delete vertex function
+    - you will need to handle the exceptions of retrieving a node which doesn't exist,  so you will need to make a
+    function which will do that for you
  */
+
 package com.example.assone;
 import static com.example.assone.myUtils.cleanString;
 
@@ -247,7 +245,10 @@ public class Graph
     {
         //hashmap will throw an error if it doesn't exist in current table
         inVertex = myUtils.cleanString(inVertex);
-        return vertices.get(inVertex);
+        Vertex retVert = vertices.get(inVertex);
+        validateRetrival(retVert, inVertex);
+
+        return retVert;
     }
 
     public Vertex delVertex(String key)
@@ -264,6 +265,7 @@ public class Graph
 
         //if the code has made it here, means that they is more than one node in the network
         Vertex currVert = vertices.get(key);
+        validateRetrival(currVert, key);
 
         if (currVert.connections.isEmpty())
         {
@@ -278,6 +280,7 @@ public class Graph
 
                 User currUser = currVert.value;
                 Student currStudent  = (Student) currUser;
+                validateRetrival(currStudent, "student");
                 String currInstructor = currStudent.getInstructor();
 
                 //getting the instructor node from the main graph
@@ -402,6 +405,16 @@ public class Graph
             throw new IllegalArgumentException("ERORR: an admin already exist for this application");
         }
 
+        return valid;
+    }
+
+    private boolean validateRetrival(Object inObj, String key)
+    {
+        boolean valid = true;
+        if (inObj == null)
+        {
+            throw new IllegalArgumentException("Error: vertex " + key  + " does not exist in graph");
+        }
         return valid;
     }
 
