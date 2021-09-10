@@ -22,8 +22,8 @@ public class PasswordDbHelper extends SQLiteOpenHelper
 
         //creating all the needed columns in the database which we need
         sql.execSQL("CREATE TABLE " + PassWordTable.NAME + "(" +
-                PassWordTable.cols.USER_NAME + "TEXT, " +
-                PassWordTable.cols.PASSWORD + " INTEGER)");
+                PassWordTable.Cols.USER_NAME + "TEXT, " +
+                PassWordTable.Cols.PASSWORD + " INTEGER)");
     }
 
     @Override

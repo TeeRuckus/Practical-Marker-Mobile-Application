@@ -7,7 +7,6 @@ package com.example.assone;
 
 import static java.util.Map.entry;
 import com.example.assone.PasswordSchema.PassWordTable;
-import com.example.assone.PasswordSchema.PasswordCursor;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
