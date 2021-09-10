@@ -34,7 +34,7 @@ public class PasswordSchema
             super(cursor);
         }
 
-        public String getPassword()
+        public int getPassword()
         {
             int password = getInt(getColumnIndex(PassWordTable.Cols.PASSWORD));
             //TODO: you will need to de-crypt the password so you can see what is being stored properly
