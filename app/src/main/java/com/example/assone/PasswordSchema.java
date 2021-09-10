@@ -26,22 +26,4 @@ public class PasswordSchema
         }
 
     }
-
-    public class PasswordCursor extends CursorWrapper
-    {
-        public PasswordCursor(Cursor cursor)
-        {
-            super(cursor);
-        }
-
-        public int getPassword()
-        {
-            int password = getInt(getColumnIndex(PassWordTable.Cols.PASSWORD));
-            //TODO: you will need to de-crypt the password so you can see what is being stored properly
-
-            return password;
-        }
-
-
-    }
 }
