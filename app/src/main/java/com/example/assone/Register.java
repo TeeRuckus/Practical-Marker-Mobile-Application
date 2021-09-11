@@ -42,6 +42,14 @@ public class Register extends AppCompatActivity {
     private Spinner spinnerFlags;
     private FlagAdapter adapterFlag;
 
+    private enum state {
+        initial,
+        instructor,
+        student
+    }
+
+    private static state currState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -158,7 +166,8 @@ public class Register extends AppCompatActivity {
 
                 if(valid)
                 {
-                    MainActivity.toggleLoaded();
+                    //MainActivity.toggleLoaded();
+                    MainActivity.initial();
                     pracGrader.addVertex(newAdmin);
                     //we will need to update the name of the admin
                     pracGrader.setAdmin(adminNameStr);
@@ -262,6 +271,21 @@ public class Register extends AppCompatActivity {
         }
 
         return retNames;
+    }
+
+    public static void initial()
+    {
+        currState = state.initial;
+    }
+
+    public static void instructor()
+    {
+        currState = state.instructor;
+    }
+
+    public static void student()
+    {
+        currState = state.student;
     }
 
 }

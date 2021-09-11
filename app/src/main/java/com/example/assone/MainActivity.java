@@ -27,19 +27,41 @@ public class MainActivity extends AppCompatActivity {
     private static Boolean loaded = false;
     private Graph pracGrader;
 
+    private enum state {
+        New,
+        initial,
+        used
+    }
+
+    private static state currState = state.New;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(!(loaded))
+        /*if(!(loaded))
         {
             pracGrader = new Graph();
         }
         else
         {
             pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
+        }*/
+
+        switch(currState)
+        {
+            case initial:
+                //the graph structure is coming from the graph structure
+                pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
+                break;
+            case used:
+                Log.i(TAG, "YET TO BE IMPLEMENTED");
+                break;
+            case New:
+                pracGrader = new Graph();
+                break;
         }
 
         //pracGrader = new Graph();
@@ -118,6 +140,21 @@ public class MainActivity extends AppCompatActivity {
         {
             loaded = true;
         }
+    }
+
+    public static void New()
+    {
+        currState = state.New;
+    }
+
+    public static void initial()
+    {
+        currState = state.initial;
+    }
+
+    public static void used()
+    {
+        currState = state.initial;
     }
 
     public static boolean getLoaded()
