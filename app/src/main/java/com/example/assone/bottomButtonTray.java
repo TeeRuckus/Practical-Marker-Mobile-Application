@@ -1,12 +1,16 @@
 package com.example.assone;
 
+import static android.R.color.transparent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +18,16 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class bottomButtonTray extends Fragment {
+
+    //all the UI elements which are found in the current fragment
+    private Button trayBttnOne;
+    private Button trayBttnTwo;
+    private Button trayBttnThree;
+    private Button leaveBttn;
+    private String currUser;
+    private Graph pracGrader;
+
+    private static final String TAG = "bottomButtonTray.";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +73,69 @@ public class bottomButtonTray extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bottom_button_tray, container, false);
+        View v = inflater.inflate(R.layout.fragment_bottom_button_tray, container, false);
+
+        //finding all the buttons which are on the screen
+        trayBttnOne = v.findViewById(R.id.trayBttnOne);
+        trayBttnTwo = v.findViewById(R.id.trayBttnTwo);
+        trayBttnThree = v.findViewById(R.id.trayBttnThree);
+        leaveBttn = v.findViewById(R.id.trayBttnFour);
+
+        //getting the information which was passed in from the userHomePage activity
+        currUser = getArguments().getString("currUser");
+        pracGrader = (Graph) getArguments().getSerializable("pracGrader");
+        char firstLetterCapital = myUtils.getType(currUser, pracGrader);
+
+        //firstLetterCapital = 'I';
+        switch(firstLetterCapital)
+        {
+            case 'A':
+                trayBttnOne.setText("Pracs");
+                trayBttnTwo.setText("Student");
+                trayBttnThree.setText("Tutors");
+
+                break;
+
+            case 'I':
+                disableThreeBttns();
+
+                break;
+
+            case 'S':
+                disableThreeBttns();
+
+                break;
+        }
+
+        leaveBttn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //what will leave when you click the leave button
+                UserHomePage.leave();
+                Log.i(TAG, "COMMAND IS SENT");
+
+            }
+        });
+
+        return v;
+
+        //when the leave button is pressed, the programme should go back to teh log in page
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public void disableThreeBttns()
+    {
+        trayBttnOne.setClickable(false);
+        trayBttnTwo.setClickable(false);
+        trayBttnThree.setClickable(false);
+        trayBttnOne.setText("");
+        trayBttnTwo.setText("");
+        trayBttnThree.setText("");
+        trayBttnOne.setBackgroundColor(transparent);
+        trayBttnTwo.setBackgroundColor(transparent);
+        trayBttnThree.setBackgroundColor(transparent);
+
+
+
     }
 }

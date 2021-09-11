@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         //getting all the UI element from the actuall applicatio
 
         //if an admin node doesn't exit, we should launch the registration activity and create an admin for the system
+        //TODO: refactor this code so it will be a switch case statement with an enumerator which is going to tell you waht state you're in
         if(adminNode == null)
         {
             Intent intent = new Intent(MainActivity.this, Register.class);
@@ -56,12 +57,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            logInBttn = findViewById(R.id.logInBttn);
-            userName = findViewById(R.id.userName_logIn);
-            passOne = findViewById(R.id.passOne);
-            passTwo = findViewById(R.id.passTwo);
-            passThree = findViewById(R.id.passThree);
-            passFour = findViewById(R.id.passFour);
+            getUIComponents();
             //if an admin exists you will want to be able to log in
 
             //only check if the user exist once the log in button has being pressed
@@ -69,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     String currUser = userName.getText().toString();
-                    errorUserName = findViewById(R.id.errorUser);
-                    errorPassword = findViewById(R.id.errorPassword);
 
                     try
                     {
@@ -85,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("pracGrader", pracGrader);
                         //we will need to know who the user is so we can grab their type in next activity and load appropriate fragments
                         intent.putExtra("currUser", currentUserName);
+                        UserHomePage.inUse();
                         startActivity(intent);
                     }
                     catch (IllegalArgumentException err)
@@ -98,6 +93,19 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    public void getUIComponents()
+    {
+        logInBttn = findViewById(R.id.logInBttn);
+        userName = findViewById(R.id.userName_logIn);
+        passOne = findViewById(R.id.passOne);
+        passTwo = findViewById(R.id.passTwo);
+        passThree = findViewById(R.id.passThree);
+        passFour = findViewById(R.id.passFour);
+        errorUserName = findViewById(R.id.errorUser);
+        errorPassword = findViewById(R.id.errorPassword);
+
     }
 
     public static void toggleLoaded()

@@ -1,5 +1,8 @@
 package com.example.assone;
 
+import static android.R.color.transparent;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -65,6 +68,7 @@ public class mainButtons extends Fragment {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,7 +84,46 @@ public class mainButtons extends Fragment {
         pracGrader = (Graph) getArguments().getSerializable("pracGrader");
         currUser = getArguments().getString("currUser");
 
+        //determing what buttons should be viewed with what text depeding on the user
+        char firstLetterCaptial = myUtils.getType(currUser, pracGrader);
+
+        //firstLetterCaptial = 'I';
+        switch (firstLetterCaptial)
+        {
+            case 'A':
+                optionOne.setText("Add");
+                optionTwo.setText("Edit");
+                optionThree.setText("Delete");
+                optionFour.setText("View");
+                break;
+            case 'I':
+                optionOne.setText("Edit");
+                optionTwo.setText("View");
+                disableBottomTwoBttns();
+
+                break;
+            case 'S':
+                optionOne.setText("Practicals");
+                optionTwo.setText("Summary");
+                disableBottomTwoBttns();
+
+                break;
+        }
+
 
         return v;
     }
+
+    @SuppressLint("ResourceAsColor")
+    public void disableBottomTwoBttns()
+    {
+        optionThree.setClickable(false);
+        optionFour.setClickable(false);
+        optionThree.setText("");
+        optionFour.setText("");
+        //setting the buttons transparent so they're no longer visible
+        optionThree.setBackgroundColor(transparent);
+        optionFour.setBackgroundColor(transparent);
+    }
+
 }

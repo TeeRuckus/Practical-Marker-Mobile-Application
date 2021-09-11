@@ -18,7 +18,7 @@
             android:layout_marginBottom="20dp"
             android:background="@color/dark_second"
             android:gravity="center"
-            android:text="Regsiter Admin"
+            android:text="Register Admin"
             android:textAllCaps="true"
             android:textColor="@color/paleNight_white"
             android:textSize="30dp" />
