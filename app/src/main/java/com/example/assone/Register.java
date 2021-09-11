@@ -6,6 +6,7 @@ package com.example.assone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import java.lang.reflect.Field;
 import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -45,6 +47,7 @@ public class Register extends AppCompatActivity {
     private String userIDStr;
     private String emailAddressStr;
     private int checks;
+    private TextView banner;
 
 
     private enum state {
@@ -101,28 +104,54 @@ public class Register extends AppCompatActivity {
                         valid = registerUser(newAdmin);
                         Admin createdAdmin = (Admin) newAdmin;
                         pracGrader.addVertex(createdAdmin);
+
+                        if(valid)
+                        {
+                            //MainActivity.toggleLoaded();
+                            MainActivity.initial();
+                            //we will need to update the name of the admin
+                            pracGrader.setAdmin(userNameStr);
+                            Intent intent = new Intent(Register.this, MainActivity.class);
+                            intent.putExtra("pracGrader", pracGrader);
+                            startActivity(intent);
+                        }
+
                         break;
 
                     case instructor:
-                        //TODO: add your code here when you're creating an instructor
+                        banner.setText("Create tutor");
+                        User newInstructor = new Instructor();
+                        valid = registerUser(newInstructor);
+                        Instructor createdInstructor = (Instructor) newInstructor;
+                        pracGrader.addVertex(createdInstructor);
+
+                        //showing the user that an instructor has being created
+                        if(valid)
+                        {
+                            Context cntx = getApplicationContext();
+                            CharSequence text = "Instructor created";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(cntx, text, duration);
+                            toast.show();
+
+                            //clearing all the input after the user has being created
+                            adminName.setText("");
+                            staffID.setText("");
+                            emailAddress.setText("");
+                            //TODO: you will need to also unclear the read text
+                            recreate();
+                        }
+
+
                         break;
 
                     case student:
+                        banner.setText("Create Student");
                         //TODO: add your code here when you're creating an instructor
                         break;
                 }
 
 
-                if(valid)
-                {
-                    //MainActivity.toggleLoaded();
-                    MainActivity.initial();
-                    //we will need to update the name of the admin
-                    pracGrader.setAdmin(userNameStr);
-                    Intent intent = new Intent(Register.this, MainActivity.class);
-                    intent.putExtra("pracGrader", pracGrader);
-                    startActivity(intent);
-                }
             }
         });
     }
@@ -213,6 +242,7 @@ public class Register extends AppCompatActivity {
         errorStaffID = findViewById(R.id.registerErrorStaffID);
         errorEmail = findViewById(R.id.registerErrorEmail);
         errorPassword = findViewById(R.id.errorPassword);
+        banner = findViewById(R.id.bannerRegister);
 
     }
     //all the helper methods for this activity

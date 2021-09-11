@@ -2,6 +2,7 @@ package com.example.assone;
 
 import static android.R.color.transparent;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,12 +77,7 @@ public class bottomButtonTray extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_bottom_button_tray, container, false);
-
-        //finding all the buttons which are on the screen
-        trayBttnOne = v.findViewById(R.id.trayBttnOne);
-        trayBttnTwo = v.findViewById(R.id.trayBttnTwo);
-        trayBttnThree = v.findViewById(R.id.trayBttnThree);
-        leaveBttn = v.findViewById(R.id.trayBttnFour);
+        findUIElements(v);
 
         //getting the information which was passed in from the userHomePage activity
         currUser = getArguments().getString("currUser");
@@ -94,6 +91,37 @@ public class bottomButtonTray extends Fragment {
                 trayBttnOne.setText("Pracs");
                 trayBttnTwo.setText("Student");
                 trayBttnThree.setText("Tutors");
+
+                trayBttnOne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //for the admin, this button is going to correspond to practicals hence need to put activity in practical mode
+                        UserHomePage.practical();
+                        getActivity().recreate();
+
+                    }
+                });
+
+                trayBttnTwo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //for the admin, this button is going to correspond to student hence need to put activity in student mode
+                        UserHomePage.student();
+                        getActivity().recreate();
+
+                    }
+                });
+
+                trayBttnThree.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //for the admin, this button is going to correspond to the tutor hence need to put activity into tutor mode
+                        UserHomePage.tutor();
+                        getActivity().recreate();
+                    }
+                });
+
+
 
                 break;
 
@@ -122,6 +150,16 @@ public class bottomButtonTray extends Fragment {
         return v;
 
         //when the leave button is pressed, the programme should go back to teh log in page
+    }
+
+    public void findUIElements(View v)
+    {
+        //finding all the buttons which are on the screen
+        trayBttnOne = v.findViewById(R.id.trayBttnOne);
+        trayBttnTwo = v.findViewById(R.id.trayBttnTwo);
+        trayBttnThree = v.findViewById(R.id.trayBttnThree);
+        leaveBttn = v.findViewById(R.id.trayBttnFour);
+
     }
 
     @SuppressLint("ResourceAsColor")

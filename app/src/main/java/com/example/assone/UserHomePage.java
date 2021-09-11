@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class UserHomePage extends AppCompatActivity {
 
@@ -22,7 +24,24 @@ public class UserHomePage extends AppCompatActivity {
             exit
     }
 
+    //this enum is really just for the admin, to tell the UI which mode it's going to be in
+    private enum mode {
+        add,
+        edit,
+        delete,
+        view
+    }
+
+    //this is more for the admin as well in relation to what use
+    private enum use {
+        practical,
+        student,
+        tutor
+    }
+
     private static state currState;
+    private static mode currMode;
+    private static use currUse;
 
     //all the class fields of the UI
     private TextView userDetails;
@@ -49,6 +68,65 @@ public class UserHomePage extends AppCompatActivity {
                     case 'A':
                         //the code for when the user is an admin
                         userDetails.setText("Admin - " + currUserName);
+
+
+                        Context cntx = getApplicationContext();
+                        CharSequence text;
+                        int duration;
+                        Toast toast;
+                        switch(currUse)
+                        {
+                            case practical:
+                                text = "practical selected";
+                                duration = Toast.LENGTH_SHORT;
+                                toast = Toast.makeText(cntx, text, duration);
+                                toast.show();
+                                break;
+
+                            case student:
+                                text = "Student Selected";
+                                duration = Toast.LENGTH_SHORT;
+                                toast = Toast.makeText(cntx, text, duration);
+                                toast.show();
+                                break;
+
+                            case tutor:
+                                text = "Tutor selected";
+                                duration = Toast.LENGTH_SHORT;
+                                toast = Toast.makeText(cntx, text, duration);
+                                toast.show();
+
+                                if(currMode == mode.add)
+                                {
+                                    Intent intent = new Intent(UserHomePage.this, Register.class);
+                                    intent.putExtra("pracGrader", pracGrader);
+                                    intent.putExtra("currUser", currUserName);
+                                    Register.instructor();
+                                    startActivity(intent);
+                                }
+
+                                break;
+                        }
+
+
+
+                        if(currMode == mode.edit)
+                        {
+
+                        }
+
+                        if(currMode == mode.delete)
+                        {
+
+                        }
+
+                        if(currMode == mode.view)
+                        {
+                            //launch my recylcler view to view people
+
+                        }
+
+                        //getting the type of action which will need to be done
                         break;
 
                     case 'I':
@@ -118,5 +196,40 @@ public class UserHomePage extends AppCompatActivity {
     public static void inUse()
     {
         currState = state.inUse;
+    }
+
+    public static void add()
+    {
+        currMode = mode.add;
+    }
+
+    public static void edit()
+    {
+        currMode = mode.edit;
+    }
+
+    public static void delete()
+    {
+        currMode = mode.delete;
+    }
+
+    public static void view()
+    {
+        currMode = mode.view;
+    }
+
+    public static void practical()
+    {
+        currUse = use.practical;
+    }
+
+    public static void student()
+    {
+        currUse = use.student;
+    }
+
+    public static void tutor()
+    {
+        currUse = use.tutor;
     }
 }

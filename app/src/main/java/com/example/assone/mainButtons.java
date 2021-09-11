@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class mainButtons extends Fragment {
     private Button optionFour;
     private Graph pracGrader;
     private String currUser;
+    private static final String TAG = "mainButtons.";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,21 +93,24 @@ public class mainButtons extends Fragment {
         switch (firstLetterCaptial)
         {
             case 'A':
-                optionOne.setText("Add");
-                optionTwo.setText("Edit");
-                optionThree.setText("Delete");
-                optionFour.setText("View");
-                break;
-            case 'I':
-                optionOne.setText("Edit");
-                optionTwo.setText("View");
-                disableBottomTwoBttns();
+                setAdmin();
+
+                //getting the type of action which will need to be performed
+                optionOne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserHomePage.add();
+                        getActivity().recreate();
+                        Log.i(TAG, "I am so ready to add something");
+                    }
+                });
 
                 break;
+            case 'I':
+                setInstructor();
+                break;
             case 'S':
-                optionOne.setText("Practicals");
-                optionTwo.setText("Summary");
-                disableBottomTwoBttns();
+                setStudent();
 
                 break;
         }
@@ -125,5 +130,28 @@ public class mainButtons extends Fragment {
         optionThree.setBackgroundColor(transparent);
         optionFour.setBackgroundColor(transparent);
     }
+
+    public void setAdmin()
+    {
+        optionOne.setText("Add");
+        optionTwo.setText("Edit");
+        optionThree.setText("Delete");
+        optionFour.setText("View");
+    }
+
+    public void setInstructor()
+    {
+        optionOne.setText("Edit");
+        optionTwo.setText("View");
+        disableBottomTwoBttns();
+    }
+
+    public void setStudent()
+    {
+        optionOne.setText("Practicals");
+        optionTwo.setText("Summary");
+        disableBottomTwoBttns();
+    }
+
 
 }

@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         //we will need to know who the user is so we can grab their type in next activity and load appropriate fragments
                         intent.putExtra("currUser", currentUserName);
                         UserHomePage.inUse();
+                        UserHomePage.tutor();
                         startActivity(intent);
                     }
                     catch (IllegalArgumentException err)
