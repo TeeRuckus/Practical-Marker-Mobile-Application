@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mainButtons">
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rowCount="2"
+        android:columnCount="2"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/optionOne"
+            android:layout_width="wrap_content"
+            android:text="option one"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="15dp"/>
+
+        <Button
+            android:id="@+id/optionTwo"
+            android:layout_width="wrap_content"
+            android:text="Option two"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="15dp"/>
+
+        <Button
+            android:id="@+id/optionThree"
+            android:layout_width="wrap_content"
+            android:text="option three"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="15dp"/>
+
+        <Button
+            android:id="@+id/optionFour"
+            android:layout_width="wrap_content"
+            android:text="option four"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="15dp"/>
+    </GridLayout>
+
+</FrameLayout>

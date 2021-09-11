@@ -70,6 +70,8 @@ public class myUtils extends AppCompatActivity
         put("UNITED KINGDOM", "uk");
         put("USA", "us");
         put("VIET NAM", "vn");
+        put("BANGLADESH", "bd");
+        put("BELGIUM", "be");
     }};
 
     private SQLiteDatabase db;
@@ -112,6 +114,18 @@ public class myUtils extends AppCompatActivity
 
     }
 
+    public static char getType(String currUserName, Graph inGraph)
+    {
+        Graph.Vertex currUser= inGraph.getVertex(currUserName);
+        String userType = currUser.getValue().getType();
+        return Character.toUpperCase(userType.charAt(0));
+    }
+
+
+    //-----------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------
 
     //joining two strings integers together to make a single integer
     public static int makePassword(int a, int b, int c, int d)
