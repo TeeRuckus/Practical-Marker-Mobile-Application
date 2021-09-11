@@ -20,7 +20,7 @@ import java.util.Set;
 public final class myUtils
 {
     //a look up table which we can use to find what the file code is for the current flag
-    private static final HashMap<String, String> countryLookUp = new HashMap<String, String>() {{
+    public static final HashMap<String, String> countryLookUp = new HashMap<String, String>() {{
         put("ANDORRO", "ad");
         put("UNITED ARAB EMIRATES", "ae");
         put("AFGHANISTAN", "af");
@@ -52,7 +52,7 @@ public final class myUtils
         put("ITALY", "it");
         put("JAPAN", "jp");
         put("LITHUANIA", "lt");
-        put("MEXIXO", "mx");
+        put("MEXICO", "mx");
         put("MALAYSIA", "my");
         put("NEEHTERLANDS", "nl");
         put("POLLAND", "pl");
@@ -65,16 +65,18 @@ public final class myUtils
 
     private SQLiteDatabase db;
 
-    public static String[] getCountryName()
+    public static String[] getCountryNames()
     {
         int amountNames = countryLookUp.size();
         String [] retCountrys = new String[amountNames];
 
         Set<String> keySet =  countryLookUp.keySet();
-        for (int ii = 0; ii < amountNames; ii++)
+        int ii = 0;
+        for(String currCountry: keySet)
         {
+            retCountrys[ii] = currCountry;
+            ii++;
         }
-
         return retCountrys;
     }
     //look up table for the country name which correspond to which country ID

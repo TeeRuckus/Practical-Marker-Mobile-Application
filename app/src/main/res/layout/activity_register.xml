@@ -92,34 +92,22 @@
             android:textColor="@color/paleNight_error"
             android:textSize="10dp" />
 
-        <EditText
-            android:id="@+id/adminCountry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@color/dark_second"
-            android:gravity="center"
-            android:hint="Country"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/paleNight_white"
-            android:textColorHint="@color/paleNight_yellow"
-            android:textSize="20dp" />
-
         <TextView
-            android:id="@+id/registerErrorCountry"
+            android:id="@+id/selectCountryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:text="Select a country"
+            android:textColor="@color/paleNight_white"
             android:gravity="center"
-            android:textAllCaps="true"
-            android:textColor="@color/paleNight_error"
-            android:textSize="10dp" />
+            android:textSize="15dp"/>
 
         <Spinner
             android:id="@+id/countryList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:background="@color/paleNight_foreground"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/paleNight_yellow"
+            android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/adminPassword"

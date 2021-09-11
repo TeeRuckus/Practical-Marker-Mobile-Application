@@ -1,3 +1,7 @@
+/*
+TODO: you can try to have flags next to the country names, when you're scrolling
+through the drop down menu which you have created
+ */
 package com.example.assone;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -20,13 +25,12 @@ public class Register extends AppCompatActivity {
     EditText adminName;
     EditText staffID;
     EditText emailAddress;
-    EditText country;
+    TextView country;
     EditText passWord;
     Button register;
     TextView errorName;
     TextView errorStaffID;
     TextView errorEmail;
-    TextView errorCountry;
     TextView errorPassword;
     Spinner countryFlags;
 
@@ -45,19 +49,30 @@ public class Register extends AppCompatActivity {
         adminName = (EditText) findViewById(R.id.adminName);
         staffID = (EditText) findViewById(R.id.adminUserName);
         emailAddress = (EditText) findViewById(R.id.adminEmail);
-        country = (EditText) findViewById(R.id.adminCountry);
         passWord = (EditText) findViewById(R.id.adminPassword);
         register = (Button) findViewById(R.id.registerBttn);
 
         errorName = (TextView) findViewById(R.id.registerErrorUser);
         errorStaffID = (TextView) findViewById(R.id.registerErrorStaffID);
         errorEmail = (TextView) findViewById(R.id.registerErrorEmail);
-        errorCountry = (TextView) findViewById(R.id.registerErrorCountry);
         errorPassword = (TextView) findViewById(R.id.errorPassword);
 
+        //TODO: you will need to refactor this code because the country is no longer a edit text, it's a text view
+        //when I see refactor it, I mean you will need to completely delete it
 
         //playing around with the spinner to see if I can display country flags
         countryFlags = (Spinner) findViewById(R.id.countryList);
+
+        //getting all the country flags from the look up table so we can display on the registration form
+        String[] flags = myUtils.getCountryNames();
+
+        //making an array adapter so we display the obtained country names as a drop down menu
+        ArrayAdapter<String> flagsAdapter = new ArrayAdapter<String>(Register.this,
+                android.R.layout.simple_list_item_1,flags);
+
+        //setting the items on the actual adapter
+        countryFlags.setAdapter(flagsAdapter);
+
 
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +85,6 @@ public class Register extends AppCompatActivity {
                 String adminNameStr = adminName.getText().toString();
                 String staffIDStr = staffID.getText().toString();
                 String emailAddressStr = emailAddress.getText().toString();
-                String countryStr = country.getText().toString();
                 String passWordStr = passWord.getText().toString();
                 String countryCode = "au";
 
@@ -117,24 +131,12 @@ public class Register extends AppCompatActivity {
                     errorEmail.setText("invalid email format");
                 }
 
-                try
-                {
-                    countryCode = myUtils.getCountryCode(countryStr);
-                    newAdmin.setCountry(countryStr);
-                    checks++;
-                    errorCountry.setText("");
-                }
-                catch (IllegalArgumentException err)
-                {
-                    //TODO: this is kinda of redantant, as you're required to create a drop down menu
-                    Log.i(TAG, err.getMessage());
-                    errorCountry.setText("Country doesn't exist");
-                }
+                //TODO: you will need to add code here to grab the text which was selected
 
                 //password, they is no need for validation as android studio is going to make sure that it's going to be a length of four
                 //TODO: you will need to come back and figure out what you will need to do for her, and actually get this working
 
-                if(checks == 4)
+                if(checks == 3)
                 {
                     valid = true;
                 }

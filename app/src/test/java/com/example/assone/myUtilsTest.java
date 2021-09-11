@@ -26,4 +26,18 @@ public class myUtilsTest
         assertEquals("country retrieval for brazil", actualTwo, myUtils.getCountryCode("brazil"));
         assertEquals("country retrieval for argentina", actualThree, myUtils.getCountryCode("argentina"));
     }
+
+    @Test
+    public void testGetCountryNames()
+    {
+        //getting the look up table from the class
+        Set<String> countries = myUtils.countryLookUp.keySet();
+        String [] returnedCountrys = myUtils.getCountryNames();
+
+        for (String key: countries)
+        {
+            boolean hasKey = Arrays.asList(returnedCountrys).contains(key);
+            assertTrue("returend list doesn't have key: "+key, hasKey);
+        }
+    }
 }
