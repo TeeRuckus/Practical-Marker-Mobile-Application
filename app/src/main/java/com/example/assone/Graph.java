@@ -164,17 +164,31 @@ public class Graph implements Serializable
     }
 
     private HashMap<String, Vertex> vertices;
+    private String currentAdmin = "ADMIN";
 
     //DEFAULT CONSTRUCTOR
     public Graph()
     {
         vertices = new HashMap<String, Vertex>();
-        vertices.put("ADMIN", null);
+        vertices.put(currentAdmin, null);
     }
 
     public int size()
     {
         return vertices.size();
+    }
+
+    public String getAdmin()
+    {
+        return new String(currentAdmin);
+    }
+
+    public void setAdmin(String inAdmin)
+    {
+        if(validateName(inAdmin))
+        {
+            this.currentAdmin = inAdmin;
+        }
     }
 
     //TODO: you will need to add more addVertex method for the other of vertex types which you can use in the programme
@@ -188,7 +202,7 @@ public class Graph implements Serializable
             vertices.put(key, newVert);
 
             //the instructor node is always going to be connected to the admin node
-            Vertex adminNode = vertices.get("ADMIN");
+            Vertex adminNode = vertices.get(currentAdmin);
             adminNode.connections.put(myUtils.cleanString(inInstrucor.getName()), newVert);
         }
     }
@@ -203,7 +217,7 @@ public class Graph implements Serializable
             vertices.put(key, newVert);
 
             //if a vertex is not added with an owning instructor, the node is going to be attached to the admin node
-            Vertex adminNode = vertices.get("ADMIN");
+            Vertex adminNode = vertices.get(currentAdmin);
             adminNode.connections.put(myUtils.cleanString(inStudent.getName()), newVert);
         }
     }
@@ -231,15 +245,15 @@ public class Graph implements Serializable
         //they is going ot be null at the current location
         if(rootExists())
         {
-            Vertex adminVert = new Vertex("ADMIN", inAdmin);
-            vertices.replace("ADMIN", adminVert);
+            Vertex adminVert = new Vertex(currentAdmin, inAdmin);
+            vertices.replace(currentAdmin, adminVert);
         }
     }
 
     //no arguments is going to assumme to get what is at the admin vertex
     public Vertex getVertex()
     {
-        return vertices.get("ADMIN");
+        return vertices.get(currentAdmin);
     }
 
     public Vertex getVertex(String inVertex)
@@ -296,7 +310,7 @@ public class Graph implements Serializable
             //need to check if the current need is going to be an instructor node for deletion from the admin vertices
             if(currVert.getType().equals("INSTRUCTOR"))
             {
-                Vertex adminNode = vertices.get("ADMIN");
+                Vertex adminNode = vertices.get(currentAdmin);
                 adminNode.connections.remove(key);
             }
 
@@ -309,7 +323,7 @@ public class Graph implements Serializable
             Set<String> keys = currVert.connections.keySet();
 
             //grabbing the admin node
-            Vertex adminNode = vertices.get("ADMIN");
+            Vertex adminNode = vertices.get(currentAdmin);
 
             //going through everything which the to be deleted node was attached too, and attaching to admin node
             for (String currKey : keys)
@@ -389,7 +403,7 @@ public class Graph implements Serializable
     {
         boolean valid = true;
         //grab what is at the curren root place
-        Vertex rootNode = vertices.get("ADMIN");
+        Vertex rootNode = vertices.get(currentAdmin);
         if(rootNode == null)
         {
             throw new IllegalArgumentException("ERROR: they is admin, must create admin first");
@@ -401,7 +415,7 @@ public class Graph implements Serializable
     {
         boolean valid = true;
         //if they is something here, it means that an admin node has already being created
-        if(vertices.get("ADMIN") != null)
+        if(vertices.get(currentAdmin) != null)
         {
             throw new IllegalArgumentException("ERORR: an admin already exist for this application");
         }
@@ -416,6 +430,17 @@ public class Graph implements Serializable
         {
             throw new IllegalArgumentException("Error: vertex " + key  + " does not exist in graph");
         }
+        return valid;
+    }
+
+    private boolean validateName(String inName)
+    {
+        boolean valid = true;
+        if (inName.length() == 0)
+        {
+            throw new IllegalArgumentException("ERROR: please enter a valid name");
+        }
+
         return valid;
     }
 

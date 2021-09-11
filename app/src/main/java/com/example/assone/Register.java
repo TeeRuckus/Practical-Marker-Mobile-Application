@@ -77,9 +77,14 @@ public class Register extends AppCompatActivity {
         //myUtils utils = new myUtils();
         ArrayList<Flag> allFlags = loadFlags();
 
+        /*
+        TODO: you will need to come back and set an click listener so you can get the country which was selected
+            - you will have to keep in mind that you have used a base adapter to do your things
+         */
         spinnerFlags = (Spinner) findViewById(R.id.countryList_spinner);
         adapterFlag = new FlagAdapter(Register.this, allFlags);
         spinnerFlags.setAdapter(adapterFlag);
+
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,12 +142,14 @@ public class Register extends AppCompatActivity {
                     errorEmail.setText("invalid email format");
                 }
 
-                //TODO: you will need to add code here to grab the text which was selected
+                //TODO: you will need to add code here to grab the text which was selected from the drop down menu
+                newAdmin.setCountry("AUSTRALIA");
 
                 //password, they is no need for validation as android studio is going to make sure that it's going to be a length of four
                 //TODO: you will need to come back and figure out what you will need to do for her, and actually get this working
 
-                if(checks == 3)
+                //TODO: you will need to change this back to 3, I am just setting it to 0 so that I don't have to type anything in
+                if(checks == 0)
                 {
                     valid = true;
                 }
