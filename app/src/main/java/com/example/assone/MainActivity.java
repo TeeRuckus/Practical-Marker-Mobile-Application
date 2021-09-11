@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 //the graph structure is coming from the graph structure
                 pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
                 break;
-            case used:
-                Log.i(TAG, "YET TO BE IMPLEMENTED");
-                break;
             case New:
                 pracGrader = new Graph();
                 break;
@@ -75,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(MainActivity.this, Register.class);
             intent.putExtra("pracGrader", pracGrader);
+            Register.initial();
             startActivity(intent);
         }
         else
@@ -130,18 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static void toggleLoaded()
-    {
-        if(loaded)
-        {
-            loaded = false;
-        }
-        else
-        {
-            loaded = true;
-        }
-    }
-
     public static void New()
     {
         currState = state.New;
@@ -151,16 +137,4 @@ public class MainActivity extends AppCompatActivity {
     {
         currState = state.initial;
     }
-
-    public static void used()
-    {
-        currState = state.initial;
-    }
-
-    public static boolean getLoaded()
-    {
-        return loaded;
-    }
-
-
 }

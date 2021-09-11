@@ -41,6 +41,11 @@ public class Register extends AppCompatActivity {
     private TextView errorPassword;
     private Spinner spinnerFlags;
     private FlagAdapter adapterFlag;
+    private String userNameStr;
+    private String userIDStr;
+    private String emailAddressStr;
+    private int checks;
+
 
     private enum state {
         initial,
@@ -62,18 +67,7 @@ public class Register extends AppCompatActivity {
         //grabbing the graph data Structure which was created in the main activity
         pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
 
-        //finding all the UI elements
-        adminName = (EditText) findViewById(R.id.adminName);
-        staffID = (EditText) findViewById(R.id.adminUserName);
-        emailAddress = (EditText) findViewById(R.id.adminEmail);
-        passWord = (EditText) findViewById(R.id.adminPassword);
-        register = (Button) findViewById(R.id.registerBttn);
-
-        errorName = (TextView) findViewById(R.id.registerErrorUser);
-        errorStaffID = (TextView) findViewById(R.id.registerErrorStaffID);
-        errorEmail = (TextView) findViewById(R.id.registerErrorEmail);
-        errorPassword = (TextView) findViewById(R.id.errorPassword);
-
+        getUIElements();
         //TODO: you will need to refactor this code because the country is no longer a edit text, it's a text view
         //when I see refactor it, I mean you will need to completely delete it
 
@@ -98,79 +92,33 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean valid = false;
-                int checks = 0;
+                getFields();
 
-                //getting the texts from the UI elements
-                String adminNameStr = adminName.getText().toString();
-                String staffIDStr = staffID.getText().toString();
-                String emailAddressStr = emailAddress.getText().toString();
-                String passWordStr = passWord.getText().toString();
-                String countryCode = "au";
-
-                //going to set the class fields individually, as they're all goign to through the same exeption, so
-                //the setting condition is going to detemine what is wrong with the programme
-
-
-                Admin newAdmin = new Admin();
-
-                try
+                switch (currState)
                 {
-                    newAdmin.setName(adminNameStr);
-                    checks++;
-                    errorName.setText("");
-                }
-                catch (IllegalArgumentException err)
-                {
-                    Log.i(TAG, err.getMessage());
-                    errorName.setText("username cannot be blank");
-                    //display meaningful information
-                }
+                    case initial:
+                        User newAdmin = new Admin();
+                        valid = registerUser(newAdmin);
+                        Admin createdAdmin = (Admin) newAdmin;
+                        pracGrader.addVertex(createdAdmin);
+                        break;
 
-                try
-                {
-                    newAdmin.setUserName(staffIDStr);
-                    checks++;
-                    errorStaffID.setText("");
-                }
-                catch (IllegalArgumentException err)
-                {
-                    Log.i(TAG, err.getMessage());
-                    errorStaffID.setText("Staff ID must be 6 digits then letter");
-                }
+                    case instructor:
+                        //TODO: add your code here when you're creating an instructor
+                        break;
 
-                try
-                {
-                    newAdmin.setEmail(emailAddressStr);
-                    checks++;
-                    errorEmail.setText("");
+                    case student:
+                        //TODO: add your code here when you're creating an instructor
+                        break;
                 }
-                catch (IllegalArgumentException err)
-                {
-                    Log.i(TAG, err.getMessage());
-                    errorEmail.setText("invalid email format");
-                }
-
-                //TODO: you will need to add code here to grab the text which was selected from the drop down menu
-                newAdmin.setCountry("AUSTRALIA");
-
-                //password, they is no need for validation as android studio is going to make sure that it's going to be a length of four
-                //TODO: you will need to come back and figure out what you will need to do for her, and actually get this working
-
-                //TODO: you will need to change this back to 3, I am just setting it to 0 so that I don't have to type anything in
-                if(checks == 1)
-                {
-                    valid = true;
-                }
-                Log.i(TAG, "the current check is here: " + checks);
 
 
                 if(valid)
                 {
                     //MainActivity.toggleLoaded();
                     MainActivity.initial();
-                    pracGrader.addVertex(newAdmin);
                     //we will need to update the name of the admin
-                    pracGrader.setAdmin(adminNameStr);
+                    pracGrader.setAdmin(userNameStr);
                     Intent intent = new Intent(Register.this, MainActivity.class);
                     intent.putExtra("pracGrader", pracGrader);
                     startActivity(intent);
@@ -179,7 +127,102 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    public static void initial()
+    {
+        currState = state.initial;
+    }
+
+    public static void instructor()
+    {
+        currState = state.instructor;
+    }
+
+    public static void student()
+    {
+        currState = state.student;
+    }
+
+
+    public boolean registerUser(User inUser)
+    {
+        boolean valid = false;
+
+        try
+        {
+            inUser.setName(userNameStr);
+            checks++;
+            errorName.setText("");
+        }
+        catch (IllegalArgumentException err)
+        {
+            Log.i(TAG, err.getMessage());
+            errorName.setText("username cannot be blank");
+            //display meaningful information
+        }
+
+        try
+        {
+            inUser.setUserName(userIDStr);
+            checks++;
+            errorStaffID.setText("");
+        }
+        catch (IllegalArgumentException err)
+        {
+            Log.i(TAG, err.getMessage());
+            errorStaffID.setText("Staff ID must be 6 digits then letter");
+        }
+
+        try
+        {
+            inUser.setEmail(emailAddressStr);
+            checks++;
+            errorEmail.setText("");
+        }
+        catch (IllegalArgumentException err)
+        {
+            Log.i(TAG, err.getMessage());
+            errorEmail.setText("invalid email format");
+        }
+
+        //TODO: you will need to add code here to grab the text which was selected from the drop down menu
+        inUser.setCountry("AUSTRALIA");
+
+        //password, they is no need for validation as android studio is going to make sure that it's going to be a length of four
+        //TODO: you will need to come back and figure out what you will need to do for her, and actually get this working
+
+        //TODO: you will need to change this back to 3, I am just setting it to 0 so that I don't have to type anything in
+        if(checks == 1)
+        {
+            valid = true;
+        }
+        Log.i(TAG, "the current check is here: " + checks);
+
+        return valid;
+    }
+
+    public void getUIElements()
+    {
+        //finding all the UI elements
+        adminName = findViewById(R.id.adminName);
+        staffID = findViewById(R.id.adminUserName);
+        emailAddress = findViewById(R.id.adminEmail);
+        passWord = findViewById(R.id.adminPassword);
+        register = findViewById(R.id.registerBttn);
+
+        errorName = findViewById(R.id.registerErrorUser);
+        errorStaffID = findViewById(R.id.registerErrorStaffID);
+        errorEmail = findViewById(R.id.registerErrorEmail);
+        errorPassword = findViewById(R.id.errorPassword);
+
+    }
     //all the helper methods for this activity
+    public void getFields()
+    {
+        //getting the texts from the UI elements
+         userNameStr = adminName.getText().toString();
+         userIDStr = staffID.getText().toString();
+         emailAddressStr = emailAddress.getText().toString();
+    }
 
     //PURPOSE: to be able to reverse search in the look up table, so we can obtain a key from the value
     public String getKey(String code)
@@ -272,20 +315,4 @@ public class Register extends AppCompatActivity {
 
         return retNames;
     }
-
-    public static void initial()
-    {
-        currState = state.initial;
-    }
-
-    public static void instructor()
-    {
-        currState = state.instructor;
-    }
-
-    public static void student()
-    {
-        currState = state.student;
-    }
-
 }

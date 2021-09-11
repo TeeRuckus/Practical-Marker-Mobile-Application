@@ -2,6 +2,7 @@ package com.example.assone;
 
 import static android.R.color.transparent;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -113,7 +114,8 @@ public class bottomButtonTray extends Fragment {
                 //what will leave when you click the leave button
                 UserHomePage.leave();
                 Log.i(TAG, "COMMAND IS SENT");
-
+                //I want to reload the activity so that the new changes can be actually rendered in the application
+                getActivity().recreate();
             }
         });
 

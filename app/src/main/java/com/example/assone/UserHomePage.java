@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -64,9 +65,9 @@ public class UserHomePage extends AppCompatActivity {
                 break;
 
             case exit:
-                //going back to the log in scree, with the current informaiton of the graph
-                Log.i(TAG, "I AM READY TO LEAVE NIGGA");
-
+                Intent intent = new Intent(UserHomePage.this, MainActivity.class);
+                intent.putExtra("pracGrader", pracGrader);
+                startActivity(intent);
                 break;
             default:
                 Log.i(TAG, "I THINK I DID'T GET THE INVITE");
