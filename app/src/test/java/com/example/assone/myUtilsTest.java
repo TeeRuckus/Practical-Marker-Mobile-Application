@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
@@ -40,4 +41,23 @@ public class myUtilsTest
             assertTrue("returend list doesn't have key: "+key, hasKey);
         }
     }
+
+    //I don't think that I can actually test this method herre because it depends on android studio
+    /*@Test
+    public void testLoadImage()
+    {
+        myUtils utils = new myUtils();
+
+        ArrayList<Flag> allFLags = utils.loadFlags();
+        Set<String> actualFlags = myUtils.countryLookUp.keySet();
+
+
+        for (Flag currFlag : allFLags)
+        {
+            boolean hasKey = actualFlags.contains(currFlag.getName());
+            assertTrue("laod flags doesn't have flag: " + currFlag, hasKey);
+        }
+
+    }*/
+
 }

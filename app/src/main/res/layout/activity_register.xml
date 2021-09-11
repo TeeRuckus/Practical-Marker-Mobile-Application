@@ -102,7 +102,7 @@
             android:textSize="15dp"/>
 
         <Spinner
-            android:id="@+id/countryList"
+            android:id="@+id/countryList_spinner"
             android:background="@color/paleNight_foreground"
             android:layout_width="wrap_content"
             android:layout_gravity="center"

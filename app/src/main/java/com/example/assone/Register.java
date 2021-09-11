@@ -15,32 +15,41 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import java.lang.reflect.Field;
+import android.graphics.drawable.Drawable;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class Register extends AppCompatActivity {
 
     private static final String TAG = "register.";
-    Graph pracGrader;
-    EditText adminName;
-    EditText staffID;
-    EditText emailAddress;
-    TextView country;
-    EditText passWord;
-    Button register;
-    TextView errorName;
-    TextView errorStaffID;
-    TextView errorEmail;
-    TextView errorPassword;
-    Spinner countryFlags;
-
-
+    //all the UI elements of this activity
+    private Graph pracGrader;
+    private EditText adminName;
+    private EditText staffID;
+    private EditText emailAddress;
+    private TextView country;
+    private EditText passWord;
+    private Button register;
+    private TextView errorName;
+    private TextView errorStaffID;
+    private TextView errorEmail;
+    private TextView errorPassword;
+    private Spinner spinnerFlags;
+    private FlagAdapter adapterFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+
+        //TODO: you will need to have a swithc case statement which will tell it what to display dependent on the user which is using the applicaiton
 
         //grabbing the graph data Structure which was created in the main activity
         pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
@@ -60,20 +69,17 @@ public class Register extends AppCompatActivity {
         //TODO: you will need to refactor this code because the country is no longer a edit text, it's a text view
         //when I see refactor it, I mean you will need to completely delete it
 
-        //playing around with the spinner to see if I can display country flags
-        countryFlags = (Spinner) findViewById(R.id.countryList);
 
         //getting all the country flags from the look up table so we can display on the registration form
         String[] flags = myUtils.getCountryNames();
 
-        //making an array adapter so we display the obtained country names as a drop down menu
-        ArrayAdapter<String> flagsAdapter = new ArrayAdapter<String>(Register.this,
-                android.R.layout.simple_list_item_1,flags);
+        //creating and laoding the flag list
+        //myUtils utils = new myUtils();
+        ArrayList<Flag> allFlags = loadFlags();
 
-        //setting the items on the actual adapter
-        countryFlags.setAdapter(flagsAdapter);
-
-
+        spinnerFlags = (Spinner) findViewById(R.id.countryList_spinner);
+        adapterFlag = new FlagAdapter(Register.this, allFlags);
+        spinnerFlags.setAdapter(adapterFlag);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,4 +160,99 @@ public class Register extends AppCompatActivity {
             }
         });
     }
+
+    //all the helper methods for this activity
+
+    //PURPOSE: to be able to reverse search in the look up table, so we can obtain a key from the value
+    public String getKey(String code)
+    {
+        //TODO: unfortunately this is going to be a linear search. Find a way to improve time complexity
+        //grabbing all the keys which are going to be in the look up table
+        Set<String> currKeys = myUtils.countryLookUp.keySet();
+
+        for(String entry : currKeys)
+        {
+            String currCode = myUtils.countryLookUp.get(entry);
+            if(currCode.equals(code))
+            {
+                //foundKey = entry;
+                // I having a return here because I don't want to go through the whole list, once item is found end
+                return entry;
+            }
+
+        }
+
+        return null;
+    }
+
+    /*
+    PURPOSE: to create a list of all the possible flags whcih the progarmme can have
+        - this function needs to be non static because it's going to use some methods from its parent
+        class, and those methods are non static methods
+     */
+    public ArrayList<Flag> loadFlags()
+    {
+        ArrayList<Flag> retFlag = new ArrayList<>();
+        List<String> flagNames = getImageNames();
+        List<Integer> drawableIDs = getImagesDrawableID(flagNames);
+        int ii = 0;
+
+        //going through every flag name and making a flag object and returning it
+        for (String currName : flagNames)
+        {
+            //getting what the country code is going to be so we reverse search it in our look up table
+            String[] nameDetails = currName.split("_");
+
+            //the second element is going to be the flags country code
+            String flagName = getKey(nameDetails[1]);
+
+            //the flag names, and the drawable ideas are going to be ordered
+            int currentID = drawableIDs.get(ii);
+            Flag currentFlag = new Flag(flagName, currentID);
+            if (flagName != null)
+            {
+                //only add the flags which we found the key for
+                retFlag.add(currentFlag);
+            }
+            ii++;
+        }
+
+        return retFlag;
+    }
+
+    //PURPOSE: to get the drawable ids given a list of drawable file names
+    public List<Integer> getImagesDrawableID(List<String> inIDs)
+    {
+        ArrayList<Integer> retListImages = new ArrayList<>();
+
+        //actually going through all the resource folders and getting the drawable integer numbers
+        for(String currID : inIDs)
+        {
+            int resID = getResources().getIdentifier(currID, "drawable", getPackageName());
+            retListImages.add(resID);
+        }
+
+        return retListImages;
+    }
+
+    public List<String> getImageNames()
+    {
+        ArrayList<String> retNames = new ArrayList<>();
+        Field[] drawables = com.example.assone.R.drawable.class.getFields();
+        ArrayList<Drawable>  drawableResources = new ArrayList<>();
+
+        for (Field field : drawables)
+        {
+            //we want to grab every single file which is going to begin with the word flag
+            String[] nameOfField  = field.getName().split("_");
+
+            if (nameOfField[0].trim().equals("flag"))
+            {
+                retNames.add(field.getName());
+            }
+        }
+
+        return retNames;
+    }
+
 }

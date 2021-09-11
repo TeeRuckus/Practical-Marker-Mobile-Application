@@ -5,20 +5,29 @@ TODO:
  */
 package com.example.assone;
 
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
 import static java.util.Map.entry;
 import com.example.assone.PasswordSchema.PassWordTable;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.lang.reflect.Field;
 import java.util.Set;
 
 /*
     my utility class which are going to have common functions which are used in the programme
  */
-public final class myUtils
+
+//need to make it inheret from appcompat activity, so I can use some of the app functionalities
+//public final class myUtils
+public class myUtils extends AppCompatActivity
 {
+
     //a look up table which we can use to find what the file code is for the current flag
     public static final HashMap<String, String> countryLookUp = new HashMap<String, String>() {{
         put("ANDORRO", "ad");
@@ -65,6 +74,12 @@ public final class myUtils
 
     private SQLiteDatabase db;
 
+    public myUtils()
+    {
+        //we want it to load with nothing in it
+    }
+
+
     public static String[] getCountryNames()
     {
         int amountNames = countryLookUp.size();
@@ -96,6 +111,7 @@ public final class myUtils
         return retString;
 
     }
+
 
     //joining two strings integers together to make a single integer
     public static int makePassword(int a, int b, int c, int d)
