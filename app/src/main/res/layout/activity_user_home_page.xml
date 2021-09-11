@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/paleNight_background"
+    tools:context=".UserHomePage">
+    
+    <LinearLayout
+        android:id="@+id/first_ll_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/paleNight_white"
+            android:background="@color/dark_second"
+            android:text="Welcome"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textSize="50dp"
+            android:layout_marginBottom="10dp"/>
+        
+        <TextView
+            android:id="@+id/userDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FirstName SecondName"
+            android:gravity="center"
+            android:background="@color/paleNight_secondary_background"
+            android:textColor="@color/paleNight_ascent_color"
+            android:textSize="25dp"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/mainHomeArea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/paleNight_foreground"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/first_ll_home"
+        app:layout_constraintBottom_toTopOf="@id/buttonCluster" />
+
+    <FrameLayout
+        android:id="@+id/buttonCluster"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/dark_second"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/mainHomeArea"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

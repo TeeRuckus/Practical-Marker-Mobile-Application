@@ -8,6 +8,9 @@ TODO:
 
 package com.example.assone;
 import static com.example.assone.myUtils.cleanString;
+
+import android.util.Log;
+
 import java.io.Serializable;
 
 import java.util.*;
@@ -163,6 +166,7 @@ public class Graph implements Serializable
 
     }
 
+    private static final String TAG = "MainActivity.";
     private HashMap<String, Vertex> vertices;
     private String currentAdmin = "ADMIN";
 
@@ -187,7 +191,21 @@ public class Graph implements Serializable
     {
         if(validateName(inAdmin))
         {
-            this.currentAdmin = inAdmin;
+
+            //once you update the admin, you will have to change the current node
+            Vertex currAdmin = getVertex();
+            currAdmin.setKey(inAdmin);
+            Vertex copyAdmin = new Vertex(currAdmin);
+
+            //removing the old admin
+            vertices.remove(currentAdmin);
+            inAdmin = myUtils.cleanString(inAdmin);
+
+            //put the new admin node into the graph with the new name
+            currentAdmin = inAdmin;
+
+            vertices.put(inAdmin, copyAdmin);
+
         }
     }
 

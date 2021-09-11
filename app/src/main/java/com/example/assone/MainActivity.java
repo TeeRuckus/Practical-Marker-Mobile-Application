@@ -3,6 +3,7 @@ package com.example.assone;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     String currUser = userName.getText().toString();
+                    errorUserName = findViewById(R.id.errorUser);
+                    errorPassword = findViewById(R.id.errorPassword);
 
                     try
                     {
@@ -77,12 +80,15 @@ public class MainActivity extends AppCompatActivity {
                         errorPassword.setText("");
 
                         //launch the next activity, alongside who the current user is going to be
-                        //String currentUserName =  userNode.getKey();
+                        String currentUserName =  userNode.getKey();
+                        Intent intent = new Intent(MainActivity.this, UserHomePage.class);
+                        intent.putExtra("pracGrader", pracGrader);
+                        //we will need to know who the user is so we can grab their type in next activity and load appropriate fragments
+                        intent.putExtra("currUser", currentUserName);
+                        startActivity(intent);
                     }
                     catch (IllegalArgumentException err)
                     {
-                        errorUserName = findViewById(R.id.errorUser);
-                        errorPassword = findViewById(R.id.errorPassword);
                         errorUserName.setText("User Doesn't exist");
                         errorPassword.setText("yet to be implemented");
                     }

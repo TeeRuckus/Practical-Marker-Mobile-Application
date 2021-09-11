@@ -149,7 +149,7 @@ public class Register extends AppCompatActivity {
                 //TODO: you will need to come back and figure out what you will need to do for her, and actually get this working
 
                 //TODO: you will need to change this back to 3, I am just setting it to 0 so that I don't have to type anything in
-                if(checks == 0)
+                if(checks == 1)
                 {
                     valid = true;
                 }
@@ -160,6 +160,8 @@ public class Register extends AppCompatActivity {
                 {
                     MainActivity.toggleLoaded();
                     pracGrader.addVertex(newAdmin);
+                    //we will need to update the name of the admin
+                    pracGrader.setAdmin(adminNameStr);
                     Intent intent = new Intent(Register.this, MainActivity.class);
                     intent.putExtra("pracGrader", pracGrader);
                     startActivity(intent);
