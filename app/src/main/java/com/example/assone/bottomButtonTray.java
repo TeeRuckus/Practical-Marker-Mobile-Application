@@ -97,6 +97,8 @@ public class bottomButtonTray extends Fragment {
                     public void onClick(View view) {
                         //for the admin, this button is going to correspond to practicals hence need to put activity in practical mode
                         UserHomePage.practical();
+                        /* we will need to refresh the activity so that the page can process the new
+                        information which was passed from this activity */
                         getActivity().recreate();
 
                     }
@@ -107,8 +109,9 @@ public class bottomButtonTray extends Fragment {
                     public void onClick(View view) {
                         //for the admin, this button is going to correspond to student hence need to put activity in student mode
                         UserHomePage.student();
+                        /* we will need to refresh the activity so that the page can process the new
+                        information which was passed from this activity */
                         getActivity().recreate();
-
                     }
                 });
 
@@ -117,6 +120,8 @@ public class bottomButtonTray extends Fragment {
                     public void onClick(View view) {
                         //for the admin, this button is going to correspond to the tutor hence need to put activity into tutor mode
                         UserHomePage.tutor();
+                        /* we will need to refresh the activity so that the page can process the new
+                        information which was passed from this activity */
                         getActivity().recreate();
                     }
                 });
@@ -126,6 +131,8 @@ public class bottomButtonTray extends Fragment {
                 break;
 
             case 'I':
+                trayBttnTwo.setText("Pracs");
+                trayBttnThree.setText("Students");
                 disableThreeBttns();
 
                 break;

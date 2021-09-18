@@ -13,26 +13,35 @@ import android.widget.Toast;
 
 public class UserHomePage extends AppCompatActivity {
 
+    //all the class fields of the UI
     private Graph pracGrader;
     private String currUserName;
     private FragmentManager fm;
     private static final String TAG = "userHomePage.";
     private mainButtons mainBttnsFrag;
     private bottomButtonTray bottomBttnsFrag;
+    private TextView userDetails;
+
+    /*this is to allow communication between the between the bottom tray of buttons, and this activity
+    therefore, if the state is changed in the bottom tray button fragment this activity is going to
+    change activities back to the log in screen
+     */
     private enum state {
             inUse,
             exit
     }
 
-    //this enum is really just for the admin, to tell the UI which mode it's going to be in
+    //this enum to tell the activity which mode they're going to be in. This is going to be mainly
+    //used by the admin and the tutors
     private enum mode {
         add,
         edit,
         delete,
-        view
+        view,
+        none
     }
 
-    //this is more for the admin as well in relation to what use
+    //the enum is to keep a track on what thing the current mode is going to be apply too
     private enum use {
         practical,
         student,
@@ -43,8 +52,6 @@ public class UserHomePage extends AppCompatActivity {
     private static mode currMode;
     private static use currUse;
 
-    //all the class fields of the UI
-    private TextView userDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,25 +62,22 @@ public class UserHomePage extends AppCompatActivity {
         pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
         currUserName = getIntent().getStringExtra("currUser");
 
-        //currState = state.inUse;
         switch (currState)
         {
             case inUse:
                 setUpFragments();
                 userDetails = findViewById(R.id.userDetails);
                 char firstLetterCaptial = myUtils.getType(currUserName, pracGrader);
-                //firstLetterCaptial = 'I';
+                Context cntx = getApplicationContext();
+                CharSequence text;
+                int duration;
+                Toast toast;
+
                 switch(firstLetterCaptial)
                 {
                     case 'A':
-                        //the code for when the user is an admin
                         userDetails.setText("Admin - " + currUserName);
 
-
-                        Context cntx = getApplicationContext();
-                        CharSequence text;
-                        int duration;
-                        Toast toast;
                         switch(currUse)
                         {
                             case practical:
@@ -96,14 +100,24 @@ public class UserHomePage extends AppCompatActivity {
                                 toast = Toast.makeText(cntx, text, duration);
                                 toast.show();
 
-                                if(currMode == mode.add)
+                                switch(currMode)
+                                {
+                                    case add:
+                                        Intent intent = new Intent(UserHomePage.this, Register.class);
+                                        intent.putExtra("pracGrader", pracGrader);
+                                        intent.putExtra("currUser", currUserName);
+                                        Register.instructor();
+                                        startActivity(intent);
+                                        break;
+                                }
+                                /*if(currMode == mode.add)
                                 {
                                     Intent intent = new Intent(UserHomePage.this, Register.class);
                                     intent.putExtra("pracGrader", pracGrader);
                                     intent.putExtra("currUser", currUserName);
                                     Register.instructor();
                                     startActivity(intent);
-                                }
+                                }*/
 
                                 break;
                         }
@@ -157,7 +171,8 @@ public class UserHomePage extends AppCompatActivity {
 
     public void setUpFragments()
     {
-        //attaching the appropriate fragments for teh admin
+        //TODO: maybe this is a good place where you might want to recreate your whole entire current activity
+        //attaching the appropriate fragments for the admin
         fm = getSupportFragmentManager();
         mainBttnsFrag = (mainButtons) fm.findFragmentById(R.id.mainHomeArea);
         bottomBttnsFrag = (bottomButtonTray) fm.findFragmentById(R.id.buttonCluster);
@@ -166,25 +181,25 @@ public class UserHomePage extends AppCompatActivity {
         mainBttnsFrag = new mainButtons();
         bottomBttnsFrag = new bottomButtonTray();
 
-        //staging for the data I want to pass into teh fragment
+        //staging for the data I want to pass into the fragment
         Bundle argsMainBttn = new Bundle();
         Bundle argsCluster = new Bundle();
 
-        //TODO: the bottom button cluster doesn't even need the prac grader to be passed into it
+        //passing the necessary information to the main buttons fragment
         argsMainBttn.putString("currUser", currUserName);
         argsMainBttn.putSerializable("pracGrader", pracGrader);
 
+        //passing the necessary infromation which is needed to the bottom buttons
         argsCluster.putString("currUser", currUserName);
         argsCluster.putSerializable("pracGrader", pracGrader);
 
-        //sending all the data off into the fragments
+        //sending all the data off into there respective fragments
         mainBttnsFrag.setArguments(argsMainBttn);
         bottomBttnsFrag.setArguments(argsCluster);
 
+        //actually finalising the fragments which were created
         fm.beginTransaction().add(R.id.mainHomeArea, mainBttnsFrag).commit();
         fm.beginTransaction().add(R.id.buttonCluster, bottomBttnsFrag).commit();
-
-
     }
 
     public static void leave()
@@ -217,6 +232,8 @@ public class UserHomePage extends AppCompatActivity {
     {
         currMode = mode.view;
     }
+
+    public static void none() {currMode = mode.none;}
 
     public static void practical()
     {

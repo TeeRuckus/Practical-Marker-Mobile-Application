@@ -31,6 +31,7 @@ public class Register extends AppCompatActivity {
     private static final String TAG = "register.";
     //all the UI elements of this activity
     private Graph pracGrader;
+    private String currUser;
     private EditText adminName;
     private EditText staffID;
     private EditText emailAddress;
@@ -59,6 +60,33 @@ public class Register extends AppCompatActivity {
     private static state currState;
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        /*depending on what state which we're going to be in, we want
+        to call teh activity which called us here
+         */
+        switch(currState)
+        {
+            case initial:
+                //do nothing as I don't want this button to do anything
+                //at teh current moement
+                break;
+            case instructor: case student:
+                /*
+                for the instructor and the student  when the back button is pressed it should
+                go back to the home page of the user which launched this activity
+                 */
+                Intent intent = new Intent(Register.this, UserHomePage.class);
+                intent.putExtra("pracGrader", pracGrader);
+                intent.putExtra("currUser", currUser);
+                UserHomePage.none();
+                UserHomePage.inUse();
+                startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -69,7 +97,7 @@ public class Register extends AppCompatActivity {
 
         //grabbing the graph data Structure which was created in the main activity
         pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
-
+        currUser = (String) getIntent().getStringExtra("currUser");
         getUIElements();
         //TODO: you will need to refactor this code because the country is no longer a edit text, it's a text view
         //when I see refactor it, I mean you will need to completely delete it
@@ -77,9 +105,7 @@ public class Register extends AppCompatActivity {
 
         //getting all the country flags from the look up table so we can display on the registration form
         String[] flags = myUtils.getCountryNames();
-
         //creating and laoding the flag list
-        //myUtils utils = new myUtils();
         ArrayList<Flag> allFlags = loadFlags();
 
         /*
@@ -90,38 +116,21 @@ public class Register extends AppCompatActivity {
         adapterFlag = new FlagAdapter(Register.this, allFlags);
         spinnerFlags.setAdapter(adapterFlag);
 
+        switch (currState)
+        {
+            case instructor:
+                //the problem is that thave this inside an onclick listener
+                banner.setText("Create tutor");
+                adminName.setHint("Instructor Name");
+                User newInstructor = new Instructor();
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean valid = false;
-                getFields();
 
-                switch (currState)
-                {
-                    case initial:
-                        User newAdmin = new Admin();
-                        valid = registerUser(newAdmin);
-                        Admin createdAdmin = (Admin) newAdmin;
-                        pracGrader.addVertex(createdAdmin);
+                register.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                        if(valid)
-                        {
-                            //MainActivity.toggleLoaded();
-                            MainActivity.initial();
-                            //we will need to update the name of the admin
-                            pracGrader.setAdmin(userNameStr);
-                            Intent intent = new Intent(Register.this, MainActivity.class);
-                            intent.putExtra("pracGrader", pracGrader);
-                            startActivity(intent);
-                        }
-
-                        break;
-
-                    case instructor:
-                        banner.setText("Create tutor");
-                        User newInstructor = new Instructor();
-                        valid = registerUser(newInstructor);
+                        getFields();
+                        boolean valid = registerUser(newInstructor);
                         Instructor createdInstructor = (Instructor) newInstructor;
                         pracGrader.addVertex(createdInstructor);
 
@@ -139,21 +148,46 @@ public class Register extends AppCompatActivity {
                             staffID.setText("");
                             emailAddress.setText("");
                             //TODO: you will need to also unclear the read text
+                            //TODO: I don't know if best way of doing things
                             recreate();
                         }
+                    }
+                });
 
 
-                        break;
+                break;
 
-                    case student:
-                        banner.setText("Create Student");
-                        //TODO: add your code here when you're creating an instructor
-                        break;
-                }
+            case student:
+                banner.setText("Create Student");
+                //TODO: add your code here when you're creating an instructor
+                break;
 
+            case initial:
 
-            }
-        });
+                register.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getFields();
+                        User newAdmin = new Admin();
+                        boolean valid = registerUser(newAdmin);
+                        Admin createdAdmin = (Admin) newAdmin;
+                        pracGrader.addVertex(createdAdmin);
+
+                        if(valid)
+                        {
+                            //MainActivity.toggleLoaded();
+                            MainActivity.initial();
+                            //we will need to update the name of the admin
+                            pracGrader.setAdmin(userNameStr);
+                            Intent intent = new Intent(Register.this, MainActivity.class);
+                            intent.putExtra("pracGrader", pracGrader);
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+                break;
+        }
     }
 
     public static void initial()
@@ -184,7 +218,7 @@ public class Register extends AppCompatActivity {
         }
         catch (IllegalArgumentException err)
         {
-            Log.i(TAG, err.getMessage());
+            Log.e(TAG, err.getMessage());
             errorName.setText("username cannot be blank");
             //display meaningful information
         }
@@ -197,7 +231,7 @@ public class Register extends AppCompatActivity {
         }
         catch (IllegalArgumentException err)
         {
-            Log.i(TAG, err.getMessage());
+            Log.e(TAG, err.getMessage());
             errorStaffID.setText("Staff ID must be 6 digits then letter");
         }
 
@@ -209,7 +243,7 @@ public class Register extends AppCompatActivity {
         }
         catch (IllegalArgumentException err)
         {
-            Log.i(TAG, err.getMessage());
+            Log.e(TAG, err.getMessage());
             errorEmail.setText("invalid email format");
         }
 

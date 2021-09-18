@@ -61,26 +61,23 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        //pracGrader = new Graph();
         Graph.Vertex adminNode = pracGrader.getVertex();
 
-        //getting all the UI element from the actuall applicatio
-
-        //if an admin node doesn't exit, we should launch the registration activity and create an admin for the system
-        //TODO: refactor this code so it will be a switch case statement with an enumerator which is going to tell you waht state you're in
         if(adminNode == null)
         {
+            //if an admin hasn't being created in the appliction, we should create a new admin node
             Intent intent = new Intent(MainActivity.this, Register.class);
             intent.putExtra("pracGrader", pracGrader);
+            intent.putExtra("currUser", "");
             Register.initial();
             startActivity(intent);
         }
         else
         {
+            //if an admin exists we will want to log into the application and view the contents
             getUIComponents();
-            //if an admin exists you will want to be able to log in
 
-            //only check if the user exist once the log in button has being pressed
+            //once the log int button is pressed check if the user is going to exist in the made graph
             logInBttn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -100,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                         //we will need to know who the user is so we can grab their type in next activity and load appropriate fragments
                         intent.putExtra("currUser", currentUserName);
                         UserHomePage.inUse();
+                        UserHomePage.none();
+                        //selecting the default person to do operations on as the tutor for the home page
                         UserHomePage.tutor();
                         startActivity(intent);
                     }
@@ -118,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void getUIComponents()
     {
+        /* actually finding all the UI elements which are going to be on the screen, and making them
+        accessible through the programme class fields
+         */
         logInBttn = findViewById(R.id.logInBttn);
         userName = findViewById(R.id.userName_logIn);
         passOne = findViewById(R.id.passOne);

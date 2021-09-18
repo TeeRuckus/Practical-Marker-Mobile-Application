@@ -100,14 +100,23 @@ public class mainButtons extends Fragment {
                     @Override
                     public void onClick(View view) {
                         UserHomePage.add();
+                        /* we will need to refresh the activity so that the page can process the new
+                        information which was passed from this activity */
                         getActivity().recreate();
-                        Log.i(TAG, "I am so ready to add something");
                     }
                 });
 
                 break;
             case 'I':
                 setInstructor();
+                optionOne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserHomePage.add();
+                        getActivity().recreate();
+                        Log.i(TAG, "I am the instructor");
+                    }
+                });
                 break;
             case 'S':
                 setStudent();
