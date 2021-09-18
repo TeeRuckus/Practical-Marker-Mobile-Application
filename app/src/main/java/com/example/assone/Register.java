@@ -65,25 +65,36 @@ public class Register extends AppCompatActivity {
         /*depending on what state which we're going to be in, we want
         to call teh activity which called us here
          */
+        Intent intent;
         switch(currState)
         {
             case initial:
                 //do nothing as I don't want this button to do anything
                 //at teh current moement
                 break;
-            case instructor: case student:
-                /*
-                for the instructor and the student  when the back button is pressed it should
-                go back to the home page of the user which launched this activity
-                 */
-                Intent intent = new Intent(Register.this, UserHomePage.class);
-                intent.putExtra("pracGrader", pracGrader);
-                intent.putExtra("currUser", currUser);
-                UserHomePage.none();
-                UserHomePage.inUse();
+            case instructor:
+                intent = packageInfo();
+                UserHomePage.tutor();
                 startActivity(intent);
                 break;
+            case student:
+                intent = packageInfo();
+                UserHomePage.student();
+                startActivity(intent);
+                break;
+
         }
+    }
+
+    public Intent packageInfo()
+    {
+        Intent intent = new Intent(Register.this, UserHomePage.class);
+        intent.putExtra("pracGrader", pracGrader);
+        intent.putExtra("currUser", currUser);
+        UserHomePage.none();
+        UserHomePage.inUse();
+        return intent;
+
     }
 
     @Override
@@ -122,9 +133,8 @@ public class Register extends AppCompatActivity {
                 //the problem is that thave this inside an onclick listener
                 banner.setText("Create tutor");
                 adminName.setHint("Instructor Name");
+
                 User newInstructor = new Instructor();
-
-
                 register.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -142,13 +152,7 @@ public class Register extends AppCompatActivity {
                             int duration = Toast.LENGTH_SHORT;
                             Toast toast = Toast.makeText(cntx, text, duration);
                             toast.show();
-
-                            //clearing all the input after the user has being created
-                            adminName.setText("");
-                            staffID.setText("");
-                            emailAddress.setText("");
-                            //TODO: you will need to also unclear the read text
-                            //TODO: I don't know if best way of doing things
+                            clearText();
                             recreate();
                         }
                     }
@@ -159,7 +163,34 @@ public class Register extends AppCompatActivity {
 
             case student:
                 banner.setText("Create Student");
-                //TODO: add your code here when you're creating an instructor
+                adminName.setHint("Student Name");
+                staffID.setHint("Student ID");
+                emailAddress.setHint("Curtin Student Email");
+
+                User newStudent = new Student();
+                register.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getFields();
+                        boolean  valid = registerUser(newStudent);
+                        Student createdStudent = (Student) newStudent;
+                        pracGrader.addVertex(createdStudent);
+
+                        //if the student had being successfully created show a UI message
+                        if(valid)
+                        {
+
+                            Context cntx = getApplicationContext();
+                            CharSequence text = "Student Created";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(cntx, text, duration);
+                            toast.show();
+                            clearText();
+                            recreate();
+                        }
+                    }
+                });
+
                 break;
 
             case initial:
@@ -203,6 +234,14 @@ public class Register extends AppCompatActivity {
     public static void student()
     {
         currState = state.student;
+    }
+
+    public void clearText()
+    {
+        //clearing all the input after the user has being created
+        adminName.setText("");
+        staffID.setText("");
+        emailAddress.setText("");
     }
 
 

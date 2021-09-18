@@ -92,6 +92,7 @@ public class UserHomePage extends AppCompatActivity {
                                 duration = Toast.LENGTH_SHORT;
                                 toast = Toast.makeText(cntx, text, duration);
                                 toast.show();
+                                userModeSelect();
                                 break;
 
                             case tutor:
@@ -99,48 +100,10 @@ public class UserHomePage extends AppCompatActivity {
                                 duration = Toast.LENGTH_SHORT;
                                 toast = Toast.makeText(cntx, text, duration);
                                 toast.show();
-
-                                switch(currMode)
-                                {
-                                    case add:
-                                        Intent intent = new Intent(UserHomePage.this, Register.class);
-                                        intent.putExtra("pracGrader", pracGrader);
-                                        intent.putExtra("currUser", currUserName);
-                                        Register.instructor();
-                                        startActivity(intent);
-                                        break;
-                                }
-                                /*if(currMode == mode.add)
-                                {
-                                    Intent intent = new Intent(UserHomePage.this, Register.class);
-                                    intent.putExtra("pracGrader", pracGrader);
-                                    intent.putExtra("currUser", currUserName);
-                                    Register.instructor();
-                                    startActivity(intent);
-                                }*/
-
+                                userModeSelect();
                                 break;
                         }
 
-
-
-                        if(currMode == mode.edit)
-                        {
-
-                        }
-
-                        if(currMode == mode.delete)
-                        {
-
-                        }
-
-                        if(currMode == mode.view)
-                        {
-                            //launch my recylcler view to view people
-
-                        }
-
-                        //getting the type of action which will need to be done
                         break;
 
                     case 'I':
@@ -165,8 +128,33 @@ public class UserHomePage extends AppCompatActivity {
                 Log.i(TAG, "I THINK I DID'T GET THE INVITE");
                 break;
         }
+    }
 
+    public void userModeSelect()
+    {
+        switch(currMode)
+        {
+            case add:
+                Intent intent = new Intent(UserHomePage.this, Register.class);
+                intent.putExtra("pracGrader", pracGrader);
+                intent.putExtra("currUser", currUserName);
+                userRegistrationSelect();
+                startActivity(intent);
+                break;
+        }
+    }
 
+    public void userRegistrationSelect()
+    {
+        switch(currUse)
+        {
+            case student:
+                Register.student();
+                break;
+            case tutor:
+                Register.instructor();
+                break;
+        }
     }
 
     public void setUpFragments()
