@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AssOne">
         <activity
+            android:name=".Details"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".UserHomePage"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

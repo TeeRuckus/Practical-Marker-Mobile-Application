@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/paleNight_background"
+    tools:context=".Details">
+
+    <TextView
+        android:id="@+id/bannerDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/dark_second"
+        android:gravity="center"
+        android:text="Student details"
+        android:textAllCaps="true"
+        android:textColor="@color/paleNight_white"
+        android:textSize="30dp" />
+
+    <ImageView
+        android:id="@+id/userImageDetails"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/flag_au"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"
+        android:layout_below="@+id/bannerDetails"/>
+
+    <EditText
+        android:id="@+id/userNameDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/dark_second"
+        android:gravity="center"
+        android:hint="User name"
+        android:inputType="textPersonName"
+        android:textColor="@color/paleNight_white"
+        android:textColorHint="@color/paleNight_yellow"
+        android:textSize="20dp"
+        android:layout_below="@+id/userImageDetails"/>
+
+    <EditText
+        android:id="@+id/userIDDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/dark_second"
+        android:gravity="center"
+        android:hint="User ID"
+        android:inputType="textPersonName"
+        android:textColor="@color/paleNight_white"
+        android:textColorHint="@color/paleNight_yellow"
+        android:textSize="20dp"
+        android:layout_below="@+id/userNameDetails"/>
+
+    <EditText
+        android:id="@+id/userEmailDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/dark_second"
+        android:gravity="center"
+        android:hint="user email"
+        android:inputType="textPersonName"
+        android:textColor="@color/paleNight_white"
+        android:textColorHint="@color/paleNight_yellow"
+        android:textSize="20dp"
+        android:layout_below="@+id/userIDDetails"/>
+
+    <EditText
+        android:id="@+id/studentOwnerDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/dark_second"
+        android:gravity="center"
+        android:hint="Instructor"
+        android:inputType="textPersonName"
+        android:textColor="@color/paleNight_white"
+        android:textColorHint="@color/paleNight_yellow"
+        android:textSize="20dp"
+        android:layout_below="@+id/userEmailDetails"/>
+</RelativeLayout>

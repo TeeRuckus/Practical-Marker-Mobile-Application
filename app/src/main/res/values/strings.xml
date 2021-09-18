@@ -4,5 +4,12 @@
     <!-- TODO: to change all the strings which I used in the xml diagrams to actually use a string resource instead-->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- the strings which is going to form our drop down menu in the view mode, therefore the user can easily change views -->
+    <string-array name="viewType">
+        <item>All</item>
+        <item>Student</item>
+        <item>Instructor</item>
+        <item>Practical</item>
+    </string-array>
 
 </resources>
