@@ -73,6 +73,7 @@ public class bottomButtonTray extends Fragment {
     }
 
     @Override
+    @SuppressLint("ResourceAsColor")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -132,8 +133,28 @@ public class bottomButtonTray extends Fragment {
 
             case 'I':
                 trayBttnTwo.setText("Pracs");
-                trayBttnThree.setText("Students");
-                disableThreeBttns();
+                trayBttnThree.setText("Student");
+
+                trayBttnTwo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserHomePage.practical();
+                        getActivity().recreate();
+                    }
+                });
+
+                trayBttnThree.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserHomePage.student();
+                        getActivity().recreate();
+                    }
+                });
+
+                //disabling the last button which I will not need for my application
+                trayBttnOne.setClickable(false);
+                trayBttnOne.setText("");
+                trayBttnOne.setBackgroundColor(transparent);
 
                 break;
 

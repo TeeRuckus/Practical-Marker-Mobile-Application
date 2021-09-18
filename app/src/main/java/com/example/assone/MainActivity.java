@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
             case initial:
                 //the graph structure is coming from the graph structure
                 pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
+                Student testStudent = new Student("a", "19476700", "tawana.kwaramba@student.curtin.edu.au", "Australia", "Admin");
+                Instructor testInstructor = new Instructor("s", "283690A","283690A@curtin.edu.au", "Australia");
+                pracGrader.addVertex(testStudent);
+                pracGrader.addVertex(testInstructor);
+                //hard coding an instructor and student to make testing of the two classes quicker
                 break;
             case New:
                 pracGrader = new Graph();
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         UserHomePage.inUse();
                         UserHomePage.none();
                         //selecting the default person to do operations on as the tutor for the home page
-                        UserHomePage.tutor();
+                        UserHomePage.student();
                         startActivity(intent);
                     }
                     catch (IllegalArgumentException err)

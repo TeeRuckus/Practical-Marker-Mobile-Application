@@ -30,6 +30,13 @@ public class mainButtons extends Fragment {
     private String currUser;
     private static final String TAG = "mainButtons.";
 
+    private enum instructorState {
+        student,
+        practical
+    }
+
+    private static instructorState currState;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -114,7 +121,6 @@ public class mainButtons extends Fragment {
                     public void onClick(View view) {
                         UserHomePage.add();
                         getActivity().recreate();
-                        Log.i(TAG, "I am the instructor");
                     }
                 });
                 break;
@@ -150,9 +156,31 @@ public class mainButtons extends Fragment {
 
     public void setInstructor()
     {
-        optionOne.setText("Edit");
-        optionTwo.setText("View");
-        disableBottomTwoBttns();
+        switch (currState)
+        {
+            case student:
+                optionOne.setText("Add");
+                optionTwo.setText("Edit");
+                optionThree.setText("Delete");
+                optionFour.setText("View");
+                break;
+            case practical:
+                optionOne.setText("Edit");
+                optionTwo.setText("view");
+                disableBottomTwoBttns();
+                break;
+        }
+        //TODO: when you change the mode to practicals you will need to disable the bottom two buttons
+    }
+
+    public static void student()
+    {
+        currState = instructorState.student;
+    }
+
+    public static void practical()
+    {
+        currState = instructorState.practical;
     }
 
     public void setStudent()

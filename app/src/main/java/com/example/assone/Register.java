@@ -57,7 +57,13 @@ public class Register extends AppCompatActivity {
         student
     }
 
+    private enum addtype {
+        adminAdd,
+        instructorAdd
+    }
+
     private static state currState;
+    private static addtype typeOfAdd;
 
     @Override
     public void onBackPressed() {
@@ -127,8 +133,7 @@ public class Register extends AppCompatActivity {
         adapterFlag = new FlagAdapter(Register.this, allFlags);
         spinnerFlags.setAdapter(adapterFlag);
 
-        switch (currState)
-        {
+        switch (currState) {
             case instructor:
                 //the problem is that thave this inside an onclick listener
                 banner.setText("Create tutor");
@@ -145,8 +150,7 @@ public class Register extends AppCompatActivity {
                         pracGrader.addVertex(createdInstructor);
 
                         //showing the user that an instructor has being created
-                        if(valid)
-                        {
+                        if (valid) {
                             Context cntx = getApplicationContext();
                             CharSequence text = "Instructor created";
                             int duration = Toast.LENGTH_SHORT;
@@ -162,39 +166,66 @@ public class Register extends AppCompatActivity {
                 break;
 
             case student:
+                /*
+                the admin or the instructor can add students. If an instructor adds a student, the student
+                must be attached to the instructor. If an admin adds a student, if no owner is given
+                the admin will become the default owner.
+                 */
                 banner.setText("Create Student");
                 adminName.setHint("Student Name");
                 staffID.setHint("Student ID");
                 emailAddress.setHint("Curtin Student Email");
-
                 User newStudent = new Student();
-                register.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getFields();
-                        boolean  valid = registerUser(newStudent);
-                        Student createdStudent = (Student) newStudent;
-                        pracGrader.addVertex(createdStudent);
 
-                        //if the student had being successfully created show a UI message
-                        if(valid)
-                        {
+                switch (typeOfAdd)
+                {
+                    case adminAdd:
 
-                            Context cntx = getApplicationContext();
-                            CharSequence text = "Student Created";
-                            int duration = Toast.LENGTH_SHORT;
-                            Toast toast = Toast.makeText(cntx, text, duration);
-                            toast.show();
-                            clearText();
-                            recreate();
-                        }
-                    }
-                });
+                        register.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                getFields();
+                                boolean  valid = registerUser(newStudent);
+                                Student createdStudent = (Student) newStudent;
+                                pracGrader.addVertex(createdStudent);
+                                //TODO: you will need to add code which is going to get who the belonging insturctor is going to be for the student
+                                //if the student had being successfully created show a UI message
+
+                                /*if the owning instructor field is going to be left empty, it's
+                                going to be assumed that the admin is going to be the current owner of th node
+                                 */
+                                if(valid)
+                                {
+                                    succesfulStudentCreate();
+                                }
+                            }
+                        });
+
+                        break;
+
+                    case instructorAdd:
+
+                        register.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                getFields();
+                                boolean valid = registerUser(newStudent);
+                                Student createdStudent= (Student) newStudent;
+                                pracGrader.addVertex(createdStudent, currUser);
+
+                                if(valid)
+                                {
+                                    succesfulStudentCreate();
+                                }
+                            }
+                        });
+                        break;
+                }
+
 
                 break;
 
             case initial:
-
                 register.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -219,6 +250,27 @@ public class Register extends AppCompatActivity {
 
                 break;
         }
+    }
+
+    public void succesfulStudentCreate()
+    {
+        Context cntx = getApplicationContext();
+        CharSequence text = "Student Created";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(cntx, text, duration);
+        toast.show();
+        clearText();
+        recreate();
+    }
+
+    public static void adminAdd()
+    {
+        typeOfAdd = addtype.adminAdd;
+    }
+
+    public static void instructorAdd()
+    {
+        typeOfAdd = addtype.instructorAdd;
     }
 
     public static void initial()

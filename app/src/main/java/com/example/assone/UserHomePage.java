@@ -68,47 +68,33 @@ public class UserHomePage extends AppCompatActivity {
                 setUpFragments();
                 userDetails = findViewById(R.id.userDetails);
                 char firstLetterCaptial = myUtils.getType(currUserName, pracGrader);
-                Context cntx = getApplicationContext();
-                CharSequence text;
-                int duration;
-                Toast toast;
 
                 switch(firstLetterCaptial)
                 {
                     case 'A':
                         userDetails.setText("Admin - " + currUserName);
-
-                        switch(currUse)
-                        {
-                            case practical:
-                                text = "practical selected";
-                                duration = Toast.LENGTH_SHORT;
-                                toast = Toast.makeText(cntx, text, duration);
-                                toast.show();
-                                break;
-
-                            case student:
-                                text = "Student Selected";
-                                duration = Toast.LENGTH_SHORT;
-                                toast = Toast.makeText(cntx, text, duration);
-                                toast.show();
-                                userModeSelect();
-                                break;
-
-                            case tutor:
-                                text = "Tutor selected";
-                                duration = Toast.LENGTH_SHORT;
-                                toast = Toast.makeText(cntx, text, duration);
-                                toast.show();
-                                userModeSelect();
-                                break;
-                        }
+                        broadCastMessage();
 
                         break;
 
                     case 'I':
                         //the code for when the user is an instructor
                         userDetails.setText("Tutor - " + currUserName);
+
+                        broadCastMessage();
+
+                        switch(currUse)
+                        {
+                            case practical:
+                                mainButtons.practical();
+                                recreate();
+                                break;
+                            case student:
+                                mainButtons.student();
+                                recreate();
+                                break;
+                        }
+
                         break;
 
                     case 'S':
@@ -130,18 +116,85 @@ public class UserHomePage extends AppCompatActivity {
         }
     }
 
-    public void userModeSelect()
+    public void broadCastMessage()
     {
-        switch(currMode)
+        Context cntx = getApplicationContext();
+        CharSequence text;
+        int duration;
+        Toast toast;
+
+        switch(currUse)
         {
-            case add:
-                Intent intent = new Intent(UserHomePage.this, Register.class);
-                intent.putExtra("pracGrader", pracGrader);
-                intent.putExtra("currUser", currUserName);
-                userRegistrationSelect();
-                startActivity(intent);
+            case practical:
+                text = "practical selected";
+                duration = Toast.LENGTH_SHORT;
+                toast = Toast.makeText(cntx, text, duration);
+                toast.show();
+                break;
+
+            case student:
+                text = "Student Selected";
+                duration = Toast.LENGTH_SHORT;
+                toast = Toast.makeText(cntx, text, duration);
+                toast.show();
+                userModeSelect();
+                break;
+
+            case tutor:
+                text = "Tutor selected";
+                duration = Toast.LENGTH_SHORT;
+                toast = Toast.makeText(cntx, text, duration);
+                toast.show();
+                userModeSelect();
                 break;
         }
+
+    }
+
+    public void userModeSelect()
+    {
+        //determing who the user is so we can set up the next fragment with the correct information
+
+        char firstLetterCapital = myUtils.getType(currUserName, pracGrader);
+        switch(firstLetterCapital)
+        {
+            case 'A':
+                switch(currMode)
+                {
+                    case add:
+                        Intent intent = setUpRegistration();
+                        userRegistrationSelect();
+                        Register.adminAdd();
+                        startActivity(intent);
+                        break;
+                }
+                break;
+
+            case 'I':
+                /*
+                we will need to send over who the current instructor is going to be, so the newly
+                registered student can be connected by and edge the owning instructor
+                 */
+                switch(currMode)
+                {
+                    case add:
+                        Intent intent = setUpRegistration();
+                        Register.instructorAdd();
+                        intent.putExtra("currInstructor", currUserName);
+                        startActivity(intent);
+                        break;
+                }
+                break;
+
+        }
+    }
+
+    public Intent setUpRegistration()
+    {
+        Intent intent = new Intent(UserHomePage.this, Register.class);
+        intent.putExtra("pracGrader", pracGrader);
+        intent.putExtra("currUser", currUserName);
+        return intent;
     }
 
     public void userRegistrationSelect()
