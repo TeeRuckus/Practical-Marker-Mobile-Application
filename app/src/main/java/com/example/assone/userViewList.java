@@ -213,6 +213,7 @@ public class userViewList extends Fragment
                     Intent intent = new Intent(getActivity(), Details.class);
                     intent.putExtra("pracGrader", pracGrader);
                     intent.putExtra("currUser", currUser);
+                    intent.putExtra("clickedPerson", nameEditor.getText().toString());
                     startActivity(intent);
                 }
             });

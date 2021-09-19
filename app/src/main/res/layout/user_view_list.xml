@@ -15,6 +15,13 @@
         app:layout_constraintTop_toTopOf="parent" >
 
         <!-- TODO: you will need ot do the margins for your layouts properly -->
+        <ImageView
+            android:id="@+id/userFlagView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/flag_au"
+            />
 
         <EditText
             android:id="@+id/userNameView"
