@@ -391,6 +391,18 @@ public class Graph implements Serializable
         return new HashMap<>(currInstructor.connections);
     }
 
+    public boolean isEmpty()
+    {
+        boolean valid = false;
+
+        //if they is more than the admin node in the graph then the graph structure is not empty
+        if(vertices.size() > 1)
+        {
+            valid = true;
+        }
+        return valid;
+    }
+
     public void moveStudent(String studentName, String newInsructor)
     {
         //TODO: I don't think you will need this here, but if you need it come back and implement this

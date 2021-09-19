@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ public class userViewList extends Fragment
     private RecyclerView rv;
     private userAdapter adapter;
     private LinearLayoutManager rvLayout;
+    //for debuggin and logging purposes of the programme
+    private static final String  TAG = "userViewList.";
 
     private String currUser;
     private Graph pracGrader;
@@ -81,6 +84,7 @@ public class userViewList extends Fragment
         super.onCreate(savedInstanceState);
         //creating a new map of users so the programme can use it
 
+        Log.e(TAG, "YES I WAS FUCKING CREATED ");
         userMap = new HashMap<>();
         pracGrader = userViewing.getGraph();
         currUser = userViewing.getCurrUser();
@@ -225,9 +229,17 @@ public class userViewList extends Fragment
             // to temporarily disable the corresponding event handler, or else the event
             // handler would assume the *user* has edited the informatio of the current edit
             // text box which we're viewing
+
+            // if they is nothing attached to inVert, you should do nothing for example when they is
+            // an empty list in the programme
+
+            /*if(!(pracGrader.isEmpty()))
+            {
+            }*/
             nameEditor.removeTextChangedListener(tw);
             nameEditor.setText(inVert.getValue().getName());
             nameEditor.addTextChangedListener(tw);
+
 
             //TODO: you will need to do the same thing with the score which you set
         }

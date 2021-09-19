@@ -127,25 +127,25 @@ public class UserHomePage extends AppCompatActivity {
         switch(currUse)
         {
             case practical:
-                text = "practical selected";
+                /*text = "practical selected";
                 duration = Toast.LENGTH_SHORT;
                 toast = Toast.makeText(cntx, text, duration);
-                toast.show();
+                toast.show();*/
                 break;
 
             case student:
-                text = "Student Selected";
+                /*text = "Student Selected";
                 duration = Toast.LENGTH_SHORT;
                 toast = Toast.makeText(cntx, text, duration);
-                toast.show();
+                toast.show();*/
                 userModeSelect();
                 break;
 
             case tutor:
-                text = "Tutor selected";
+                /*text = "Tutor selected";
                 duration = Toast.LENGTH_SHORT;
                 toast = Toast.makeText(cntx, text, duration);
-                toast.show();
+                toast.show();*/
                 userModeSelect();
                 break;
         }
@@ -174,6 +174,9 @@ public class UserHomePage extends AppCompatActivity {
                     case view:
                         //starting the activity which will allow you to view the users of the programme
                         intent = setUpUserViewing();
+                        //if this is called from the admin, we should load the data in realtion to the admin
+                        userViewList.admin();
+
                         //TODO: you will probably have to add more code here to make this more functional here
                         startActivity(intent);
                         break;
