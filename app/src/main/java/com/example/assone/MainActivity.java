@@ -41,15 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*if(!(loaded))
-        {
-            pracGrader = new Graph();
-        }
-        else
-        {
-            pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
-        }*/
-
         switch(currState)
         {
             case initial:

@@ -23,13 +23,15 @@ import android.widget.EditText;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class userViewList extends Fragment
 {
 
     //my own defined class fields for this recycler vie
-    private HashMap<String, Graph.Vertex> userMap;
+    //private HashMap<String, Graph.Vertex> userMap;
+    private ArrayList<Graph.Vertex> userMap;
 
     private RecyclerView rv;
     private userAdapter adapter;
@@ -48,6 +50,7 @@ public class userViewList extends Fragment
 
     private static state currState;
 
+    // TODO: once you have this working, you should delete these parameters
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,8 +87,7 @@ public class userViewList extends Fragment
         super.onCreate(savedInstanceState);
         //creating a new map of users so the programme can use it
 
-        Log.e(TAG, "YES I WAS FUCKING CREATED ");
-        userMap = new HashMap<>();
+        userMap = new ArrayList<>();
         pracGrader = userViewing.getGraph();
         currUser = userViewing.getCurrUser();
 
@@ -95,6 +97,7 @@ public class userViewList extends Fragment
             case admin:
                 //load all the vertices which are going to be in the current network
                 userMap = pracGrader.adminLoad();
+
                 break;
             case instructor:
                 //do nothign for the current moment
@@ -115,7 +118,7 @@ public class userViewList extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        //getting all the reference for the major UI elements
+        //TODO: you will need add the code for the spinner, so we can filter out the current list which we're viewing
         View view = inflater.inflate(R.layout.fragment_user_view_list, container, false);
 
         //getting where the recyclerview is going to be plugging into during run time of the application
@@ -129,8 +132,6 @@ public class userViewList extends Fragment
         rv.setLayoutManager(rvLayout);
 
         return view;
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_user_view_list, container, false);
     }
 
     public static void instructor()
@@ -159,15 +160,11 @@ public class userViewList extends Fragment
 
         private TextWatcher tw;
 
-        /*public userViewHolder(@NonNull View itemView) {
-            super(itemView);
-        } */
-
         public userViewHolder(LayoutInflater li, ViewGroup parent)
         {
             super(li.inflate(R.layout.user_view_list, parent, false));
 
-            //getting reference to all the major UI components
+            //getting reference to all the major UI components in each row of the list
             nameEditor = (EditText) itemView.findViewById(R.id.userNameView);
             score = (EditText) itemView.findViewById(R.id.scoreUserView);
             viewUser = (Button) itemView.findViewById(R.id.viewUserList);
@@ -230,15 +227,9 @@ public class userViewList extends Fragment
             // handler would assume the *user* has edited the informatio of the current edit
             // text box which we're viewing
 
-            // if they is nothing attached to inVert, you should do nothing for example when they is
-            // an empty list in the programme
-
-            /*if(!(pracGrader.isEmpty()))
-            {
-            }*/
-            nameEditor.removeTextChangedListener(tw);
+            //nameEditor.removeTextChangedListener(tw);
             nameEditor.setText(inVert.getValue().getName());
-            nameEditor.addTextChangedListener(tw);
+            //nameEditor.addTextChangedListener(tw);
 
 
             //TODO: you will need to do the same thing with the score which you set
@@ -260,12 +251,12 @@ public class userViewList extends Fragment
         public void onBindViewHolder(@NonNull userViewHolder holder, int position)
         {
             holder.bind(userMap.get(position));
-
         }
 
         @Override
         public int getItemCount()
         {
+            Log.e(TAG, "current count of the users: " + userMap.size());
            return userMap.size();
         }
     }

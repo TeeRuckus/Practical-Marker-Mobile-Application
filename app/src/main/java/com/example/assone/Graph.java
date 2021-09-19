@@ -367,15 +367,23 @@ public class Graph implements Serializable
     }
 
     //loading the different vertices depending on the user which is going to be using the graph structure
-    public HashMap<String, Vertex> adminLoad()
+    public ArrayList<Vertex> adminLoad()
     {
-        //this method is going to be used for viewing purposes hence we want to return a copy of the hash map
-        return new HashMap<>(vertices);
+        ArrayList<Vertex> retList = new ArrayList<>();
+        Set<String> keys = vertices.keySet();
 
+        for(String currKey : keys)
+        {
+            retList.add(vertices.get(currKey));
+        }
+
+        //this method is going to be used for viewing purposes hence we want to return a copy of the hash map
+        return retList;
     }
 
-    public HashMap<String, Vertex> instructorLoad(String inInstructor)
+    public ArrayList<Vertex> instructorLoad(String inInstructor)
     {
+        ArrayList<Vertex> retList = new ArrayList<>();
         //this method is going to be used for viewing purposes hence we want to return a copy of the hash map
         //the instructor can only view the students which are connected to him
         Vertex currInstructor = getVertex(inInstructor);
@@ -386,9 +394,17 @@ public class Graph implements Serializable
             throw new IllegalArgumentException("ERROR: can only load instructor vertexs");
         }
 
+        Set<String> keys = currInstructor.connections.keySet();
+
+        for(String currKey  : keys)
+        {
+            retList.add(currInstructor.connections.get(keys));
+        }
+
         //once we're confident that an instructor has being loaded we can get all the instructors students and return them as a copy as they
         //should be only for viewing purposes and nothing more
-        return new HashMap<>(currInstructor.connections);
+        //return new HashMap<>(currInstructor.connections);
+        return retList;
     }
 
     public boolean isEmpty()
