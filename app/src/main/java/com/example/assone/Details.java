@@ -2,7 +2,9 @@ package com.example.assone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ public class Details extends AppCompatActivity {
     private Graph pracGrader;
     private String currUser;
     private String clickedPerson;
+    private static final String TAG = "Details.";
 
     //getting all the UI elements
     private TextView banner;
@@ -42,7 +45,33 @@ public class Details extends AppCompatActivity {
         userEmail.setHint(currUserObj.getEmail());
         userID.setHint(currUserObj.getUserName());
 
+        char firstLetterCaptial = myUtils.getType(clickedPerson, pracGrader);
 
+        switch (firstLetterCaptial)
+        {
+            case 'A':
+                banner.setText("Admin Details");
+                disableOwner();
+                break;
+            case 'I':
+                banner.setText("Instructor Details");
+                disableOwner();
+                break;
+            case 'S':
+                banner.setText("Studen Details");
+                Student currStudent = (Student) currUserObj;
+                studentOwner.setHint(currStudent.getInstructor());
+                break;
+        }
+    }
+
+    public void disableOwner()
+    {
+        studentOwner.setClickable(false);
+        studentOwner.setEnabled(false);
+        studentOwner.setHint("");
+        studentOwner.setText("");
+        studentOwner.setBackgroundColor(Color.TRANSPARENT);
     }
 
     public void loadUI()

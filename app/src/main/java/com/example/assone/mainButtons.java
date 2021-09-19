@@ -3,6 +3,7 @@ package com.example.assone;
 import static android.R.color.transparent;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -148,7 +149,6 @@ public class mainButtons extends Fragment {
         return v;
     }
 
-    @SuppressLint("ResourceAsColor")
     public void disableBottomTwoBttns()
     {
         optionThree.setClickable(false);
@@ -156,8 +156,8 @@ public class mainButtons extends Fragment {
         optionThree.setText("");
         optionFour.setText("");
         //setting the buttons transparent so they're no longer visible
-        optionThree.setBackgroundColor(transparent);
-        optionFour.setBackgroundColor(transparent);
+        optionThree.setBackgroundColor(Color.TRANSPARENT);
+        optionFour.setBackgroundColor(Color.TRANSPARENT);
     }
 
     public void setAdmin()
