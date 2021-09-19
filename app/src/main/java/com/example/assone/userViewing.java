@@ -37,26 +37,14 @@ public class userViewing extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         userViewList frag  = (userViewList) fm.findFragmentById(R.id.viewingContainer);
 
-        Log.e(TAG, "is empty? " + pracGrader.isEmpty());
-
-        if(!(pracGrader.isEmpty()))
-        {
-            //if they is nothing going to be attached to the current framgent
-            if (frag == null) {
-                //actually committing the fragment and making it show on the screen
-                frag = new userViewList();
-                fm.beginTransaction()
-                        .add(R.id.viewingContainer, frag)
-                        .commit();
-            }
+        //if they is nothing going to be attached to the current framgent
+        if (frag == null) {
+            //actually committing the fragment and making it show on the screen
+            frag = new userViewList();
+            fm.beginTransaction()
+                    .add(R.id.viewingContainer, frag)
+                    .commit();
         }
-        else
-        {
-            userBanner = findViewById(R.id.bannerUserViewing);
-            userBanner.setText("No Users Found");
-            userBanner.setTextColor(Color.RED);
-        }
-
     }
 
     //being  able to grab the current data from whatever fragment which we're currently in

@@ -257,7 +257,6 @@ public class userViewList extends Fragment
         @Override
         public int getItemCount()
         {
-            Log.e(TAG, "current count of the users: " + userMap.size());
            return userMap.size();
         }
     }

@@ -327,7 +327,7 @@ public class Graph implements Serializable
                 instructorNode.connections.remove(studentName);
             }
 
-            //need to check if the current need is going to be an instructor node for deletion from the admin vertices
+            //need to check if the current node is going to be an instructor node for deletion from the admin vertices
             if(currVert.getType().equals("INSTRUCTOR"))
             {
                 Vertex adminNode = vertices.get(currentAdmin);
@@ -339,16 +339,23 @@ public class Graph implements Serializable
         }
         else if (currVert.getType().equals("INSTRUCTOR"))
         {
+            Log.e(TAG, "YESSS QUEEEN");
             //get everything which the instructor is connected too which is going to be all the students
             Set<String> keys = currVert.connections.keySet();
 
             //grabbing the admin node
             Vertex adminNode = vertices.get(currentAdmin);
+            Log.e(TAG, "current admin node " + adminNode.getValue().getName());
 
             //going through everything which the to be deleted node was attached too, and attaching to admin node
             for (String currKey : keys)
             {
                 Vertex copyVert = currVert.connections.get(currKey);
+                // all the vertices whcih the instructor was connected too was going to be a student node
+                // hence, changing the current owner from instructor to the admin
+                Student currStudent = (Student) copyVert.getValue();
+                currStudent.setInstructor(currentAdmin);
+
                 //making a copy so that the deletion process won't conflict with the nodes in admin
                 adminNode.connections.put(currKey, new Vertex(copyVert));
             }

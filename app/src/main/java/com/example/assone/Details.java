@@ -2,9 +2,11 @@ package com.example.assone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,6 +53,11 @@ public class Details extends AppCompatActivity {
         {
             case 'A':
                 banner.setText("Admin Details");
+                //disabling the delete button as you should not be able to delete the admin node from your programme
+                delButton.setClickable(false);
+                delButton.setText("");
+                delButton.setBackgroundColor(Color.TRANSPARENT);
+
                 disableOwner();
                 break;
             case 'I':
@@ -63,6 +70,19 @@ public class Details extends AppCompatActivity {
                 studentOwner.setHint(currStudent.getInstructor());
                 break;
         }
+
+        delButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                pracGrader.delVertex(clickedPerson);
+                Intent intent = new Intent(Details.this, userViewing.class);
+                intent.putExtra("pracGrader", pracGrader);
+                intent.putExtra("currUser", currUser);
+                startActivity(intent);
+            }
+        });
     }
 
     public void disableOwner()
