@@ -37,6 +37,8 @@ public class userViewing extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         userViewList frag  = (userViewList) fm.findFragmentById(R.id.viewingContainer);
 
+        Log.e(TAG, "is empty? " + pracGrader.isEmpty());
+
         if(!(pracGrader.isEmpty()))
         {
             //if they is nothing going to be attached to the current framgent

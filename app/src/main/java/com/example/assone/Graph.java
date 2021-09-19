@@ -168,7 +168,7 @@ public class Graph implements Serializable
 
     }
 
-    private static final String TAG = "MainActivity.";
+    private static final String TAG = "Graph.";
     private HashMap<String, Vertex> vertices;
     private String currentAdmin = "ADMIN";
 
@@ -396,7 +396,7 @@ public class Graph implements Serializable
         boolean valid = false;
 
         //if they is more than the admin node in the graph then the graph structure is not empty
-        if(vertices.size() > 1)
+        if(vertices.size() <= 1)
         {
             valid = true;
         }
