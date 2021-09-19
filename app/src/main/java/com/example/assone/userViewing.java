@@ -3,6 +3,7 @@ package com.example.assone;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 public class userViewing extends AppCompatActivity {
 
@@ -13,6 +14,8 @@ public class userViewing extends AppCompatActivity {
      */
     private static Graph pracGrader;
     private static String currUserName;
+    //a tag whcih is going to be used for debuggin purposes for this programme
+    private static final String TAG = "userViewing.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,6 +26,8 @@ public class userViewing extends AppCompatActivity {
         //reading in the passed in pracGrader and currUser from the previous activity
         pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
         currUserName = getIntent().getStringExtra("currUser");
+
+        Log.e(TAG, "This is the current user: " + currUserName);
     }
 
     //being  able to grab the current data from whatever fragment which we're currently in

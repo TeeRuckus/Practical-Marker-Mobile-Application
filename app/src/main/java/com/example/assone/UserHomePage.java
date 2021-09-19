@@ -152,8 +152,10 @@ public class UserHomePage extends AppCompatActivity {
 
     }
 
+    //this is the funciton which is actually going to perform the requested action of the programme
     public void userModeSelect()
     {
+        Intent intent;
         //determing who the user is so we can set up the next fragment with the correct information
 
         char firstLetterCapital = myUtils.getType(currUserName, pracGrader);
@@ -163,9 +165,16 @@ public class UserHomePage extends AppCompatActivity {
                 switch(currMode)
                 {
                     case add:
-                        Intent intent = setUpRegistration();
+                        intent = setUpRegistration();
                         userRegistrationSelect();
                         Register.adminAdd();
+                        startActivity(intent);
+                        break;
+
+                    case view:
+                        //starting the activity which will allow you to view the users of the programme
+                        intent = setUpUserViewing();
+                        //TODO: you will probably have to add more code here to make this more functional here
                         startActivity(intent);
                         break;
                 }
@@ -179,7 +188,7 @@ public class UserHomePage extends AppCompatActivity {
                 switch(currMode)
                 {
                     case add:
-                        Intent intent = setUpRegistration();
+                        intent = setUpRegistration();
                         Register.instructorAdd();
                         intent.putExtra("currInstructor", currUserName);
                         startActivity(intent);
@@ -190,11 +199,26 @@ public class UserHomePage extends AppCompatActivity {
         }
     }
 
+    //to push the prac grader, and the current user given any intent
+    public void sendInfo(Intent currIntent)
+    {
+        currIntent.putExtra("pracGrader", pracGrader);
+        currIntent.putExtra("currUser", currUserName);
+    }
+
+    //to open up the viewing acitivity, so the user can view the uesrs of the graph
+    public Intent setUpUserViewing()
+    {
+        Intent intent = new Intent(UserHomePage.this, userViewing.class);
+        sendInfo(intent);
+        return intent;
+    }
+
+    //to open up the user registration form so new users can be creted into the programme
     public Intent setUpRegistration()
     {
         Intent intent = new Intent(UserHomePage.this, Register.class);
-        intent.putExtra("pracGrader", pracGrader);
-        intent.putExtra("currUser", currUserName);
+        sendInfo(intent);
         return intent;
     }
 
