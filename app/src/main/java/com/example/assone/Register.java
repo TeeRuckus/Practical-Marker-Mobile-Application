@@ -187,13 +187,8 @@ public class Register extends AppCompatActivity {
                                 getFields();
                                 boolean  valid = registerUser(newStudent);
                                 Student createdStudent = (Student) newStudent;
+                                createdStudent.setInstructor(currUser);
                                 pracGrader.addVertex(createdStudent);
-                                //TODO: you will need to add code which is going to get who the belonging insturctor is going to be for the student
-                                //if the student had being successfully created show a UI message
-
-                                /*if the owning instructor field is going to be left empty, it's
-                                going to be assumed that the admin is going to be the current owner of th node
-                                 */
                                 if(valid)
                                 {
                                     succesfulStudentCreate();

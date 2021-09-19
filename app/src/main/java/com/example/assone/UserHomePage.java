@@ -175,9 +175,14 @@ public class UserHomePage extends AppCompatActivity {
         switch (firstLetterCapital)
         {
             case 'A':
-                //the admin should be able to add practicals for all the students in the graph structure
-                //TODO: come and finish impelmenting your practicals
+                switch (currMode)
+                {
+                    case add:
+                        break;
 
+                    case view:
+                        break;
+                }
 
                 break;
 
@@ -214,7 +219,7 @@ public class UserHomePage extends AppCompatActivity {
                         intent = setUpUserViewing();
                         //if this is called from the admin, we should load the data in realtion to the admin
                         userViewList.admin();
-
+                        userViewing.view();
                         //TODO: you will probably have to add more code here to make this more functional here
                         startActivity(intent);
                         break;

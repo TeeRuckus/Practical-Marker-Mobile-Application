@@ -65,9 +65,10 @@ public class Details extends AppCompatActivity {
                 disableOwner();
                 break;
             case 'S':
-                banner.setText("Studen Details");
+                banner.setText("Student Details");
                 Student currStudent = (Student) currUserObj;
                 studentOwner.setHint(currStudent.getInstructor());
+                userViewList.admin();
                 break;
         }
 
@@ -80,6 +81,7 @@ public class Details extends AppCompatActivity {
                 Intent intent = new Intent(Details.this, userViewing.class);
                 intent.putExtra("pracGrader", pracGrader);
                 intent.putExtra("currUser", currUser);
+                userViewing.view();
                 startActivity(intent);
             }
         });

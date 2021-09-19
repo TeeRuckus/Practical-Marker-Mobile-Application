@@ -22,19 +22,35 @@ public class userViewing extends AppCompatActivity {
     //a tag whcih is going to be used for debuggin purposes for this programme
     private static final String TAG = "userViewing.";
 
+    public enum state {
+        practical,
+        view
+    }
+
+    private static state currMode;
+
     // changing the behaviour of the back button, instead of it going to the last thing, the back
     // button is going to go back to the last activity
 
     @Override
     public void onBackPressed()
     {
-        // super.onBackPressed();
-        Intent intent = new Intent(userViewing.this, UserHomePage.class);
-        intent.putExtra("pracGrader", pracGrader);
-        intent.putExtra("currUser", currUserName);
-        //setting it back to none mode so it won't recreate the view activity all over again
-        UserHomePage.none();
-        startActivity(intent);
+        switch (currMode)
+        {
+            case view:
+                // super.onBackPressed();
+                Intent intent = new Intent(userViewing.this, UserHomePage.class);
+                intent.putExtra("pracGrader", pracGrader);
+                intent.putExtra("currUser", currUserName);
+                //setting it back to none mode so it won't recreate the view activity all over again
+                UserHomePage.none();
+                startActivity(intent);
+                break;
+
+            case practical:
+                break;
+
+        }
     }
 
     @Override
@@ -48,19 +64,38 @@ public class userViewing extends AppCompatActivity {
         currUserName = getIntent().getStringExtra("currUser");
 
 
-        // we've set everythign in a fragment, we don't have to do this. Although it's going to be
-        // a lot easier to maintain our code because fragments permit greater UI design flexibility
-        FragmentManager fm = getSupportFragmentManager();
-        userViewList frag  = (userViewList) fm.findFragmentById(R.id.viewingContainer);
+        //I am going to be using this activity to view teh list of users, and to add the practicals to all the students
+        switch (currMode)
+        {
+            case view:
+                // we've set everythign in a fragment, we don't have to do this. Although it's going to be
+                // a lot easier to maintain our code because fragments permit greater UI design flexibility
+                FragmentManager fm = getSupportFragmentManager();
+                userViewList frag  = (userViewList) fm.findFragmentById(R.id.viewingContainer);
 
-        //if they is nothing going to be attached to the current framgent
-        if (frag == null) {
-            //actually committing the fragment and making it show on the screen
-            frag = new userViewList();
-            fm.beginTransaction()
-                    .add(R.id.viewingContainer, frag)
-                    .commit();
+                //if they is nothing going to be attached to the current framgent
+                if (frag == null) {
+                    //actually committing the fragment and making it show on the screen
+                    frag = new userViewList();
+                    fm.beginTransaction()
+                            .add(R.id.viewingContainer, frag)
+                            .commit();
+                }
+
+                break;
+            case practical:
+                break;
         }
+    }
+
+    public static void practical()
+    {
+        currMode = state.practical;
+    }
+
+    public static void view()
+    {
+        currMode = state.view;
     }
 
     //being  able to grab the current data from whatever fragment which we're currently in

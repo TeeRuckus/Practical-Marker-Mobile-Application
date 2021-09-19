@@ -322,8 +322,9 @@ public class Graph implements Serializable
                 currInstructor = myUtils.cleanString(currInstructor);
                 Vertex instructorNode = vertices.get(currInstructor);
 
-                //deleting the student from the ins
+                //deleting the student from the instructor list
                 String studentName = myUtils.cleanString(currStudent.getName());
+                //TODO: what you can do is that you can add an if statement to protect
                 instructorNode.connections.remove(studentName);
             }
 
