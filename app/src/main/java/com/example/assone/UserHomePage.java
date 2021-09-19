@@ -1,3 +1,9 @@
+/*
+TODO:
+    - some bugs which I will have to come back andd actually fix
+       - so when you add a student whcich is going to have the same name as the admin, it
+       will over rid that admin like nothing had happen
+ */
 package com.example.assone;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -135,26 +141,50 @@ public class UserHomePage extends AppCompatActivity {
         switch(currUse)
         {
             case practical:
-                /*text = "practical selected";
+                text = "practical selected";
                 duration = Toast.LENGTH_SHORT;
                 toast = Toast.makeText(cntx, text, duration);
-                toast.show();*/
+                toast.show();
+                practicalSelect();
                 break;
 
             case student:
-                /*text = "Student Selected";
+                text = "Student Selected";
                 duration = Toast.LENGTH_SHORT;
                 toast = Toast.makeText(cntx, text, duration);
-                toast.show();*/
+                toast.show();
                 userModeSelect();
                 break;
 
             case tutor:
-                /*text = "Tutor selected";
+                text = "Tutor selected";
                 duration = Toast.LENGTH_SHORT;
                 toast = Toast.makeText(cntx, text, duration);
-                toast.show();*/
+                toast.show();
                 userModeSelect();
+                break;
+        }
+
+    }
+
+    // a function which is going to handle the functionality of practicals depending on the
+    public void practicalSelect()
+    {
+        Intent intent;
+        char firstLetterCapital = myUtils.getType(currUserName, pracGrader);
+        switch (firstLetterCapital)
+        {
+            case 'A':
+                //the admin should be able to add practicals for all the students in the graph structure
+                //TODO: come and finish impelmenting your practicals
+
+
+                break;
+
+            case 'I':
+                break;
+
+            case 'S':
                 break;
         }
 

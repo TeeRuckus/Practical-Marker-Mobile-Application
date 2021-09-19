@@ -236,7 +236,7 @@ public class Graph implements Serializable
             Vertex newVert = new Vertex(key, inStudent);
             vertices.put(key, newVert);
 
-            //if a vertex is not added with an owning instructor, the node is going to be attached to the admin node
+            //this add method is going to automatically going to attach the student to the admin
             Vertex adminNode = vertices.get(currentAdmin);
             adminNode.connections.put(myUtils.cleanString(inStudent.getName()), newVert);
         }
@@ -378,9 +378,21 @@ public class Graph implements Serializable
     {
         ArrayList<Vertex> retList = new ArrayList<>();
         Set<String> keys = vertices.keySet();
+        //creating an arraylist as it's a mutable data structure and can actually sort over
+        List<String> keysOrdered = new ArrayList<>();
 
-        for(String currKey : keys)
+        //transferring keys to keysOrdered
+        for (String currKey : keys)
         {
+            keysOrdered.add(currKey);
+        }
+
+        //we want to sort the keys before we retrieve them from the graph
+        Collections.sort(keysOrdered);
+
+        for(String currKey : keysOrdered)
+        {
+            //grabbing the vertices in sorted order
             retList.add(vertices.get(currKey));
         }
 
@@ -402,9 +414,21 @@ public class Graph implements Serializable
         }
 
         Set<String> keys = currInstructor.connections.keySet();
+        //creating an arrayList as it's a mutable data structure and we can sort over teh data structure
+        List<String> keysOrdered = new ArrayList<>();
 
-        for(String currKey  : keys)
+        //transferring keys to keysOrdered
+        for (String currKey : keys)
         {
+            keysOrdered.add(currKey);
+        }
+
+        //we want to sort the keys before we retrieve tehm from teh graph
+        Collections.sort(keysOrdered);
+
+        for(String currKey  : keysOrdered)
+        {
+            //grabbing the vertices in sorted order
             retList.add(currInstructor.connections.get(keys));
         }
 
