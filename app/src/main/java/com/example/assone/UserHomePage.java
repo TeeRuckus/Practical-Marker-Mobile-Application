@@ -116,6 +116,7 @@ public class UserHomePage extends AppCompatActivity {
         }
     }
 
+    //this to display with a toast which button is going to be selected from the bottom tray of the programme
     public void broadCastMessage()
     {
         Context cntx = getApplicationContext();

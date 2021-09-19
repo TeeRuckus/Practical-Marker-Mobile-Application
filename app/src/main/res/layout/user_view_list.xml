@@ -16,7 +16,7 @@
 
         <!-- TODO: you will need ot do the margins for your layouts properly -->
 
-        <TextView
+        <EditText
             android:id="@+id/userNameView"
             android:layout_width="0dp"
             android:layout_weight="2"

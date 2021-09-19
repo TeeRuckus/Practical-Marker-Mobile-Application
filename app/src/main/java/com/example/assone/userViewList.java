@@ -3,12 +3,14 @@
  */
 package com.example.assone;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -148,6 +150,8 @@ public class userViewList extends Fragment
         private EditText nameEditor;
         private EditText score;
         private Button viewUser;
+        private Graph.Vertex vert;
+        private String currUser;
 
         private TextWatcher tw;
 
@@ -160,7 +164,72 @@ public class userViewList extends Fragment
             super(li.inflate(R.layout.user_view_list, parent, false));
 
             //getting reference to all the major UI components
+            nameEditor = (EditText) itemView.findViewById(R.id.userNameView);
+            score = (EditText) itemView.findViewById(R.id.scoreUserView);
+            viewUser = (Button) itemView.findViewById(R.id.viewUserList);
 
+            //grabbing the required objects from the activity which had called us previously which is
+            //going to be userViewing.java
+            pracGrader = userViewing.getGraph();
+            currUser = userViewing.getCurrUser();
+
+            // 'tw' is an event handler that will be invoked whenever the name or the score of a
+            //student is going to be edited
+            tw = new TextWatcher() {
+                //we're required to override these methods but we actually don't ever use them in
+                //the programme which we're going to be making
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                // This is where we get notified that the text has actaully being changed in the programme
+                @Override
+                public void afterTextChanged(Editable editable)
+                {
+                    //when the text change, it's going to depend on what box they clicked
+                    //if they clicked the name box, the users name should change.
+                    //if they clicked the score box, the users score should change
+                    vert.getValue().setName(nameEditor.getText().toString());
+
+                    //TODO: you will need to figure out how you're going to get the scores once you
+                    //have implemented the practicals for the users in the programme
+                }
+            };
+
+            //an event listener for when the user is going to click on the view page.
+            //Once the View page is clicked a new details page should be launched which is going to include
+            //all the details of the current user
+
+            viewUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent intent = new Intent(getActivity(), Details.class);
+                    intent.putExtra("pracGrader", pracGrader);
+                    intent.putExtra("currUser", currUser);
+                    startActivity(intent);
+                }
+            });
+        }
+
+        public  void bind(Graph.Vertex inVert)
+        {
+            this.vert = inVert;
+
+            // we must update teh displayed names, and scores. However, for each one we have
+            // to temporarily disable the corresponding event handler, or else the event
+            // handler would assume the *user* has edited the informatio of the current edit
+            // text box which we're viewing
+            nameEditor.removeTextChangedListener(tw);
+            nameEditor.setText(inVert.getValue().getName());
+            nameEditor.addTextChangedListener(tw);
+
+            //TODO: you will need to do the same thing with the score which you set
         }
     }
 
@@ -178,12 +247,14 @@ public class userViewList extends Fragment
         @Override
         public void onBindViewHolder(@NonNull userViewHolder holder, int position)
         {
+            holder.bind(userMap.get(position));
 
         }
 
         @Override
-        public int getItemCount() {
-            return 0;
+        public int getItemCount()
+        {
+           return userMap.size();
         }
     }
 

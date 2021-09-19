@@ -83,4 +83,14 @@
         android:textColorHint="@color/paleNight_yellow"
         android:textSize="20dp"
         android:layout_below="@+id/userEmailDetails"/>
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_margin="15dp"
+        android:background="@color/paleNight_error"
+        android:layout_alignParentBottom="true" />
+
 </RelativeLayout>

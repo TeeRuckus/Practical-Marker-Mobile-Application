@@ -103,6 +103,7 @@ public class mainButtons extends Fragment {
                 setAdmin();
 
                 //getting the type of action which will need to be performed
+                //option one is going to correspond to the add button in the programme
                 optionOne.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -112,6 +113,19 @@ public class mainButtons extends Fragment {
                         getActivity().recreate();
                     }
                 });
+
+
+                //optionFour is going to correspond to the view button in the programme
+                optionFour.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserHomePage.view();
+                        /* we will need to refresh the activity so that the page can process the new
+                        information which was passed from this activity */
+                        getActivity().recreate();
+                    }
+                });
+
 
                 break;
             case 'I':

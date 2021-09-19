@@ -25,6 +25,7 @@ public class userViewing extends AppCompatActivity {
         currUserName = getIntent().getStringExtra("currUser");
     }
 
+    //being  able to grab the current data from whatever fragment which we're currently in
     public static Graph getGraph()
     {
         return pracGrader;
@@ -33,5 +34,12 @@ public class userViewing extends AppCompatActivity {
     public static String getCurrUser()
     {
         return currUserName;
+    }
+
+    //being able to set data from whatever fragment which we're currently going to be in
+
+    public static void setGraph(Graph inPracGrader)
+    {
+        pracGrader = inPracGrader;
     }
 }
