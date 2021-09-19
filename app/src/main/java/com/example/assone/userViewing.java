@@ -3,6 +3,7 @@ package com.example.assone;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,21 @@ public class userViewing extends AppCompatActivity {
     private static TextView userBanner;
     //a tag whcih is going to be used for debuggin purposes for this programme
     private static final String TAG = "userViewing.";
+
+    // changing the behaviour of the back button, instead of it going to the last thing, the back
+    // button is going to go back to the last activity
+
+    @Override
+    public void onBackPressed()
+    {
+        // super.onBackPressed();
+        Intent intent = new Intent(userViewing.this, UserHomePage.class);
+        intent.putExtra("pracGrader", pracGrader);
+        intent.putExtra("currUser", currUserName);
+        //setting it back to none mode so it won't recreate the view activity all over again
+        UserHomePage.none();
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -234,6 +234,8 @@ public class userViewList extends Fragment
 
 
             //TODO: you will need to do the same thing with the score which you set
+            //TODO: you will need to have different bind methods. One for viewing, and one
+            //for editing
         }
     }
 

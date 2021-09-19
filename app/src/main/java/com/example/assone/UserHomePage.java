@@ -52,6 +52,14 @@ public class UserHomePage extends AppCompatActivity {
     private static mode currMode;
     private static use currUse;
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        //we want when the user presses the back button the same thing as the leave button
+        Intent intent = new Intent(UserHomePage.this, MainActivity.class);
+        intent.putExtra("pracGrader", pracGrader);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
