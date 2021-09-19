@@ -35,22 +35,13 @@ public class userViewing extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        switch (currMode)
-        {
-            case view:
-                // super.onBackPressed();
-                Intent intent = new Intent(userViewing.this, UserHomePage.class);
-                intent.putExtra("pracGrader", pracGrader);
-                intent.putExtra("currUser", currUserName);
-                //setting it back to none mode so it won't recreate the view activity all over again
-                UserHomePage.none();
-                startActivity(intent);
-                break;
-
-            case practical:
-                break;
-
-        }
+            // super.onBackPressed();
+            Intent intent = new Intent(userViewing.this, UserHomePage.class);
+            intent.putExtra("pracGrader", pracGrader);
+            intent.putExtra("currUser", currUserName);
+            //setting it back to none mode so it won't recreate the view activity all over again
+            UserHomePage.none();
+            startActivity(intent);
     }
 
     @Override

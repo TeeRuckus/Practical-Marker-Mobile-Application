@@ -178,6 +178,7 @@ public class UserHomePage extends AppCompatActivity {
                 switch (currMode)
                 {
                     case add:
+
                         break;
 
                     case view:
@@ -241,7 +242,6 @@ public class UserHomePage extends AppCompatActivity {
                         break;
                 }
                 break;
-
         }
     }
 

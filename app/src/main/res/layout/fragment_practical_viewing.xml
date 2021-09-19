@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/paleNight_background"
+    tools:context=".practicalViewing">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/practicalTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dark_second"
+            android:text="Practical Title"
+            android:textSize="20dp"
+            android:textColor="@color/paleNight_white"
+            android:layout_marginTop="15dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/practicalTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/practicalTitleView"
+            android:hint="Enter title"
+            android:textColorHint="@color/paleNight_text"
+            android:textColor="@color/paleNight_white"
+            android:textSize="16dp"
+            android:background="@color/paleNight_foreground"
+            android:layout_marginBottom="15dp"
+            android:inputType="textPersonName"/>
+
+        <TextView
+            android:id="@+id/practicalAvailableMarksView"
+            android:background="@color/dark_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/practicalTitle"
+            android:text="Available Marks"
+            android:textSize="20dp"
+            android:textColor="@color/paleNight_white"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/availableMarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/practicalAvailableMarksView"
+            android:hint="Enter Marks"
+            android:textColorHint="@color/paleNight_text"
+            android:textColor="@color/paleNight_white"
+            android:textSize="16dp"
+            android:background="@color/paleNight_foreground"
+            android:layout_marginBottom="15dp"
+            android:inputType="number"/>
+
+
+        <TextView
+            android:id="@id/practicalDescriptionView"
+            android:background="@color/dark_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/availableMarks"
+            android:text="practical description"
+            android:textSize="20dp"
+            android:textColor="@color/paleNight_white"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/practicalDescription"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/practicalDescriptionView"
+            android:layout_alignBottom="@+id/addPracticalBttn"
+            android:layout_alignStart="@id/practicalDescriptionView"
+            android:hint="enter description"
+            android:textColorHint="@color/paleNight_text"
+            android:textColor="@color/paleNight_white"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:background="@color/paleNight_foreground"
+            android:inputType="text"/>
+        
+        <Button
+            android:id="@+id/addPracticalBttn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="add practical"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+
+</FrameLayout>
