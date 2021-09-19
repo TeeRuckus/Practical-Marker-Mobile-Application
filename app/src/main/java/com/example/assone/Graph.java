@@ -99,6 +99,8 @@ public class Graph implements Serializable
 
         }
 
+
+
         public void setValue(Admin inUser)
         {
             value = inUser;
@@ -362,6 +364,31 @@ public class Graph implements Serializable
     public HashMap<String, Vertex> getVertices()
     {
         return new HashMap<>(vertices);
+    }
+
+    //loading the different vertices depending on the user which is going to be using the graph structure
+    public HashMap<String, Vertex> adminLoad()
+    {
+        //this method is going to be used for viewing purposes hence we want to return a copy of the hash map
+        return new HashMap<>(vertices);
+
+    }
+
+    public HashMap<String, Vertex> instructorLoad(String inInstructor)
+    {
+        //this method is going to be used for viewing purposes hence we want to return a copy of the hash map
+        //the instructor can only view the students which are connected to him
+        Vertex currInstructor = getVertex(inInstructor);
+
+        //double checking if the retrieved vertex is actually going to be an instructor
+        if(!(currInstructor.value.getType().equals("INSTRUCTOR")))
+        {
+            throw new IllegalArgumentException("ERROR: can only load instructor vertexs");
+        }
+
+        //once we're confident that an instructor has being loaded we can get all the instructors students and return them as a copy as they
+        //should be only for viewing purposes and nothing more
+        return new HashMap<>(currInstructor.connections);
     }
 
     public void moveStudent(String studentName, String newInsructor)
