@@ -126,6 +126,8 @@
 
         <Button
             android:id="@+id/registerBttn"
+            android:background="@color/paleNight_buttons"
+            android:textColor="@color/paleNight_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

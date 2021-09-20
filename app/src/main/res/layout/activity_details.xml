@@ -85,6 +85,16 @@
         android:layout_below="@+id/userEmailDetails"/>
 
     <Button
+        android:id="@+id/viewPracsBttn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="view pracs"
+        android:layout_margin="15dp"
+        android:textColor="@color/paleNight_white"
+        android:background="@color/paleNight_buttons"
+        android:layout_above="@id/deleteButton" />
+
+    <Button
         android:id="@+id/deleteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -26,6 +26,7 @@ public class Details extends AppCompatActivity {
     private EditText userEmail;
     private EditText studentOwner;
     private Button delButton;
+    private Button viewPracs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,12 +58,15 @@ public class Details extends AppCompatActivity {
                 delButton.setClickable(false);
                 delButton.setText("");
                 delButton.setBackgroundColor(Color.TRANSPARENT);
-
                 disableOwner();
+                disableViewPracs();
+
                 break;
             case 'I':
                 banner.setText("Instructor Details");
                 disableOwner();
+                disableViewPracs();
+
                 break;
             case 'S':
                 banner.setText("Student Details");
@@ -87,6 +91,13 @@ public class Details extends AppCompatActivity {
         });
     }
 
+    public void disableViewPracs()
+    {
+        viewPracs.setClickable(false);
+        viewPracs.setText("");
+        viewPracs.setBackgroundColor(Color.TRANSPARENT);
+    }
+
     public void disableOwner()
     {
         studentOwner.setClickable(false);
@@ -106,5 +117,6 @@ public class Details extends AppCompatActivity {
         userEmail = findViewById(R.id.userEmailDetails);
         studentOwner = findViewById(R.id.studentOwnerDetails);
         delButton = findViewById(R.id.deleteButton);
+        viewPracs = findViewById(R.id.viewPracsBttn);
     }
 }

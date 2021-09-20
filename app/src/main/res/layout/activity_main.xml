@@ -131,6 +131,8 @@
             android:id="@+id/logInBttn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/paleNight_buttons"
+            android:textColor="@color/paleNight_white"
             android:padding="8dp"
             android:textSize="30dp"
             android:textAllCaps="false"
