@@ -23,6 +23,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -188,6 +189,11 @@ public class Register extends AppCompatActivity {
                                 boolean  valid = registerUser(newStudent);
                                 Student createdStudent = (Student) newStudent;
                                 createdStudent.setInstructor(currUser);
+                                //giving all the practicals which the current admin has to the newly created student
+
+                                Graph.Vertex adminNode = pracGrader.getVertex();
+                                HashMap<String, Practical> adminPracs = adminNode.getValue().getPracticals();
+                                createdStudent.setPracticals(adminPracs);
                                 pracGrader.addVertex(createdStudent);
                                 if(valid)
                                 {

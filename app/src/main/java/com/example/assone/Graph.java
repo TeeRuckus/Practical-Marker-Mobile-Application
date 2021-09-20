@@ -438,6 +438,11 @@ public class Graph implements Serializable
     // adding the current practical to the students whcih are on the current network
     public void sendPracticals(Practical inPrac)
     {
+        // adding the practicals to the admin, so if a new student is added by the admin, the admin can
+        // give the practicals which the amdin has
+        Vertex adminVert = getVertex();
+        adminVert.getValue().addPrac(inPrac);
+
         Set<String > allVertices = vertices.keySet();
 
         for (String currVertKey : allVertices)

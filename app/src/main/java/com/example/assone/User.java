@@ -5,6 +5,7 @@ TODO:
     respoinsbility of the application which is going to be the graph data structure
  */
 package com.example.assone;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -20,7 +21,7 @@ public abstract class User implements Serializable
     private String userName;
     private String email;
     private String country;
-    protected Hashtable<String, Practical> practicals;
+    protected HashMap<String, Practical> practicals;
     private int password;
 
     public User()
@@ -30,7 +31,7 @@ public abstract class User implements Serializable
         email = "johnDoe@curtin.edu.au";
         country = "AUSTRALIA";
         password = 1234;
-        practicals = new Hashtable<String, Practical>();
+        practicals = new HashMap<String, Practical>();
     }
 
     public User(String inName, String inUserName, String inEmail, String inCountry)
@@ -43,7 +44,7 @@ public abstract class User implements Serializable
             email = inEmail;
             country = inCountry;
             password = 1234;
-            practicals = new Hashtable<String, Practical>();
+            practicals = new HashMap<String, Practical>();
         }
     }
 
@@ -76,6 +77,11 @@ public abstract class User implements Serializable
 
     }
 
+    public HashMap<String, Practical> getPracticals()
+    {
+        return new HashMap<>(practicals);
+    }
+
     public String dispPrac(String title)
     {
         String pracDetails = "";
@@ -95,6 +101,12 @@ public abstract class User implements Serializable
         }
 
         return pracDetails;
+    }
+
+    public void addPrac(Practical inPrac)
+    {
+        String pracName = myUtils.cleanString(inPrac.getTitle());
+        practicals.put(pracName, inPrac);
     }
 
     public int getPassword()
@@ -135,6 +147,11 @@ public abstract class User implements Serializable
         {
             country = inCountry;
         }
+    }
+
+    public void setPracticals(HashMap<String, Practical> inPracs)
+    {
+        practicals = inPracs;
     }
 
     public void setPassword(int inPassword)

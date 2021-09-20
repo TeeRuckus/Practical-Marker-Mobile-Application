@@ -79,12 +79,6 @@ public class Student extends User implements Serializable
         return  valid;
     }
 
-    public void addPrac(Practical inPrac)
-    {
-        String pracName = myUtils.cleanString(inPrac.getTitle());
-        practicals.put(pracName, inPrac);
-    }
-
     public String toString()
     {
         return "Student," + super.toString() + ",instructor: " + currInstructor;
