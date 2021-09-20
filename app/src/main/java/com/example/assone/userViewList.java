@@ -45,7 +45,8 @@ public class userViewList extends Fragment
     private enum state {
         admin,
         instructor,
-        student
+        student,
+        practicalLoad
     }
 
     private static state currState;
@@ -96,6 +97,7 @@ public class userViewList extends Fragment
         {
             case admin:
                 //load all the vertices which are going to be in the current network
+                //TODO: you will need to change on how that is going to be laoded depending on the set up
                 userMap = pracGrader.adminLoad();
 
                 break;
@@ -105,6 +107,12 @@ public class userViewList extends Fragment
                 break;
             case student:
                 //do nothign for the current moment
+                break;
+            case practicalLoad:
+                //the current user map is going to be only one student
+                Graph.Vertex currVert = pracGrader.getVertex(currUser);
+                userMap = new ArrayList<>();
+                userMap.add(currVert);
                 break;
         }
     }
@@ -216,16 +224,22 @@ public class userViewList extends Fragment
 
         public  void bind(Graph.Vertex inVert)
         {
-            this.vert = inVert;
 
-            // we must update teh displayed names, and scores. However, for each one we have
-            // to temporarily disable the corresponding event handler, or else the event
-            // handler would assume the *user* has edited the informatio of the current edit
-            // text box which we're viewing
+            switch (currState)
+            {
+                case admin:
+                    this.vert = inVert;
+                    // we must update teh displayed names, and scores. However, for each one we have
+                    // to temporarily disable the corresponding event handler, or else the event
+                    // handler would assume the *user* has edited the informatio of the current edit
+                    // text box which we're viewing
 
-            //nameEditor.removeTextChangedListener(tw);
-            nameEditor.setText(inVert.getValue().getName());
-            //nameEditor.addTextChangedListener(tw);
+                    //nameEditor.removeTextChangedListener(tw);
+                    nameEditor.setText(inVert.getValue().getName());
+                    //nameEditor.addTextChangedListener(tw);
+                    break;
+            }
+
 
 
             //TODO: you will need to do the same thing with the score which you set

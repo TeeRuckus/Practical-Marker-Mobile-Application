@@ -33,6 +33,7 @@
             android:textColor="@color/paleNight_text"
             android:text="User Name"/>
 
+        <!-- I might change this just to a text view which is giong to display the score if the user has one -->
         <EditText
             android:id="@+id/scoreUserView"
             android:layout_width="0dp"

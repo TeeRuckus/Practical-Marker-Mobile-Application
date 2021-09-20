@@ -29,6 +29,18 @@ public class Details extends AppCompatActivity {
     private Button viewPracs;
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+
+        //go back to the activity which launched us which is going to be userViewing, and view the list of students
+        Intent intent = new Intent(Details.this, userViewing.class);
+        intent.putExtra("pracGrader", pracGrader);
+        intent.putExtra("currUser", currUser);
+        userViewing.view();
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -82,6 +94,7 @@ public class Details extends AppCompatActivity {
                         Intent intent = new Intent(Details.this, userViewing.class);
                         intent.putExtra("pracGrader", pracGrader);
                         intent.putExtra("currUser", currUser);
+                        intent.putExtra("clickedPerson", clickedPerson);
                         userViewing.practicalList();
                         startActivity(intent);
                     }

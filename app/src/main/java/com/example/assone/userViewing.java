@@ -19,6 +19,7 @@ public class userViewing extends AppCompatActivity {
     private static Graph pracGrader;
     private static String currUserName;
     private static TextView userBanner;
+    private static String clickedPerson;
     //a tag whcih is going to be used for debuggin purposes for this programme
     private static final String TAG = "userViewing.";
 
@@ -36,13 +37,27 @@ public class userViewing extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-            // super.onBackPressed();
-            Intent intent = new Intent(userViewing.this, UserHomePage.class);
-            intent.putExtra("pracGrader", pracGrader);
-            intent.putExtra("currUser", currUserName);
-            //setting it back to none mode so it won't recreate the view activity all over again
-            UserHomePage.none();
-            startActivity(intent);
+        Intent intent;
+        switch (currMode)
+        {
+            case view:
+                intent = new Intent(userViewing.this, UserHomePage.class);
+                intent.putExtra("pracGrader", pracGrader);
+                intent.putExtra("currUser", currUserName);
+                //setting it back to none mode so it won't recreate the view activity all over again
+                UserHomePage.none();
+                startActivity(intent);
+                break;
+            case practicalList:
+                // the thing which created us is going to be the user details page of the user.
+                // hence, go back to the user detail page which created us
+                intent = new Intent(userViewing.this, Details.class);
+                intent.putExtra("pracGrader", pracGrader);
+                intent.putExtra("currUser", currUserName);
+                intent.putExtra("clickedPerson", clickedPerson);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override
@@ -54,6 +69,14 @@ public class userViewing extends AppCompatActivity {
         //reading in the passed in pracGrader and currUser from the previous activity
         pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
         currUserName = getIntent().getStringExtra("currUser");
+
+        if (currMode == state.practicalList)
+        {
+            //we should be expecting a clicked person string into this activity
+            clickedPerson = getIntent().getStringExtra("clickedPerson");
+        }
+
+        Log.e(TAG, "I have received your lord: " + currUserName);
         userBanner = findViewById(R.id.bannerUserViewing);
 
         FragmentManager fm = getSupportFragmentManager();
@@ -92,6 +115,7 @@ public class userViewing extends AppCompatActivity {
                 break;
 
             case practicalList:
+                //TODO: I am editin here mate
                 userBanner.setText("Practicals");
                 break;
         }
