@@ -98,6 +98,8 @@ public class bottomButtonTray extends Fragment {
                     public void onClick(View view) {
                         //for the admin, this button is going to correspond to practicals hence need to put activity in practical mode
                         UserHomePage.practical();
+                        //resetting the current mode to none, so we won't get sticky buttons
+                        UserHomePage.none();
                         /* we will need to refresh the activity so that the page can process the new
                         information which was passed from this activity */
                         getActivity().recreate();
@@ -110,6 +112,7 @@ public class bottomButtonTray extends Fragment {
                     public void onClick(View view) {
                         //for the admin, this button is going to correspond to student hence need to put activity in student mode
                         UserHomePage.student();
+                        UserHomePage.none();
                         /* we will need to refresh the activity so that the page can process the new
                         information which was passed from this activity */
                         getActivity().recreate();
@@ -121,6 +124,7 @@ public class bottomButtonTray extends Fragment {
                     public void onClick(View view) {
                         //for the admin, this button is going to correspond to the tutor hence need to put activity into tutor mode
                         UserHomePage.tutor();
+                        UserHomePage.none();
                         /* we will need to refresh the activity so that the page can process the new
                         information which was passed from this activity */
                         getActivity().recreate();
@@ -139,6 +143,7 @@ public class bottomButtonTray extends Fragment {
                     @Override
                     public void onClick(View view) {
                         UserHomePage.practical();
+                        UserHomePage.none();
                         getActivity().recreate();
                     }
                 });
@@ -147,6 +152,7 @@ public class bottomButtonTray extends Fragment {
                     @Override
                     public void onClick(View view) {
                         UserHomePage.student();
+                        UserHomePage.none();
                         getActivity().recreate();
                     }
                 });
@@ -169,7 +175,7 @@ public class bottomButtonTray extends Fragment {
             public void onClick(View view) {
                 //what will leave when you click the leave button
                 UserHomePage.leave();
-                Log.i(TAG, "COMMAND IS SENT");
+                UserHomePage.none();
                 //I want to reload the activity so that the new changes can be actually rendered in the application
                 getActivity().recreate();
             }
