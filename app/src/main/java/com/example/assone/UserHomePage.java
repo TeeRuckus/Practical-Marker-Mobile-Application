@@ -164,7 +164,6 @@ public class UserHomePage extends AppCompatActivity {
                 userModeSelect();
                 break;
         }
-
     }
 
     // a function which is going to handle the functionality of practicals depending on the
@@ -183,6 +182,7 @@ public class UserHomePage extends AppCompatActivity {
                         intent.putExtra("pracGrader", pracGrader);
                         intent.putExtra("currUser", currUserName);
                         userViewing.practical();
+                        practicalViewing.create();
                         startActivity(intent);
                         break;
 

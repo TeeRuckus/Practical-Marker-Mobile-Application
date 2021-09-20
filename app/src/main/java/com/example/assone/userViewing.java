@@ -20,13 +20,15 @@ public class userViewing extends AppCompatActivity {
     private static String currUserName;
     private static TextView userBanner;
     private static String clickedPerson;
+    private static String currSelPrac;
     //a tag whcih is going to be used for debuggin purposes for this programme
     private static final String TAG = "userViewing.";
 
     public enum state {
         practical,
         view,
-        practicalList
+        practicalList,
+        practicalView
     }
 
     private static state currMode;
@@ -52,6 +54,17 @@ public class userViewing extends AppCompatActivity {
                 // the thing which created us is going to be the user details page of the user.
                 // hence, go back to the user detail page which created us
                 intent = new Intent(userViewing.this, Details.class);
+                intent.putExtra("pracGrader", pracGrader);
+                intent.putExtra("currUser", currUserName);
+                intent.putExtra("clickedPerson", clickedPerson);
+                startActivity(intent);
+                break;
+
+            case practicalView:
+                // we want to go back to the list of the available practicals for the current user
+                //TODO: you will need to actually test this and make sure that it works
+                intent = new Intent(userViewing.this, userViewing.class);
+                userViewing.practicalList();
                 intent.putExtra("pracGrader", pracGrader);
                 intent.putExtra("currUser", currUserName);
                 intent.putExtra("clickedPerson", clickedPerson);
@@ -127,7 +140,39 @@ public class userViewing extends AppCompatActivity {
                             .commit();
                 }
                 break;
+
+            case practicalView:
+                userBanner.setText("Practical Details");
+
+                // attaching the practival viewing fragment, so you can see the current practical which has
+                // being set
+
+                currSelPrac = getIntent().getStringExtra("clickedPractical");
+                Log.e(TAG, "SELECTED PRACTICAL: " + currSelPrac);
+
+                practicalViewing fragPracView = (practicalViewing) fm.findFragmentById(R.id.viewingContainer);
+
+                if (fragPracView == null)
+                {
+                    //actually comitting the fragment and making it show on the screen
+                    fragPracView = new practicalViewing();
+                    practicalViewing.editScore();
+                    fm.beginTransaction()
+                            .add(R.id.viewingContainer, fragPracView)
+                            .commit();
+                }
+
+                break;
         }
+    }
+
+    public static String getClickedPrac()
+    {
+        return currSelPrac;
+    }
+    public static void practicalView()
+    {
+        currMode = state.practicalView;
     }
 
     public static void practicalList()

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 
 public class practicalViewing extends Fragment {
@@ -31,6 +33,13 @@ public class practicalViewing extends Fragment {
     private TextView availableMarksView;
     private TextView practicalDescrptionView;
     private static final String TAG = "practicalViewing.";
+
+    private enum mode {
+        create,
+        editScore
+    }
+
+    private static mode currMode;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,31 +98,96 @@ public class practicalViewing extends Fragment {
         availableMarksView = view.findViewById(R.id.practicalAvailableMarksView);
         practicalDescrptionView = view.findViewById(R.id.practicalDescriptionView);
 
-        addBttn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //creating a new practical object from the description which was given
-                //TODO: you will need ot update the total available marks for the object
+        switch (currMode)
+        {
+            case create:
+                addBttn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //creating a new practical object from the description which was given
+                        //TODO: you will need ot update the total available marks for the object
+                        boolean valid = distributePracs();
+
+                        if (valid)
+                        {
+                            //display success and then clear the screen
+                            Context cntx = getActivity().getApplicationContext();
+                            CharSequence text = "Practical created";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(cntx, text, duration);
+                            toast.show();
+                            clearText();
+                            getActivity().recreate();
+                        }
+                    }
+                });
+
+                break;
+
+            case editScore:
+                //getting the current user and the current prac which they selected on the view
+                addBttn.setText("Update");
+                String currPrac = userViewing.getClickedPrac();
+
+                //retriving the current practical from the user
+                Graph.Vertex currVert = pracGrader.getVertex(currUser);
+                User currUser = currVert.getValue();
+                Practical userPrac = currUser.getPrac(currPrac);
+
+                //updating the views
+                pracTitle.setText("Previous Score: " + userPrac.getScoredMarks());
+                pracTitleView.setText(currPrac);
+                pracTotalMarks.setHint("Enter Scored Marks");
+                availableMarksView.setText("Available Marks: " + userPrac.getTotalMark());
+                pracDescription.setText(userPrac.getdescrp());
+
+                //disabling everything except the scored marks for the current user
+                //pracDescription.setClickable(false);
+                pracTitle.setEnabled(false);
+                pracDescription.setEnabled(false);
 
 
-                boolean valid = distributePracs();
+                addBttn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.e(TAG, "I AM CLICKED YOU FAT MOTHER FUCKER");
+                        //grab the number which the user has inputted in the programme
+                        float score = Float.parseFloat(pracTotalMarks.getText().toString());
+                        userPrac.setScoredMarks(score);
+                        //TODO: you will need to adad a toast to show that the required use has being
+                        // added to the application
+                        Context cntx = getActivity().getApplicationContext();
+                        CharSequence text = "Practical Updated";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(cntx, text, duration);
+                        toast.show();
+                        refreshView(userPrac);
+                        getActivity().recreate();
+                    }
+                });
 
-                if (valid)
-                {
-                    //display success and then clear the screen
-                    Context cntx = getActivity().getApplicationContext();
-                    CharSequence text = "Practical created";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(cntx, text, duration);
-                    toast.show();
-                    clearText();
-                    getActivity().recreate();
-                }
-
-            }
-        });
+                break;
+        }
         //return inflater.inflate(R.layout.fragment_practical_viewing, container, false);
         return view;
+    }
+
+    public static void create()
+    {
+        currMode = mode.create;
+    }
+
+    public static void editScore()
+    {
+        currMode = mode.editScore;
+    }
+
+    public void refreshView(Practical userPrac)
+    {
+        //we ant to clear the entered score, and re-update what
+        pracTotalMarks.setText("");
+        pracTitle.setText("Previous Score: " + userPrac.getScoredMarks());
+
     }
 
     public void clearText()

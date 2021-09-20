@@ -227,17 +227,37 @@ public class userViewList extends Fragment
             //Once the View page is clicked a new details page should be launched which is going to include
             //all the details of the current user
 
-            viewUser.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view)
-                {
-                    Intent intent = new Intent(getActivity(), Details.class);
-                    intent.putExtra("pracGrader", pracGrader);
-                    intent.putExtra("currUser", currUser);
-                    intent.putExtra("clickedPerson", nameEditor.getText().toString());
-                    startActivity(intent);
-                }
-            });
+            switch (currState)
+            {
+                case admin:
+                    viewUser.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view)
+                        {
+                            Intent intent = new Intent(getActivity(), Details.class);
+                            intent.putExtra("pracGrader", pracGrader);
+                            intent.putExtra("currUser", currUser);
+                            intent.putExtra("clickedPerson", nameEditor.getText().toString());
+                            startActivity(intent);
+                        }
+                    });
+
+                    break;
+                case practicalLoad:
+                    viewUser.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getActivity(), userViewing.class);
+                            intent.putExtra("pracGrader", pracGrader);
+                            intent.putExtra("currUser", currUser);
+                            intent.putExtra("clickedPractical", nameEditor.getText().toString());
+                            userViewing.practicalView();
+                            startActivity(intent);
+                        }
+                    });
+
+                    break;
+            }
         }
 
         public  void bind(Graph.Vertex inVert)
