@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -50,6 +51,10 @@ public class userViewList extends Fragment
         student,
         practicalLoad
     }
+
+    private enum viewType {
+        student
+}
 
     private static state currState;
 
@@ -218,6 +223,8 @@ public class userViewList extends Fragment
                     //if they clicked the score box, the users score should change
                     vert.getValue().setName(nameEditor.getText().toString());
 
+                    Log.e(TAG, "you have changed the name");
+
                     //TODO: you will need to figure out how you're going to get the scores once you
                     //have implemented the practicals for the users in the programme
                 }
@@ -230,6 +237,9 @@ public class userViewList extends Fragment
             switch (currState)
             {
                 case admin:
+                    // when it's goign to be teh ordinary admin add, you should noe be able to click
+                    // on teh score EditText
+                    score.setEnabled(false);
                     viewUser.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view)
@@ -283,6 +293,7 @@ public class userViewList extends Fragment
             this.prac = inPrac;
             //seeing if I can display the current title of the prac on the recycler view  at the moment
             nameEditor.setText(inPrac.getTitle());
+            score.setText(Float.toString(inPrac.getScoredMarks()));
             Log.e(TAG, "Practical Title: " + inPrac.getTitle());
         }
     }
