@@ -73,6 +73,20 @@ public class Details extends AppCompatActivity {
                 Student currStudent = (Student) currUserObj;
                 studentOwner.setHint(currStudent.getInstructor());
                 userViewList.admin();
+
+                //the student details is going to have the view prac button activated
+                viewPracs.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //when the button is clicked open the users
+                        Intent intent = new Intent(Details.this, userViewing.class);
+                        intent.putExtra("pracGrader", pracGrader);
+                        intent.putExtra("currUser", currUser);
+                        userViewing.practicalList();
+                        startActivity(intent);
+                    }
+                });
+
                 break;
         }
 

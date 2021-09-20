@@ -24,7 +24,8 @@ public class userViewing extends AppCompatActivity {
 
     public enum state {
         practical,
-        view
+        view,
+        practicalList
     }
 
     private static state currMode;
@@ -89,9 +90,17 @@ public class userViewing extends AppCompatActivity {
                             .commit();
                 }
                 break;
+
+            case practicalList:
+                userBanner.setText("Practicals");
+                break;
         }
     }
 
+    public static void practicalList()
+    {
+        currMode = state.practicalList;
+    }
     public static void practical()
     {
         currMode = state.practical;
