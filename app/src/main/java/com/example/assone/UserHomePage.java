@@ -178,6 +178,12 @@ public class UserHomePage extends AppCompatActivity {
                 switch (currMode)
                 {
                     case add:
+                        //launch the activity whcih is going to take care of adding the practicals onto the network
+                        intent = new Intent(UserHomePage.this, userViewing.class);
+                        intent.putExtra("pracGrader", pracGrader);
+                        intent.putExtra("currUser", currUserName);
+                        userViewing.practical();
+                        startActivity(intent);
 
                         break;
 

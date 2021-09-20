@@ -53,7 +53,9 @@ public class userViewing extends AppCompatActivity {
         //reading in the passed in pracGrader and currUser from the previous activity
         pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
         currUserName = getIntent().getStringExtra("currUser");
+        userBanner = findViewById(R.id.bannerUserViewing);
 
+        FragmentManager fm = getSupportFragmentManager();
 
         //I am going to be using this activity to view teh list of users, and to add the practicals to all the students
         switch (currMode)
@@ -61,7 +63,7 @@ public class userViewing extends AppCompatActivity {
             case view:
                 // we've set everythign in a fragment, we don't have to do this. Although it's going to be
                 // a lot easier to maintain our code because fragments permit greater UI design flexibility
-                FragmentManager fm = getSupportFragmentManager();
+                userBanner.setText("View Users");
                 userViewList frag  = (userViewList) fm.findFragmentById(R.id.viewingContainer);
 
                 //if they is nothing going to be attached to the current framgent
@@ -75,6 +77,17 @@ public class userViewing extends AppCompatActivity {
 
                 break;
             case practical:
+                userBanner.setText("Creating Practical");
+
+                practicalViewing fragPrac = (practicalViewing)  fm.findFragmentById(R.id.viewingContainer);
+
+                if (fragPrac == null) {
+                    //actually committing the fragment and making it show on the screen
+                    fragPrac = new practicalViewing();
+                    fm.beginTransaction()
+                            .add(R.id.viewingContainer, fragPrac)
+                            .commit();
+                }
                 break;
         }
     }
