@@ -20,8 +20,8 @@ import android.widget.Toast;
 public class UserHomePage extends AppCompatActivity {
 
     //all the class fields of the UI
-    private Graph pracGrader;
-    private String currUserName;
+    private static Graph pracGrader;
+    private static String currUserName;
     private FragmentManager fm;
     private static final String TAG = "userHomePage.";
     private mainButtons mainBttnsFrag;
@@ -249,6 +249,16 @@ public class UserHomePage extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    public static Graph getGraph()
+    {
+        return pracGrader;
+    }
+
+    public static String getCurrUser()
+    {
+        return currUserName;
     }
 
     //to push the prac grader, and the current user given any intent

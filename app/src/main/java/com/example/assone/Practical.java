@@ -145,6 +145,7 @@ public class Practical implements Serializable
     private String title;
     private String descrpt;
     private Hashtable<String, taskNode> marks;
+    private float scoredMarks;
     private float totalMarks;
 
     //default constructor
@@ -174,7 +175,6 @@ public class Practical implements Serializable
         descrpt = inPrac.getdescrp();
         marks = inPrac.getMarks();
         totalMarks = inPrac.getTotalMark();
-
     }
 
     //ACCESSORS
@@ -227,6 +227,14 @@ public class Practical implements Serializable
         if(validateMark(inMark))
         {
             totalMarks = inMark;
+        }
+    }
+
+    public void setScoredMarks(float inScoredMarks)
+    {
+        if (validateScoredMarks(inScoredMarks))
+        {
+            scoredMarks = inScoredMarks;
         }
     }
 
@@ -286,6 +294,18 @@ public class Practical implements Serializable
          */
 
         return "";
+    }
+
+    protected boolean validateScoredMarks(float inMarks)
+    {
+        boolean valid = true;
+
+        if (inMarks > totalMarks)
+        {
+            throw new IllegalArgumentException("ERROR: maximum  marks available is: " + totalMarks);
+        }
+
+        return valid;
     }
 
     protected boolean validateTitle(String inTitle)

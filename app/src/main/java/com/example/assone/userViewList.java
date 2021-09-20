@@ -107,11 +107,6 @@ public class userViewList extends Fragment
                 //do nothign for the current moment
                 break;
         }
-       /* I don't think that you actually need this code to do what you want to do
-       if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
     }
 
     @Override

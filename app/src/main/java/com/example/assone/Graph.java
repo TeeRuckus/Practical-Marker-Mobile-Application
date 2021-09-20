@@ -340,13 +340,11 @@ public class Graph implements Serializable
         }
         else if (currVert.getType().equals("INSTRUCTOR"))
         {
-            Log.e(TAG, "YESSS QUEEEN");
             //get everything which the instructor is connected too which is going to be all the students
             Set<String> keys = currVert.connections.keySet();
 
             //grabbing the admin node
             Vertex adminNode = vertices.get(currentAdmin);
-            Log.e(TAG, "current admin node " + adminNode.getValue().getName());
 
             //going through everything which the to be deleted node was attached too, and attaching to admin node
             for (String currKey : keys)

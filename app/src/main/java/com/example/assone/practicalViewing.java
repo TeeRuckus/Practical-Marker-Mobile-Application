@@ -1,12 +1,18 @@
 package com.example.assone;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +20,18 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class practicalViewing extends Fragment {
+
+    //my own personnal class fileds for this class
+    private Button addBttn;
+    private Graph pracGrader;
+    private String currUser;
+    private EditText pracTitle;
+    private EditText pracTotalMarks;
+    private EditText pracDescription;
+    private TextView pracTitleView;
+    private TextView availableMarksView;
+    private TextView practicalDescrptionView;
+    private static final String TAG = "practicalViewing.";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,19 +64,92 @@ public class practicalViewing extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        // getting what the current pracGrader, and user is from the activity which called us which is
+        // going to be the userHomePage for the programme
+        pracGrader = UserHomePage.getGraph();
+        currUser = UserHomePage.getCurrUser();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
+        // TODO: this is for the ADMIN adding of practicals, I will need to have an option where the instructor can just only change the marks and not the whole entire practical
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_practical_viewing, container, false);
+        View view = inflater.inflate(R.layout.fragment_practical_viewing, container, false);
+        addBttn = view.findViewById(R.id.addPracticalBttn);
+        pracTitle = view.findViewById(R.id.practicalTitle);
+        pracTotalMarks = view.findViewById(R.id.availableMarks);
+        pracDescription = view.findViewById(R.id.practicalDescription);
+        //You might need to change this, so you can just show and unshow the messages when an error shows
+        pracTitleView = view.findViewById(R.id.practicalTitleView);
+        availableMarksView = view.findViewById(R.id.practicalAvailableMarksView);
+        practicalDescrptionView = view.findViewById(R.id.practicalDescriptionView);
+
+        addBttn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View view) {
+                //creating a new practical object from the description which was given
+                //TODO: you will need ot update the total available marks for the object
+
+                //gettting information which the user had inputted in the fragment
+                String tempTitle = pracTitle.getText().toString();
+                String tempDescription = pracDescription.getText().toString();
+
+                int paleNight_error = Color.parseColor("#ff5370");
+                int paleNight_white = Color.parseColor("#eeffff");
+                int paleNight_text = Color.parseColor("#676E95");
+
+                Practical tempPrac = new Practical();
+                try
+                {
+                    float availableMarks = Float.parseFloat(pracTotalMarks.getText().toString());
+                    availableMarksView.setTextColor(paleNight_white);
+                    tempPrac.setTotalMarks(availableMarks);
+                    pracTotalMarks.setHintTextColor(paleNight_text);
+                }
+                catch (NumberFormatException e)
+                {
+                    availableMarksView.setTextColor(paleNight_error);
+                    pracTotalMarks.setHintTextColor(paleNight_error);
+                }
+
+                try
+                {
+                    tempPrac.setTitle(tempTitle);
+                    pracTitleView.setTextColor(paleNight_white);
+                    pracTitle.setHintTextColor(paleNight_text);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    pracTitleView.setTextColor(paleNight_error);
+                    pracTitle.setHintTextColor(paleNight_error);
+                }
+
+                try
+                {
+                    tempPrac.setDescrpt(tempDescription);
+                    pracDescription.setHintTextColor(paleNight_white);
+                    practicalDescrptionView.setTextColor(paleNight_white);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    pracDescription.setHintTextColor(paleNight_error);
+                    practicalDescrptionView.setTextColor(paleNight_error);
+                }
+            }
+
+            // giving the created practical object to each student but, a copy must be created so that
+            // changes made to a practical will be unique to student only
+
+        });
+        //return inflater.inflate(R.layout.fragment_practical_viewing, container, false);
+        return view;
     }
 }
