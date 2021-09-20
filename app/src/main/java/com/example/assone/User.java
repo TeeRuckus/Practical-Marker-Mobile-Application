@@ -5,6 +5,8 @@ TODO:
     respoinsbility of the application which is going to be the graph data structure
  */
 package com.example.assone;
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.regex.Pattern;
@@ -23,6 +25,8 @@ public abstract class User implements Serializable
     private String country;
     protected HashMap<String, Practical> practicals;
     private int password;
+
+    private static final String TAG = "user.";
 
     public User()
     {
@@ -106,6 +110,8 @@ public abstract class User implements Serializable
     public void addPrac(Practical inPrac)
     {
         String pracName = myUtils.cleanString(inPrac.getTitle());
+        Log.e(TAG, "Practical added to user: " + inPrac.getTitle());
+        Log.e(TAG, "the added practical object: " + inPrac);
         practicals.put(pracName, inPrac);
     }
 

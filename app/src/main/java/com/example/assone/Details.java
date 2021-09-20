@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class Details extends AppCompatActivity {
     private Graph pracGrader;
     private String currUser;
-    private String clickedPerson;
+    private static String clickedPerson;
     private static final String TAG = "Details.";
 
     //getting all the UI elements
@@ -145,5 +145,10 @@ public class Details extends AppCompatActivity {
         studentOwner = findViewById(R.id.studentOwnerDetails);
         delButton = findViewById(R.id.deleteButton);
         viewPracs = findViewById(R.id.viewPracsBttn);
+    }
+
+    public static String getClickedPerson()
+    {
+        return clickedPerson;
     }
 }

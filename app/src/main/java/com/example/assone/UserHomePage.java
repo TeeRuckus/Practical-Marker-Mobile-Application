@@ -184,7 +184,6 @@ public class UserHomePage extends AppCompatActivity {
                         intent.putExtra("currUser", currUserName);
                         userViewing.practical();
                         startActivity(intent);
-
                         break;
 
                     case view:
@@ -254,6 +253,11 @@ public class UserHomePage extends AppCompatActivity {
     public static Graph getGraph()
     {
         return pracGrader;
+    }
+
+    public static void setGraph(Graph inGraph)
+    {
+        pracGrader = inGraph;
     }
 
     public static String getCurrUser()

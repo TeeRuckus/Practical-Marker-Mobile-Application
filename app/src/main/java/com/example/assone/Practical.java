@@ -9,6 +9,8 @@ TODO:
  */
 package com.example.assone;
 
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.io.Serializable;
 import java.util.Hashtable;
@@ -147,6 +149,7 @@ public class Practical implements Serializable
     private Hashtable<String, taskNode> marks;
     private float scoredMarks;
     private float totalMarks;
+    private static final String TAG = "Practical.";
 
     //default constructor
     public Practical()
@@ -171,10 +174,11 @@ public class Practical implements Serializable
     //COPY CONSTRUCTOR
     public Practical(Practical inPrac)
     {
-        title = inPrac.getTitle();
-        descrpt = inPrac.getdescrp();
-        marks = inPrac.getMarks();
-        totalMarks = inPrac.getTotalMark();
+        this.title = inPrac.getTitle();
+        this.descrpt = inPrac.getdescrp();
+        this.marks = inPrac.getMarks();
+        this.totalMarks = inPrac.getTotalMark();
+        this.scoredMarks = inPrac.getScoredMarks();
     }
 
     //ACCESSORS
@@ -191,6 +195,11 @@ public class Practical implements Serializable
     public Hashtable<String, taskNode>  getMarks()
     {
         return new Hashtable<String, taskNode>(marks);
+    }
+
+    public float getScoredMarks()
+    {
+        return scoredMarks;
     }
 
     public float getTotalMark()

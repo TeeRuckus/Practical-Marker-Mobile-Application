@@ -40,7 +40,7 @@ public class userViewing extends AppCompatActivity {
         Intent intent;
         switch (currMode)
         {
-            case view:
+            case view: case practical:
                 intent = new Intent(userViewing.this, UserHomePage.class);
                 intent.putExtra("pracGrader", pracGrader);
                 intent.putExtra("currUser", currUserName);
@@ -115,8 +115,17 @@ public class userViewing extends AppCompatActivity {
                 break;
 
             case practicalList:
-                //TODO: I am editin here mate
                 userBanner.setText("Practicals");
+                userViewList fragList = (userViewList) fm.findFragmentById(R.id.viewingContainer);
+
+                if (fragList == null)
+                {
+                    fragList = new userViewList();
+                    userViewList.practicalLoad();
+                    fm.beginTransaction()
+                            .add(R.id.viewingContainer, fragList)
+                            .commit();
+                }
                 break;
         }
     }

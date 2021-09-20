@@ -3,6 +3,9 @@
     a student and a staff's usert name is going to be stored is going to be really different
  */
 package com.example.assone;
+import android.util.Log;
+
+import java.lang.reflect.Array;
 import java.util.*;
 import java.io.Serializable;
 import java.util.regex.Matcher;
@@ -12,6 +15,7 @@ public class Student extends User implements Serializable
 {
     //the classfield which are going to be unique to the student
     private String currInstructor;
+    private static final String TAG = "Student.";
 
     public Student()
     {
@@ -42,6 +46,38 @@ public class Student extends User implements Serializable
             currInstructor = inInstructor;
         }
 
+    }
+
+    public ArrayList<Practical> pracLoad()
+    {
+        ArrayList<Practical> retList = new ArrayList<>();
+        Set<String> keys = practicals.keySet();
+
+        // creating an arrayList as it's a mutable data structure and can actually perform sorting and
+        // can actually retrieve objects based on interger of the object
+        List<String> keysOrdered = new ArrayList<>();
+
+        Log.e(TAG, "the current keys of the student: " + keys);
+        Log.e(TAG, "I am inside the prac load");
+
+        // transferring keys to keysOrdered
+        for (String currKey : keys)
+        {
+            Log.e(TAG, "Curr Key: " + currKey);
+            keysOrdered.add(currKey);
+        }
+
+        // we want to sort the keys before we retrieve them from teh hash table
+        Collections.sort(keysOrdered);
+
+        for (String currKey : keysOrdered)
+        {
+            Log.e(TAG, "current key: " + currKey);
+            Log.e(TAG, "retrieved object: " + practicals.get(currKey));
+            retList.add(practicals.get(currKey));
+        }
+
+        return retList;
     }
 
     @Override

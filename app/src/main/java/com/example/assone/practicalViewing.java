@@ -68,10 +68,9 @@ public class practicalViewing extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // getting what the current pracGrader, and user is from the activity which called us which is
-        // going to be the userHomePage for the programme
-        pracGrader = UserHomePage.getGraph();
-        currUser = UserHomePage.getCurrUser();
+        // getting the pracGrader and the current activity which actually calls it
+        pracGrader = userViewing.getGraph();
+        currUser = userViewing.getCurrUser();
     }
 
     @Override
@@ -154,9 +153,9 @@ public class practicalViewing extends Fragment {
         try
         {
             tempPrac.setTitle(tempTitle);
-            count++;
             pracTitleView.setTextColor(paleNight_white);
             pracTitle.setHintTextColor(paleNight_text);
+            count++;
         }
         catch (IllegalArgumentException e)
         {
@@ -166,10 +165,10 @@ public class practicalViewing extends Fragment {
 
         try
         {
-            count++;
             tempPrac.setDescrpt(tempDescription);
             pracDescription.setHintTextColor(paleNight_white);
             practicalDescrptionView.setTextColor(paleNight_white);
+            count++;
         }
         catch (IllegalArgumentException e)
         {
@@ -179,6 +178,17 @@ public class practicalViewing extends Fragment {
 
         pracGrader.sendPracticals(tempPrac);
         //after this has being added, we want to notify the user and clear the last fields
+
+        //we're going to cheat a little bit here we know that they is going to be a student called  a
+        Graph.Vertex debugStdt = pracGrader.getVertex("a");
+        User currUser = debugStdt.getValue();
+
+        Set<String> currPracticals = currUser.getPracticals().keySet();
+
+        for (String currPrac : currPracticals)
+        {
+            Log.e(TAG, "Added Pracs: " + currPrac);
+        }
 
 
         if (count == 3)

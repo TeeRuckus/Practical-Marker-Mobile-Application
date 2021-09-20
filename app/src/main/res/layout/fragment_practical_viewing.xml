@@ -89,6 +89,8 @@
         <Button
             android:id="@+id/addPracticalBttn"
             android:layout_width="match_parent"
+            android:background="@color/paleNight_buttons"
+            android:textColor="@color/paleNight_white"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="add practical"

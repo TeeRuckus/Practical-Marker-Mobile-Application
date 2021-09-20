@@ -23,6 +23,7 @@ import android.widget.EditText;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,6 +33,7 @@ public class userViewList extends Fragment
     //my own defined class fields for this recycler vie
     //private HashMap<String, Graph.Vertex> userMap;
     private ArrayList<Graph.Vertex> userMap;
+    private ArrayList<Practical> currUserPracs;
 
     private RecyclerView rv;
     private userAdapter adapter;
@@ -89,6 +91,7 @@ public class userViewList extends Fragment
         //creating a new map of users so the programme can use it
 
         userMap = new ArrayList<>();
+        currUserPracs = new ArrayList<>();
         pracGrader = userViewing.getGraph();
         currUser = userViewing.getCurrUser();
 
@@ -109,10 +112,18 @@ public class userViewList extends Fragment
                 //do nothign for the current moment
                 break;
             case practicalLoad:
-                //the current user map is going to be only one student
-                Graph.Vertex currVert = pracGrader.getVertex(currUser);
-                userMap = new ArrayList<>();
-                userMap.add(currVert);
+                // I really don't want to create another recycler view for displaying the students.
+                // hence, to get around that I am going to do a band aid fix, and I am going to get
+                // the practicals which belong to the user, and set them as vertexes tehn the bind
+                // method is going to take care of everything else
+                String clickedUser = Details.getClickedPerson();
+                Graph.Vertex currVert = pracGrader.getVertex(clickedUser);
+                User currUser =  currVert.getValue();
+
+                //the user which can only view their practicals is the student at the current moment
+                Student currStudent = (Student) currUser;
+                currUserPracs = currStudent.pracLoad();
+                Log.e(TAG, "Curr user pracs: " + currUserPracs);
                 break;
         }
     }
@@ -137,6 +148,11 @@ public class userViewList extends Fragment
         return view;
     }
 
+    public static void practicalLoad()
+    {
+        currState = state.practicalLoad;
+    }
+
     public static void instructor()
     {
         currState = state.instructor;
@@ -159,7 +175,9 @@ public class userViewList extends Fragment
         private EditText score;
         private Button viewUser;
         private Graph.Vertex vert;
+        private Practical prac;
         private String currUser;
+        private static final String TAG = "userViewList.";
 
         private TextWatcher tw;
 
@@ -224,29 +242,31 @@ public class userViewList extends Fragment
 
         public  void bind(Graph.Vertex inVert)
         {
+            this.vert = inVert;
+            // we must update teh displayed names, and scores. However, for each one we have
+            // to temporarily disable the corresponding event handler, or else the event
+            // handler would assume the *user* has edited the informatio of the current edit
+            // text box which we're viewing
 
-            switch (currState)
-            {
-                case admin:
-                    this.vert = inVert;
-                    // we must update teh displayed names, and scores. However, for each one we have
-                    // to temporarily disable the corresponding event handler, or else the event
-                    // handler would assume the *user* has edited the informatio of the current edit
-                    // text box which we're viewing
-
-                    //nameEditor.removeTextChangedListener(tw);
-                    nameEditor.setText(inVert.getValue().getName());
-                    //nameEditor.addTextChangedListener(tw);
-                    break;
-            }
-
-
+            //nameEditor.removeTextChangedListener(tw);
+            nameEditor.setText(inVert.getValue().getName());
+            //nameEditor.addTextChangedListener(tw);
 
             //TODO: you will need to do the same thing with the score which you set
             //TODO: you will need to have different bind methods. One for viewing, and one
             //for editing
         }
+
+        //overloading the bind method, so that it will also accept practical objects as well
+        public void bind(Practical inPrac)
+        {
+            this.prac = inPrac;
+            //seeing if I can display the current title of the prac on the recycler view  at the moment
+            nameEditor.setText(inPrac.getTitle());
+            Log.e(TAG, "Practical Title: " + inPrac.getTitle());
+        }
     }
+
 
     public class userAdapter extends RecyclerView.Adapter<userViewHolder>
     {
@@ -262,13 +282,36 @@ public class userViewList extends Fragment
         @Override
         public void onBindViewHolder(@NonNull userViewHolder holder, int position)
         {
-            holder.bind(userMap.get(position));
+            switch(currState)
+            {
+                case admin:
+                    holder.bind(userMap.get(position));
+                    break;
+
+                case practicalLoad:
+                    holder.bind(currUserPracs.get(position));
+                    break;
+            }
         }
 
         @Override
         public int getItemCount()
         {
-           return userMap.size();
+            int retSize = 0;
+            switch (currState)
+            {
+                case admin:
+                    //return userMap.size();
+                    retSize = userMap.size();
+                    break;
+
+                case practicalLoad:
+                    //return currUserPracs.size();
+                    retSize = currUserPracs.size();
+                    break;
+            }
+
+            return retSize;
         }
     }
 

@@ -447,6 +447,7 @@ public class Graph implements Serializable
 
         for (String currVertKey : allVertices)
         {
+            Log.e(TAG, "Current vert: " + currVertKey);
             // making sure that a practical copy is going to be returned, so all practical objects
             // don't reference each otehr when changes are being made
             Practical tempPrac = new Practical(inPrac);
@@ -457,8 +458,8 @@ public class Graph implements Serializable
             //if the current user is going to be a student add teh practical object onto the user
             if (currUser.getType().equals("STUDENT"))
             {
-                Student currStudent = (Student) currUser;
-                currStudent.addPrac(tempPrac);
+                Log.e(TAG, "added to student");
+                currUser.addPrac(tempPrac);
             }
         }
     }
