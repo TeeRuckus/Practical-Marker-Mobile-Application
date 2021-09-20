@@ -1,6 +1,5 @@
 package com.example.assone;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -14,11 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link practicalViewing#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.HashMap;
+import java.util.Set;
+
 public class practicalViewing extends Fragment {
 
     //my own personnal class fileds for this class
@@ -92,7 +89,6 @@ public class practicalViewing extends Fragment {
         practicalDescrptionView = view.findViewById(R.id.practicalDescriptionView);
 
         addBttn.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
                 //creating a new practical object from the description which was given
@@ -107,6 +103,7 @@ public class practicalViewing extends Fragment {
                 int paleNight_text = Color.parseColor("#676E95");
 
                 Practical tempPrac = new Practical();
+
                 try
                 {
                     float availableMarks = Float.parseFloat(pracTotalMarks.getText().toString());
@@ -143,12 +140,21 @@ public class practicalViewing extends Fragment {
                     pracDescription.setHintTextColor(paleNight_error);
                     practicalDescrptionView.setTextColor(paleNight_error);
                 }
+
+                //we know that the admin is going to be connected to all the instructors in the network
+                Graph.Vertex adminNode = pracGrader.getVertex();
+                //getting all the instructors through the admin node
+                HashMap<String, Graph.Vertex>  instructorNodes = adminNode.getConnections();
+                Set<String> instructorKeys = instructorNodes.keySet();
+
+                for (String currKey : instructorKeys)
+                {
+                }
+
             }
-
-            // giving the created practical object to each student but, a copy must be created so that
-            // changes made to a practical will be unique to student only
-
         });
+
+
         //return inflater.inflate(R.layout.fragment_practical_viewing, container, false);
         return view;
     }

@@ -362,8 +362,6 @@ public class Graph implements Serializable
             //once the copy process has completed we can now actually delete the node of interest
             delVert = vertices.remove(key);
         }
-
-
         return delVert;
     }
 
@@ -435,6 +433,18 @@ public class Graph implements Serializable
         //should be only for viewing purposes and nothing more
         //return new HashMap<>(currInstructor.connections);
         return retList;
+    }
+
+    // adding the current practical to the students whcih are on the current network
+    public void sendPracticals(Practical inPrac)
+    {
+        Set<String > allVertices = vertices.keySet();
+
+        for (String currVertKey : allVertices)
+        {
+            Vertex  currVert =
+
+        }
     }
 
     public boolean isEmpty()
