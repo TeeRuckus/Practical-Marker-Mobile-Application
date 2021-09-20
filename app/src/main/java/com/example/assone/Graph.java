@@ -442,8 +442,19 @@ public class Graph implements Serializable
 
         for (String currVertKey : allVertices)
         {
-            Vertex  currVert =
+            // making sure that a practical copy is going to be returned, so all practical objects
+            // don't reference each otehr when changes are being made
+            Practical tempPrac = new Practical(inPrac);
 
+            Vertex  currVert = getVertex(currVertKey);
+            User currUser = currVert.getValue();
+
+            //if the current user is going to be a student add teh practical object onto the user
+            if (currUser.getType().equals("STUDENT"))
+            {
+                Student currStudent = (Student) currUser;
+                currStudent.addPrac(tempPrac);
+            }
         }
     }
 

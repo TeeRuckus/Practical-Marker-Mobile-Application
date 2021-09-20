@@ -1,5 +1,6 @@
 package com.example.assone;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -94,68 +96,95 @@ public class practicalViewing extends Fragment {
                 //creating a new practical object from the description which was given
                 //TODO: you will need ot update the total available marks for the object
 
-                //gettting information which the user had inputted in the fragment
-                String tempTitle = pracTitle.getText().toString();
-                String tempDescription = pracDescription.getText().toString();
 
-                int paleNight_error = Color.parseColor("#ff5370");
-                int paleNight_white = Color.parseColor("#eeffff");
-                int paleNight_text = Color.parseColor("#676E95");
+                boolean valid = distributePracs();
 
-                Practical tempPrac = new Practical();
-
-                try
+                if (valid)
                 {
-                    float availableMarks = Float.parseFloat(pracTotalMarks.getText().toString());
-                    availableMarksView.setTextColor(paleNight_white);
-                    tempPrac.setTotalMarks(availableMarks);
-                    pracTotalMarks.setHintTextColor(paleNight_text);
-                }
-                catch (NumberFormatException e)
-                {
-                    availableMarksView.setTextColor(paleNight_error);
-                    pracTotalMarks.setHintTextColor(paleNight_error);
-                }
-
-                try
-                {
-                    tempPrac.setTitle(tempTitle);
-                    pracTitleView.setTextColor(paleNight_white);
-                    pracTitle.setHintTextColor(paleNight_text);
-                }
-                catch (IllegalArgumentException e)
-                {
-                    pracTitleView.setTextColor(paleNight_error);
-                    pracTitle.setHintTextColor(paleNight_error);
-                }
-
-                try
-                {
-                    tempPrac.setDescrpt(tempDescription);
-                    pracDescription.setHintTextColor(paleNight_white);
-                    practicalDescrptionView.setTextColor(paleNight_white);
-                }
-                catch (IllegalArgumentException e)
-                {
-                    pracDescription.setHintTextColor(paleNight_error);
-                    practicalDescrptionView.setTextColor(paleNight_error);
-                }
-
-                //we know that the admin is going to be connected to all the instructors in the network
-                Graph.Vertex adminNode = pracGrader.getVertex();
-                //getting all the instructors through the admin node
-                HashMap<String, Graph.Vertex>  instructorNodes = adminNode.getConnections();
-                Set<String> instructorKeys = instructorNodes.keySet();
-
-                for (String currKey : instructorKeys)
-                {
+                    //display success and then clear the screen
+                    Context cntx = getActivity().getApplicationContext();
+                    CharSequence text = "Practical created";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(cntx, text, duration);
+                    toast.show();
+                    clearText();
+                    getActivity().recreate();
                 }
 
             }
         });
-
-
         //return inflater.inflate(R.layout.fragment_practical_viewing, container, false);
         return view;
+    }
+
+    public void clearText()
+    {
+        pracTitle.setText("");
+        pracTotalMarks.setText("");
+        pracDescription.setText("");
+    }
+    public boolean distributePracs()
+    {
+        boolean valid = false;
+        int count = 0;
+        //gettting information which the user had inputted in the fragment
+        String tempTitle = pracTitle.getText().toString();
+        String tempDescription = pracDescription.getText().toString();
+
+        int paleNight_error = Color.parseColor("#ff5370");
+        int paleNight_white = Color.parseColor("#eeffff");
+        int paleNight_text = Color.parseColor("#676E95");
+
+        Practical tempPrac = new Practical();
+
+        try
+        {
+            float availableMarks = Float.parseFloat(pracTotalMarks.getText().toString());
+            availableMarksView.setTextColor(paleNight_white);
+            tempPrac.setTotalMarks(availableMarks);
+            pracTotalMarks.setHintTextColor(paleNight_text);
+            count++;
+        }
+        catch (NumberFormatException e)
+        {
+            availableMarksView.setTextColor(paleNight_error);
+            pracTotalMarks.setHintTextColor(paleNight_error);
+        }
+
+        try
+        {
+            tempPrac.setTitle(tempTitle);
+            count++;
+            pracTitleView.setTextColor(paleNight_white);
+            pracTitle.setHintTextColor(paleNight_text);
+        }
+        catch (IllegalArgumentException e)
+        {
+            pracTitleView.setTextColor(paleNight_error);
+            pracTitle.setHintTextColor(paleNight_error);
+        }
+
+        try
+        {
+            count++;
+            tempPrac.setDescrpt(tempDescription);
+            pracDescription.setHintTextColor(paleNight_white);
+            practicalDescrptionView.setTextColor(paleNight_white);
+        }
+        catch (IllegalArgumentException e)
+        {
+            pracDescription.setHintTextColor(paleNight_error);
+            practicalDescrptionView.setTextColor(paleNight_error);
+        }
+
+        pracGrader.sendPracticals(tempPrac);
+        //after this has being added, we want to notify the user and clear the last fields
+
+
+        if (count == 3)
+        {
+            valid = true;
+        }
+        return valid;
     }
 }

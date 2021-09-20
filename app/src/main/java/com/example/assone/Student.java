@@ -79,36 +79,11 @@ public class Student extends User implements Serializable
         return  valid;
     }
 
-    //overriding all accessor methods so the user will not have permissions to change data
-    //this made sense to me when I was making it but it doesn't make that much sense to me at the moment
-    /*
-    public void setName(String inName)
+    public void addPrac(Practical inPrac)
     {
-        throw new IllegalArgumentException("Error: don't have apporpriate permissions to set name");
+        String pracName = myUtils.cleanString(inPrac.getTitle());
+        practicals.put(pracName, inPrac);
     }
-
-    public void setUserName(String inUserName)
-    {
-        throw new IllegalArgumentException("Error: don't have appropriate permissions to set user name");
-    }
-
-    public void setEmail(String inEmail)
-    {
-        throw new IllegalArgumentException("Error: don't have appropriate permissions to set email");
-    }
-
-    public void setCountry(String inCountry)
-    {
-        throw new IllegalArgumentException("Error: don't have appropriate permissions to set country");
-    }
-
-    public void setPassword(int inPassword)
-    {
-        throw new IllegalArgumentException("Error: don't have appropriate permissions to set password");
-    }*/
-
-
-    //you will need to override the other methods so when they're used they can't be used at all
 
     public String toString()
     {
