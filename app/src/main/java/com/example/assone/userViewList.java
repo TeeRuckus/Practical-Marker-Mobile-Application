@@ -160,8 +160,18 @@ public class userViewList extends Fragment
         }
         else
         {
-            for (Graph.Vertex currVert : userMap) {
+            for (Graph.Vertex currVert : userMap)
+            {
+                //if they name matches
                 if (currVert.getKey().contains(text)) {
+                    filteredVerts.add(currVert);
+                }
+
+                // if the current flags matches we should alos add them to the return list
+                if (currVert.getValue().getFlag().getName().contains(text))
+                {
+                    //TODO: come back and fix the double adding problem
+                    //avoiding double adding if the current vert satisfys both condiitons
                     filteredVerts.add(currVert);
                 }
             }
