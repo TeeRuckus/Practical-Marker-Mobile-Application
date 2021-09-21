@@ -55,6 +55,7 @@ public class Details extends AppCompatActivity {
         //getting who the current user is going to be so we can set their current details on the screen
         Graph.Vertex currUserVert = pracGrader.getVertex(clickedPerson);
         User currUserObj  = currUserVert.getValue();
+        country.setImageResource(currUserObj.getFlag().getImage());
 
         name.setHint(clickedPerson);
         userEmail.setHint(currUserObj.getEmail());

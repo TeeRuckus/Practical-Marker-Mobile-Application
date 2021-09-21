@@ -23,10 +23,13 @@
         android:id="@+id/userImageDetails"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/flag_au"
+        android:layout_below="@+id/bannerDetails"
         android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
-        android:layout_below="@+id/bannerDetails"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/flag_au" />
 
     <EditText
         android:id="@+id/userNameDetails"
