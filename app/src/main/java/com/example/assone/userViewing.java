@@ -6,8 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class userViewing extends AppCompatActivity {
 
@@ -111,7 +116,6 @@ public class userViewing extends AppCompatActivity {
                             .add(R.id.viewingContainer, frag)
                             .commit();
                 }
-
                 break;
             case practical:
                 userBanner.setText("Creating Practical");
@@ -165,6 +169,7 @@ public class userViewing extends AppCompatActivity {
                 break;
         }
     }
+
 
     public static String getClickedPrac()
     {

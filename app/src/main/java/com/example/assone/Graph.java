@@ -13,6 +13,7 @@ import android.util.Log;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Array;
 import java.util.*;
 public class Graph implements Serializable
 {
@@ -371,14 +372,14 @@ public class Graph implements Serializable
     }
 
     //loading the different vertices depending on the user which is going to be using the graph structure
-    public ArrayList<Vertex> adminLoad()
+    public ArrayList<Vertex> adminStudentLoad()
     {
         ArrayList<Vertex> retList = new ArrayList<>();
         Set<String> keys = vertices.keySet();
         //creating an arraylist as it's a mutable data structure and can actually sort over
         List<String> keysOrdered = new ArrayList<>();
 
-        //transferring keys to keysOrdered
+        // transferring keys to keysOrdered
         for (String currKey : keys)
         {
             keysOrdered.add(currKey);
@@ -389,11 +390,43 @@ public class Graph implements Serializable
 
         for(String currKey : keysOrdered)
         {
-            //grabbing the vertices in sorted order
-            retList.add(vertices.get(currKey));
+            if (vertices.get(currKey).getValue().getType().equals("STUDENT"))
+            {
+                //grabbing the vertices in sorted order
+                retList.add(vertices.get(currKey));
+            }
         }
 
+
         //this method is going to be used for viewing purposes hence we want to return a copy of the hash map
+        return retList;
+    }
+
+    public ArrayList<Vertex> adminInstructorLoad()
+    {
+        ArrayList<Vertex> retList = new ArrayList<>();
+        Set<String> keys = vertices.keySet();
+        //creating an arrayLIst as it's mutable data structure and can actaully sort over them
+        List<String> keysOrdered = new ArrayList<>();
+
+        // ttranferrin keys to keysOrdered
+        for (String currKey : keys)
+        {
+            keysOrdered.add(currKey);
+        }
+
+        //actually sorting the keys so that they will appear in alphabetical order
+        Collections.sort(keysOrdered);
+
+        for(String currKey : keysOrdered)
+        {
+            if(vertices.get(currKey).getValue().getType().equals("INSTRUCTOR"))
+            {
+                //grabbing the isntructor vertices in sorted order
+                retList.add(vertices.get(currKey));
+            }
+        }
+
         return retList;
     }
 

@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class userViewList extends Fragment
 {
@@ -41,6 +42,7 @@ public class userViewList extends Fragment
     private LinearLayoutManager rvLayout;
     //for debuggin and logging purposes of the programme
     private static final String  TAG = "userViewList.";
+    private EditText searchUser;
 
     private String currUser;
     private Graph pracGrader;
@@ -53,10 +55,12 @@ public class userViewList extends Fragment
     }
 
     private enum viewType {
-        student
+        studentView,
+        instructorView
 }
 
     private static state currState;
+    private static viewType currView;
 
     // TODO: once you have this working, you should delete these parameters
     // TODO: Rename parameter arguments, choose names that match
@@ -104,13 +108,19 @@ public class userViewList extends Fragment
         switch(currState)
         {
             case admin:
-                //load all the vertices which are going to be in the current network
-                //TODO: you will need to change on how that is going to be laoded depending on the set up
-                userMap = pracGrader.adminLoad();
+                switch(currView)
+                {
+                    case studentView:
+                        userMap = pracGrader.adminStudentLoad();
+                        break;
+
+                    case instructorView:
+                        userMap = pracGrader.adminInstructorLoad();
+                        break;
+                }
 
                 break;
             case instructor:
-                //do nothign for the current moment
                 userMap = pracGrader.instructorLoad(currUser);
                 break;
             case student:
@@ -131,6 +141,27 @@ public class userViewList extends Fragment
                 Log.e(TAG, "Curr user pracs: " + currUserPracs);
                 break;
         }
+
+    }
+
+    public void filter (String text)
+    {
+        // you will need to make this filtering algorithm dependent on what case the user is currently in
+        text = myUtils.cleanString(text);
+
+        // if it's going to be admin load, we're  going to be filtering graph vertexs
+        ArrayList<Graph.Vertex> filteredVerts = new ArrayList<>();
+
+        for (Graph.Vertex currVert : userMap)
+        {
+            if  (currVert.getKey().contains(text))
+            {
+                filteredVerts.add(currVert);
+            }
+        }
+
+        //attaching the filtered list to our adapter
+        adapter.filterList(filteredVerts);
     }
 
     @Override
@@ -139,10 +170,8 @@ public class userViewList extends Fragment
     {
         //TODO: you will need add the code for the spinner, so we can filter out the current list which we're viewing
         View view = inflater.inflate(R.layout.fragment_user_view_list, container, false);
-
         //getting where the recyclerview is going to be plugging into during run time of the application
         rv = (RecyclerView) view.findViewById(R.id.userList);
-
 
         // set up the RecyclerView
         adapter = new userAdapter();
@@ -150,7 +179,40 @@ public class userViewList extends Fragment
         rv.setAdapter(adapter);
         rv.setLayoutManager(rvLayout);
 
+        //searchUser = (EditText)  findViewById(R.id.searchUser);
+        searchUser = (EditText) view.findViewById(R.id.searchUser);
+
+        //listening to any changes to the search edit box
+        searchUser.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // don't really care about this one
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // don't really care about this one
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // when the edit text changes we want to to do thew following
+                filter(editable.toString());
+
+            }
+        });
+
         return view;
+    }
+
+    public static void studentView()
+    {
+        currView = viewType.studentView;
+    }
+
+    public static void instructorView()
+    {
+        currView = viewType.instructorView;
     }
 
     public static void practicalLoad()
@@ -270,6 +332,7 @@ public class userViewList extends Fragment
             }
         }
 
+
         public  void bind(Graph.Vertex inVert)
         {
             this.vert = inVert;
@@ -343,6 +406,12 @@ public class userViewList extends Fragment
             }
 
             return retSize;
+        }
+
+        public void filterList(ArrayList<Graph.Vertex> inList)
+        {
+            userMap =  inList;
+            notifyDataSetChanged();
         }
     }
 

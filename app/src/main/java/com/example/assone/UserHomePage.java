@@ -154,6 +154,9 @@ public class UserHomePage extends AppCompatActivity {
                 toast = Toast.makeText(cntx, text, duration);
                 toast.show();
                 userModeSelect();
+
+                //setting the activities which you might use in student view mode
+                userViewList.studentView();
                 break;
 
             case tutor:
@@ -162,6 +165,9 @@ public class UserHomePage extends AppCompatActivity {
                 toast = Toast.makeText(cntx, text, duration);
                 toast.show();
                 userModeSelect();
+
+                //setting the activies which you might use in tutor view mode
+                userViewList.instructorView();
                 break;
         }
     }
