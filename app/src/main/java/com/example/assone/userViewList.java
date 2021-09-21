@@ -170,9 +170,10 @@ public class userViewList extends Fragment
                 // if the current flags matches we should alos add them to the return list
                 if (currVert.getValue().getFlag().getName().contains(text))
                 {
-                    //TODO: come back and fix the double adding problem
-                    //avoiding double adding if the current vert satisfys both condiitons
-                    filteredVerts.add(currVert);
+                    // removed the search from returning a double entry if the vertex already exists
+                    if (! (filteredVerts.contains(currVert))) {
+                        filteredVerts.add(currVert);
+                    }
                 }
             }
             //attaching the filtered list to our adapter

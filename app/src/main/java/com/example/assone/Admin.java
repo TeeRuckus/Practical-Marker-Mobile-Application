@@ -1,15 +1,6 @@
 package com.example.assone;
 import java.util.*;
 import java.io.Serializable;
-/*
- TODO:
-    - so how you can send the practical from the admin to all the instructors: you should handle this inside your graph class
-    - how you can send the prac from the current instructor to all the students: you should handle this inside your graph class
-    - then the instructor can edit each one of those individual practicals which he created for
-    each student in his class at the current moment
-    - you will need to come back and do the flag stuff later on
- */
-
 public class Admin extends User implements Serializable
 {
 

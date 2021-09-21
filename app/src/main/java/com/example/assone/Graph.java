@@ -1,11 +1,3 @@
-/*
-TODO:
-    - some potential refactoring which you could do is that, you can remove the place where
-    you make a hard code call to an admin, to some variable. So that the admin can be named whatever you want
-    - you will need to handle the exceptions of retrieving a node which doesn't exist,  so you will need to make a
-    function which will do that for you
- */
-
 package com.example.assone;
 import static com.example.assone.myUtils.cleanString;
 
@@ -218,13 +210,15 @@ public class Graph implements Serializable
         //can't add a vertex if they is not root node in the programme
         if(validateRootNode())
         {
-            String key = myUtils.cleanString(inInstrucor.getName());
-            Vertex newVert = new Vertex(key, inInstrucor);
-            vertices.put(key, newVert);
+            if (doesNotExist(inInstrucor.getName())) {
+                String key = myUtils.cleanString(inInstrucor.getName());
+                Vertex newVert = new Vertex(key, inInstrucor);
+                vertices.put(key, newVert);
 
-            //the instructor node is always going to be connected to the admin node
-            Vertex adminNode = vertices.get(currentAdmin);
-            adminNode.connections.put(myUtils.cleanString(inInstrucor.getName()), newVert);
+                //the instructor node is always going to be connected to the admin node
+                Vertex adminNode = vertices.get(currentAdmin);
+                adminNode.connections.put(myUtils.cleanString(inInstrucor.getName()), newVert);
+            }
         }
     }
 
@@ -233,13 +227,15 @@ public class Graph implements Serializable
         //can't add a vertex if they is no root node
         if(validateRootNode())
         {
-            String key = myUtils.cleanString(inStudent.getName());
-            Vertex newVert = new Vertex(key, inStudent);
-            vertices.put(key, newVert);
+            if(doesNotExist(inStudent.getName())) {
+                String key = myUtils.cleanString(inStudent.getName());
+                Vertex newVert = new Vertex(key, inStudent);
+                vertices.put(key, newVert);
 
-            //this add method is going to automatically going to attach the student to the admin
-            Vertex adminNode = vertices.get(currentAdmin);
-            adminNode.connections.put(myUtils.cleanString(inStudent.getName()), newVert);
+                //this add method is going to automatically going to attach the student to the admin
+                Vertex adminNode = vertices.get(currentAdmin);
+                adminNode.connections.put(myUtils.cleanString(inStudent.getName()), newVert);
+            }
         }
     }
 
@@ -602,6 +598,20 @@ public class Graph implements Serializable
         if (inName.length() == 0)
         {
             throw new IllegalArgumentException("ERROR: please enter a valid name");
+        }
+
+        return valid;
+    }
+
+    private boolean doesNotExist(String inUser)
+    {
+        boolean valid = true;
+        inUser = myUtils.cleanString(inUser);
+
+        // if they is someone they, the programme should complain
+        if(vertices.get(inUser) != null)
+        {
+            throw new IllegalArgumentException("ERROR: user " + inUser + " already exists in graph");
         }
 
         return valid;

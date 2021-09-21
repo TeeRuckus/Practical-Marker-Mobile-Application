@@ -57,8 +57,6 @@ public class FlagAdapter extends BaseAdapter
     @Override
     public View getView(int currPos, View view, ViewGroup viewGroup)
     {
-        //TODO: you will need to actually make this layout before this starts making any sense
-        //TODO: come back and finish this when you're done with the layouts
         View rootView = LayoutInflater.from(cntx)
                 .inflate(R.layout.item_flag, viewGroup, false);
 
