@@ -25,6 +25,7 @@ public abstract class User implements Serializable
     private String country;
     protected HashMap<String, Practical> practicals;
     private int password;
+    private Flag flag;
 
     private static final String TAG = "user.";
 
@@ -71,6 +72,16 @@ public abstract class User implements Serializable
     public String getCountry()
     {
         return new String(country);
+    }
+
+    public Flag getFlag()
+    {
+        return flag;
+    }
+
+    public void setFlag(Flag inFlag)
+    {
+        flag = inFlag;
     }
 
     public Practical getPrac(String inTitle)

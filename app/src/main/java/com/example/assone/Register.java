@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class Register extends AppCompatActivity {
+public class Register extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "register.";
     //all the UI elements of this activity
@@ -50,6 +51,17 @@ public class Register extends AppCompatActivity {
     private String emailAddressStr;
     private int checks;
     private TextView banner;
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    {
+        adapterFlag.setSelectedPos(i);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 
 
     private enum state {
@@ -131,8 +143,13 @@ public class Register extends AppCompatActivity {
             - you will have to keep in mind that you have used a base adapter to do your things
          */
         spinnerFlags = (Spinner) findViewById(R.id.countryList_spinner);
+        spinnerFlags.setOnItemSelectedListener(this);
         adapterFlag = new FlagAdapter(Register.this, allFlags);
         spinnerFlags.setAdapter(adapterFlag);
+
+        //getting what the selected country is going to be from the recycler view
+        String selCountry = spinnerFlags.getSelectedItem().toString();
+
 
         switch (currState) {
             case instructor:
@@ -233,17 +250,22 @@ public class Register extends AppCompatActivity {
                         getFields();
                         User newAdmin = new Admin();
                         boolean valid = registerUser(newAdmin);
-                        Admin createdAdmin = (Admin) newAdmin;
-                        pracGrader.addVertex(createdAdmin);
 
                         if(valid)
                         {
                             //MainActivity.toggleLoaded();
                             MainActivity.initial();
+                            //getting the admin node, and setting his flag to the currently selected flag
+                            Admin createdAdmin = (Admin) newAdmin;
+                            newAdmin.setFlag(FlagAdapter.getSelectedCountry());
+                            pracGrader.addVertex(createdAdmin);
+
                             //we will need to update the name of the admin
                             pracGrader.setAdmin(userNameStr);
                             Intent intent = new Intent(Register.this, MainActivity.class);
                             intent.putExtra("pracGrader", pracGrader);
+
+
                             startActivity(intent);
                         }
                     }

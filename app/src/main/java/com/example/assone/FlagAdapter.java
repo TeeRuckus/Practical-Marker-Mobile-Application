@@ -2,6 +2,7 @@ package com.example.assone;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ public class FlagAdapter extends BaseAdapter
     private Context cntx;
     private List<Flag> flagList;
     private int selectedPos = -1;
+    private static Flag selectedCountry;
+    private static final String TAG = "Flag adapter.";
 
     public FlagAdapter(Context inCntx, List<Flag> inFlagList)
     {
@@ -52,7 +55,8 @@ public class FlagAdapter extends BaseAdapter
     }
 
     @Override
-    public View getView(int currPos, View view, ViewGroup viewGroup) {
+    public View getView(int currPos, View view, ViewGroup viewGroup)
+    {
         //TODO: you will need to actually make this layout before this starts making any sense
         //TODO: come back and finish this when you're done with the layouts
         View rootView = LayoutInflater.from(cntx)
@@ -63,9 +67,34 @@ public class FlagAdapter extends BaseAdapter
 
         txtName.setText(flagList.get(currPos).getName());
         flagImage.setImageResource(flagList.get(currPos).getImage());
+        //selectedCountry = flagList.get(currPos);
+        //getting what is on th country screen at the moment
+
+        String displayCountry = flagList.get(currPos).getName();
+
+        int flagID = flagImage.getId();
+
+
+        selectedCountry = new Flag(displayCountry, flagID);
+
+
+        // the user is most likley not going ot touch the flag to slelect country, they're giong to
+        // select the name, and the name is going to offer a grater surface area for the user to click
+        // on
+        /*flagImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "Details of the clicked flag");
+                Log.e(TAG, "Country Name: " + txtName.getText().toString());
+                Log.e(TAG, "Country drawable ID: " + flagImage.getDrawable().toString());
+                selectedCountry = flagList.get(currPos);
+
+            }
+        });*/
 
         if(selectedPos == currPos)
         {
+            selectedCountry = flagList.get(currPos);
             //making whatever the selected item is standard out and pop out more
             txtName.setTextSize(18f);
             txtName.setTypeface(null, Typeface.BOLD);
@@ -78,5 +107,10 @@ public class FlagAdapter extends BaseAdapter
         }
 
         return rootView;
+    }
+
+    public static Flag getSelectedCountry()
+    {
+        return selectedCountry;
     }
 }
