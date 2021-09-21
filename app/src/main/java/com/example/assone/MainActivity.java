@@ -46,16 +46,6 @@ public class MainActivity extends AppCompatActivity {
             case initial:
                 //the graph structure is coming from the graph structure
                 pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
-
-                //getting rid of these test subjects as they have served their purpoes
-                /*Instructor testInstructor = new Instructor("s", "283690A","283690A@curtin.edu.au", "Australia");
-                Student testStudent = new Student("a", "19476700", "tawana.kwaramba@student.curtin.edu.au", "Australia", "s");
-                pracGrader.addVertex(testInstructor);
-                //adding the students onto the teacher
-                pracGrader.addVertex(testStudent, testInstructor.getName());*/
-
-
-                //hard coding an instructor and student to make testing of the two classes quicker
                 break;
             case New:
                 pracGrader = new Graph();
@@ -88,25 +78,36 @@ public class MainActivity extends AppCompatActivity {
                     {
                         //seeing if the current user is going to exist in our current graph
                         Graph.Vertex userNode = pracGrader.getVertex(currUser);
+
+                        // if an error had happened make sure to set the view back to a blank text
                         errorUserName.setText("");
                         errorPassword.setText("");
 
                         //launch the next activity, alongside who the current user is going to be
                         String currentUserName =  userNode.getKey();
-                        Intent intent = new Intent(MainActivity.this, UserHomePage.class);
-                        intent.putExtra("pracGrader", pracGrader);
-                        //we will need to know who the user is so we can grab their type in next activity and load appropriate fragments
-                        intent.putExtra("currUser", currentUserName);
-                        UserHomePage.inUse();
-                        UserHomePage.none();
-                        //selecting the default person to do operations on as the tutor for the home page
-                        UserHomePage.student();
-                        startActivity(intent);
+                        int currPasswrod = userNode.getValue().getPassword();
+
+                        // before we launch the next activity we need to make sure that the password is correct
+                        if (currPasswrod == getPassWord()) {
+
+                            Intent intent = new Intent(MainActivity.this, UserHomePage.class);
+                            intent.putExtra("pracGrader", pracGrader);
+                            //we will need to know who the user is so we can grab their type in next activity and load appropriate fragments
+                            intent.putExtra("currUser", currentUserName);
+                            UserHomePage.inUse();
+                            UserHomePage.none();
+                            //selecting the default person to do operations on as the tutor for the home page
+                            UserHomePage.student();
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            errorPassword.setText("incorrect password");
+                        }
                     }
                     catch (IllegalArgumentException err)
                     {
                         errorUserName.setText("User Doesn't exist");
-                        errorPassword.setText("yet to be implemented");
                     }
 
 
@@ -114,6 +115,34 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    public int getPassWord()
+    {
+        int userPassword = 0;
+
+        //getting all teh individual UI elements as strings
+        String passOneStr = passOne.getText().toString();
+        String passTwoStr = passTwo.getText().toString();
+        String passThreeStr = passThree.getText().toString();
+        String passFourStr = passFour.getText().toString();
+        String currPassword = passOneStr + passTwoStr + passThreeStr + passFourStr;
+
+        //converting the cathcanated password into an actual integer
+
+        try
+        {
+            userPassword = Integer.parseInt(currPassword);
+            //if an error had occured in this context, reset error upon success
+            errorPassword.setText("");
+        }
+        catch (NumberFormatException e)
+        {
+            //this actually not even needed here, the if and else statement in above context will catch it
+            //if the user tries to log in without a password show the error onto the screen
+            errorPassword.setText("No Password entered");
+        }
+        return  userPassword;
     }
 
     public void getUIComponents()
@@ -129,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
         passFour = findViewById(R.id.passFour);
         errorUserName = findViewById(R.id.errorUser);
         errorPassword = findViewById(R.id.errorPassword);
-
     }
 
     public static void New()
