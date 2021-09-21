@@ -35,6 +35,7 @@ public class userViewList extends Fragment
     //my own defined class fields for this recycler vie
     //private HashMap<String, Graph.Vertex> userMap;
     private ArrayList<Graph.Vertex> userMap;
+    private ArrayList<Graph.Vertex> tempUserMap;
     private ArrayList<Practical> currUserPracs;
 
     private RecyclerView rv;
@@ -152,16 +153,20 @@ public class userViewList extends Fragment
         // if it's going to be admin load, we're  going to be filtering graph vertexs
         ArrayList<Graph.Vertex> filteredVerts = new ArrayList<>();
 
-        for (Graph.Vertex currVert : userMap)
+        if (text.equals(""))
         {
-            if  (currVert.getKey().contains(text))
-            {
-                filteredVerts.add(currVert);
-            }
+            adapter.filterList(tempUserMap);
         }
-
-        //attaching the filtered list to our adapter
-        adapter.filterList(filteredVerts);
+        else
+        {
+            for (Graph.Vertex currVert : userMap) {
+                if (currVert.getKey().contains(text)) {
+                    filteredVerts.add(currVert);
+                }
+            }
+            //attaching the filtered list to our adapter
+            adapter.filterList(filteredVerts);
+        }
     }
 
     @Override
@@ -181,6 +186,9 @@ public class userViewList extends Fragment
 
         //searchUser = (EditText)  findViewById(R.id.searchUser);
         searchUser = (EditText) view.findViewById(R.id.searchUser);
+
+        // making a temp array List, so the original list can be viewing up unsuccesful search
+        tempUserMap = new ArrayList<>(userMap);
 
         //listening to any changes to the search edit box
         searchUser.addTextChangedListener(new TextWatcher() {
