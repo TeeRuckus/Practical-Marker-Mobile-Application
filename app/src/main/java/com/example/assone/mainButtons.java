@@ -138,9 +138,32 @@ public class mainButtons extends Fragment {
                         getActivity().recreate();
                     }
                 });
+
+                optionFour.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserHomePage.view();
+                        getActivity().recreate();
+                    }
+                });
                 break;
             case 'S':
                 setStudent();
+
+                optionOne.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        UserHomePage.view();
+                        getActivity().recreate();
+                    }
+                });
+
+                optionTwo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
 
                 break;
         }

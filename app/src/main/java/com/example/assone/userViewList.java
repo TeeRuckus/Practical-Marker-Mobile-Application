@@ -4,6 +4,7 @@
 package com.example.assone;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,7 +55,7 @@ public class userViewList extends Fragment
         admin,
         instructor,
         student,
-        practicalLoad
+        practicalLoad,
     }
 
     private enum viewType {
@@ -120,13 +122,21 @@ public class userViewList extends Fragment
                         userMap = pracGrader.adminInstructorLoad();
                         break;
                 }
-
                 break;
+
             case instructor:
                 userMap = pracGrader.instructorLoad(currUser);
                 break;
             case student:
                 //do nothign for the current moment
+                String studentName = UserHomePage.getCurrUser();
+                Graph.Vertex studentVert = pracGrader.getVertex(studentName);
+                User currStd = studentVert.getValue();
+
+                //allowing the user to view their own practicals
+                Student retStudent = (Student) currStd;
+                currUserPracs = retStudent.pracLoad();
+
                 break;
             case practicalLoad:
                 // I really don't want to create another recycler view for displaying the students.
@@ -145,6 +155,7 @@ public class userViewList extends Fragment
         }
 
     }
+
 
     public void filter (String text)
     {
@@ -175,6 +186,8 @@ public class userViewList extends Fragment
                         filteredVerts.add(currVert);
                     }
                 }
+
+                //TODO: you should be able to do searching with student id as well
             }
             //attaching the filtered list to our adapter
             adapter.filterList(filteredVerts);
@@ -266,6 +279,7 @@ public class userViewList extends Fragment
         private Practical prac;
         private String currUser;
         private static final String TAG = "userViewList.";
+        private LinearLayout currLayout;
 
         private TextWatcher tw;
 
@@ -278,6 +292,7 @@ public class userViewList extends Fragment
             score = (EditText) itemView.findViewById(R.id.scoreUserView);
             viewUser = (Button) itemView.findViewById(R.id.viewUserList);
             currUserFlag = (ImageView) itemView.findViewById(R.id.userFlagView);
+            currLayout = (LinearLayout) itemView.findViewById(R.id.userCardView);
 
             //grabbing the required objects from the activity which had called us previously which is
             //going to be userViewing.java
@@ -320,7 +335,7 @@ public class userViewList extends Fragment
 
             switch (currState)
             {
-                case admin:
+                case admin: case instructor:
                     // when it's goign to be teh ordinary admin add, you should noe be able to click
                     // on teh score EditText
                     score.setEnabled(false);
@@ -337,7 +352,7 @@ public class userViewList extends Fragment
                     });
 
                     break;
-                case practicalLoad:
+                case practicalLoad: case student:
                     viewUser.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -367,6 +382,8 @@ public class userViewList extends Fragment
             nameEditor.setText(inVert.getValue().getName());
             currUserFlag.setImageResource(inVert.getValue().getFlag().getImage());
             //setting what the current flag is going to be
+            nameEditor.setEnabled(false);
+            score.setEnabled(false);
 
 
             //TODO: you will need to do the same thing with the score which you set
@@ -380,8 +397,24 @@ public class userViewList extends Fragment
             this.prac = inPrac;
             //seeing if I can display the current title of the prac on the recycler view  at the moment
             nameEditor.setText(inPrac.getTitle());
-            score.setText(Float.toString(inPrac.getScoredMarks()));
-            Log.e(TAG, "Practical Title: " + inPrac.getTitle());
+            //score.setText(Float.toString(inPrac.getScoredMarks()));
+
+            //you will need to do your background shit here
+            float scoredMarks = inPrac.getScoredMarks();
+            float availableMarks = inPrac.getTotalMark();
+            float percent = scoredMarks / availableMarks;
+            nameEditor.setEnabled(false);
+            score.setEnabled(false);
+
+            String currentScore = Float.toString(percent * 100);
+            score.setText(currentScore);
+
+            if (percent <= 0.5)
+            {
+                //if the user failed a practical set the color in red
+                currLayout.setBackgroundColor(Color.RED);
+            }
+
         }
     }
 
@@ -402,11 +435,11 @@ public class userViewList extends Fragment
         {
             switch(currState)
             {
-                case admin:
+                case admin: case instructor:
                     holder.bind(userMap.get(position));
                     break;
 
-                case practicalLoad:
+                case practicalLoad: case student:
                     holder.bind(currUserPracs.get(position));
                     break;
             }
@@ -418,12 +451,12 @@ public class userViewList extends Fragment
             int retSize = 0;
             switch (currState)
             {
-                case admin:
+                case admin: case instructor:
                     //return userMap.size();
                     retSize = userMap.size();
                     break;
 
-                case practicalLoad:
+                case practicalLoad: case student:
                     //return currUserPracs.size();
                     retSize = currUserPracs.size();
                     break;

@@ -32,11 +32,13 @@ public class practicalViewing extends Fragment {
     private TextView pracTitleView;
     private TextView availableMarksView;
     private TextView practicalDescrptionView;
+    private Practical tempPrac;
     private static final String TAG = "practicalViewing.";
 
     private enum mode {
         create,
-        editScore
+        editScore,
+        student
     }
 
     private static mode currMode;
@@ -110,6 +112,7 @@ public class practicalViewing extends Fragment {
 
                         if (valid)
                         {
+                            pracGrader.sendPracticals(tempPrac);
                             //display success and then clear the screen
                             Context cntx = getActivity().getApplicationContext();
                             CharSequence text = "Practical created";
@@ -124,7 +127,7 @@ public class practicalViewing extends Fragment {
 
                 break;
 
-            case editScore:
+            case editScore: case student:
                 //getting the current user and the current prac which they selected on the view
                 addBttn.setText("Update");
                 String currPrac = userViewing.getClickedPrac();
@@ -146,25 +149,45 @@ public class practicalViewing extends Fragment {
                 pracTitle.setEnabled(false);
                 pracDescription.setEnabled(false);
 
+                if (currMode == mode.student)
+                {
+                    addBttn.setClickable(false);
+                    addBttn.setText("");
+                    addBttn.setBackgroundColor(Color.TRANSPARENT);
+                    pracTotalMarks.setEnabled(false);
+                }
 
-                addBttn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.e(TAG, "I AM CLICKED YOU FAT MOTHER FUCKER");
-                        //grab the number which the user has inputted in the programme
-                        float score = Float.parseFloat(pracTotalMarks.getText().toString());
-                        userPrac.setScoredMarks(score);
-                        //TODO: you will need to adad a toast to show that the required use has being
-                        // added to the application
-                        Context cntx = getActivity().getApplicationContext();
-                        CharSequence text = "Practical Updated";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(cntx, text, duration);
-                        toast.show();
-                        refreshView(userPrac);
-                        getActivity().recreate();
-                    }
-                });
+                if (currMode == mode.editScore) {
+                    addBttn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //grab the number which the user has inputted in the programme
+                            try {
+                                float score = Float.parseFloat(pracTotalMarks.getText().toString());
+                                try {
+                                    userPrac.setScoredMarks(score);
+                                    pracTotalMarks.setHintTextColor(Color.YELLOW);
+                                } catch (IllegalArgumentException e) {
+                                    //right now this is not doing much
+                                    pracTotalMarks.setHint("Score exceeds available marks");
+                                    pracTotalMarks.setHintTextColor(Color.RED);
+                                }
+
+                                //TODO: you will need to adad a toast to show that the required use has being
+                                // added to the application
+                                Context cntx = getActivity().getApplicationContext();
+                                CharSequence text = "Practical Updated";
+                                int duration = Toast.LENGTH_SHORT;
+                                Toast toast = Toast.makeText(cntx, text, duration);
+                                toast.show();
+                                refreshView(userPrac);
+                                getActivity().recreate();
+                            } catch (NumberFormatException e) {
+                                // do nothing
+                            }
+                        }
+                    });
+                }
 
                 break;
         }
@@ -172,6 +195,10 @@ public class practicalViewing extends Fragment {
         return view;
     }
 
+    public static void student()
+    {
+        currMode = mode.student;
+    }
     public static void create()
     {
         currMode = mode.create;
@@ -208,7 +235,7 @@ public class practicalViewing extends Fragment {
         int paleNight_white = Color.parseColor("#eeffff");
         int paleNight_text = Color.parseColor("#676E95");
 
-        Practical tempPrac = new Practical();
+        tempPrac = new Practical();
 
         try
         {
@@ -226,7 +253,7 @@ public class practicalViewing extends Fragment {
 
         try
         {
-            tempPrac.setTitle(tempTitle);
+            tempPrac.setTitle( tempTitle);
             pracTitleView.setTextColor(paleNight_white);
             pracTitle.setHintTextColor(paleNight_text);
             count++;
@@ -248,20 +275,6 @@ public class practicalViewing extends Fragment {
         {
             pracDescription.setHintTextColor(paleNight_error);
             practicalDescrptionView.setTextColor(paleNight_error);
-        }
-
-        pracGrader.sendPracticals(tempPrac);
-        //after this has being added, we want to notify the user and clear the last fields
-
-        //we're going to cheat a little bit here we know that they is going to be a student called  a
-        Graph.Vertex debugStdt = pracGrader.getVertex("a");
-        User currUser = debugStdt.getValue();
-
-        Set<String> currPracticals = currUser.getPracticals().keySet();
-
-        for (String currPrac : currPracticals)
-        {
-            Log.e(TAG, "Added Pracs: " + currPrac);
         }
 
 

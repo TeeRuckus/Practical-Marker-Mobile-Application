@@ -94,7 +94,6 @@ public class UserHomePage extends AppCompatActivity {
                     case 'I':
                         //the code for when the user is an instructor
                         userDetails.setText("Tutor - " + currUserName);
-
                         broadCastMessage();
 
                         switch(currUse)
@@ -114,6 +113,22 @@ public class UserHomePage extends AppCompatActivity {
                     case 'S':
                         //the code for when the user is a student
                         userDetails.setText("Student - " + currUserName);
+
+                        switch (currMode)
+                        {
+                            case view:
+                                Intent intent = setUpUserViewing();
+                                //this is really jsut a bandaid fix
+                                intent.putExtra("clickedPerson", currUserName);
+                                userViewing.practicalList();
+                                userViewList.student();
+                                startActivity(intent);
+                                break;
+
+                            case add:
+                                // this will be for eactually displaying the summary
+                                break;
+                        }
                         break;
                 }
 
@@ -193,6 +208,13 @@ public class UserHomePage extends AppCompatActivity {
                         break;
 
                     case view:
+                        /*intent = new Intent(UserHomePage.this, userViewing.class);
+                        Log.e(TAG, "the current user: " + currUserName);
+                        intent.putExtra("pracGrader", pracGrader);
+                        intent.putExtra("currUser", currUserName);
+                        userViewList.admin();
+                        //userViewing.allPracs();
+                        startActivity(intent);*/
                         break;
                 }
 
@@ -232,7 +254,6 @@ public class UserHomePage extends AppCompatActivity {
                         //if this is called from the admin, we should load the data in realtion to the admin
                         userViewList.admin();
                         userViewing.view();
-                        //TODO: you will probably have to add more code here to make this more functional here
                         startActivity(intent);
                         break;
                 }
@@ -247,8 +268,15 @@ public class UserHomePage extends AppCompatActivity {
                 {
                     case add:
                         intent = setUpRegistration();
+                        Register.student();
                         Register.instructorAdd();
-                        intent.putExtra("currInstructor", currUserName);
+                        startActivity(intent);
+                        break;
+
+                    case view:
+                        intent = setUpUserViewing();
+                        userViewList.instructor();
+                        userViewing.view();
                         startActivity(intent);
                         break;
                 }

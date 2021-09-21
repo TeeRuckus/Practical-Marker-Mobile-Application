@@ -6,6 +6,7 @@
     android:background="@color/paleNight_background">
 
     <LinearLayout
+        android:id="@+id/userCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/paleNight_foreground"

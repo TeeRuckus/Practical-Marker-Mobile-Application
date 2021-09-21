@@ -85,6 +85,7 @@ public class Graph implements Serializable
         //MUTATORS
         public void setKey(String inKey)
         {
+            inKey = myUtils.cleanString(inKey);
             if(validateKey(inKey))
             {
                 key = inKey;
@@ -367,6 +368,15 @@ public class Graph implements Serializable
         return new HashMap<>(vertices);
     }
 
+    public void update(String oldNode, Vertex newNode)
+    {
+        oldNode = myUtils.cleanString(oldNode);
+        vertices.remove(oldNode);
+        vertices.put(newNode.getKey(), newNode);
+    }
+
+
+
     //loading the different vertices depending on the user which is going to be using the graph structure
     public ArrayList<Vertex> adminStudentLoad()
     {
@@ -446,6 +456,7 @@ public class Graph implements Serializable
         //transferring keys to keysOrdered
         for (String currKey : keys)
         {
+            Log.e(TAG, "Current Key: " + currKey);
             keysOrdered.add(currKey);
         }
 
@@ -455,7 +466,7 @@ public class Graph implements Serializable
         for(String currKey  : keysOrdered)
         {
             //grabbing the vertices in sorted order
-            retList.add(currInstructor.connections.get(keys));
+            retList.add(currInstructor.connections.get(currKey));
         }
 
         //once we're confident that an instructor has being loaded we can get all the instructors students and return them as a copy as they
@@ -469,6 +480,7 @@ public class Graph implements Serializable
     {
         // adding the practicals to the admin, so if a new student is added by the admin, the admin can
         // give the practicals which the amdin has
+
         Vertex adminVert = getVertex();
         adminVert.getValue().addPrac(inPrac);
 
@@ -485,11 +497,11 @@ public class Graph implements Serializable
             User currUser = currVert.getValue();
 
             //if the current user is going to be a student add teh practical object onto the user
-            if (currUser.getType().equals("STUDENT"))
+            if (currUser.getType().equals("INSTRUCTOR"))
             {
-                Log.e(TAG, "added to student");
                 currUser.addPrac(tempPrac);
             }
+
         }
     }
 
@@ -612,6 +624,20 @@ public class Graph implements Serializable
         if(vertices.get(inUser) != null)
         {
             throw new IllegalArgumentException("ERROR: user " + inUser + " already exists in graph");
+        }
+
+        return valid;
+    }
+
+    public boolean UserDoesNotExist(String inUser)
+    {
+        boolean valid = true;
+        inUser = myUtils.cleanString(inUser);
+
+        // if they is someone they, the programme should complain
+        if(vertices.get(inUser) != null)
+        {
+            valid = false;
         }
 
         return valid;

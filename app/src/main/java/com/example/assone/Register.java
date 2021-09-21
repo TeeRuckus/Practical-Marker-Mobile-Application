@@ -32,6 +32,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
 
     private static final String TAG = "register.";
     //all the UI elements of this activity
+    private String currInstructor;
     private Graph pracGrader;
     private String currUser;
     private EditText adminName;
@@ -166,20 +167,26 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                         Instructor createdInstructor = (Instructor) newInstructor;
                         createdInstructor.setFlag(FlagAdapter.getSelectedCountry());
 
-                        //this iwll fail if the instructor already exists in the network
-                        try {
-                            pracGrader.addVertex(createdInstructor);
-                        }
-                        catch (IllegalArgumentException e)
-                        {
-                            valid = false;
-                            //displaying the erorr on the user name box
-                            errorName.setText("user already exists");
-                            adminName.setText("");
-                        }
+                        //the admin will need to apss the insturtor his current pracitals
+                        Graph.Vertex currAdminVert =  pracGrader.getVertex();
+                        User admin = currAdminVert.getValue();
+                        createdInstructor.setPracticals(admin.getPracticals());
 
                         //showing the user that an instructor has being created
-                        if (valid) {
+                        if (valid)
+                        {
+                            //this iwll fail if the instructor already exists in the network
+                            try
+                            {
+                                pracGrader.addVertex(createdInstructor);
+                            }
+                            catch (IllegalArgumentException e)
+                            {
+                                valid = false;
+                                //displaying the erorr on the user name box
+                                errorName.setText("user already exists");
+                                adminName.setText("");
+                            }
                             Context cntx = getApplicationContext();
                             CharSequence text = "Instructor created";
                             int duration = Toast.LENGTH_SHORT;
@@ -217,29 +224,29 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                                 boolean  valid = registerUser(newStudent);
                                 Student createdStudent = (Student) newStudent;
                                 createdStudent.setFlag(FlagAdapter.getSelectedCountry());
-                                //making the current isntructor of the student, the admin which added them
+                                //making the current instructor of the student, the admin which added them
                                 createdStudent.setInstructor(currUser);
-                                //giving all the practicals which the current admin has to the newly created student
 
+                                //giving all the practicals which the current admin has to the newly created student
                                 Graph.Vertex adminNode = pracGrader.getVertex();
                                 HashMap<String, Practical> adminPracs = adminNode.getValue().getPracticals();
                                 createdStudent.setPracticals(adminPracs);
-                                // this will fail when a user with the same name is going to exisit in
-                                // teh current  graph
-                                try
-                                {
-                                    pracGrader.addVertex(createdStudent);
-                                }
-                                catch (IllegalArgumentException e)
-                                {
-                                    valid = false;
-                                    //display the error on the user name box
-                                    errorName.setText("user already exists");
-                                    adminName.setText("");
-                                }
 
                                 if(valid)
                                 {
+                                    // this will fail when a user with the same name is going to exist in
+                                    try
+                                    {
+                                        pracGrader.addVertex(createdStudent);
+                                        errorName.setText("");
+                                    }
+                                    catch (IllegalArgumentException e)
+                                    {
+                                        valid = false;
+                                        //display the error on the user name box
+                                        errorName.setText("user already exists");
+                                        adminName.setText("");
+                                    }
                                     succesfulStudentCreate();
                                 }
                             }
@@ -257,10 +264,14 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                                 boolean valid = registerUser(newStudent);
                                 Student createdStudent= (Student) newStudent;
                                 createdStudent.setFlag(FlagAdapter.getSelectedCountry());
-                                pracGrader.addVertex(createdStudent, currUser);
+                                Graph.Vertex currInstructorVert = pracGrader.getVertex(currUser);
+                                User currInstruct = currInstructorVert.getValue();
+                                createdStudent.setPracticals(currInstruct.getPracticals());
+                                createdStudent.setInstructor(currUser);
 
                                 if(valid)
                                 {
+                                    pracGrader.addVertex(createdStudent, currUser);
                                     succesfulStudentCreate();
                                 }
                             }
@@ -342,10 +353,13 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
 
     public void clearText()
     {
+        //TODO: you will need to clear the passwords upon succesful completion
         //clearing all the input after the user has being created
         adminName.setText("");
         staffID.setText("");
         emailAddress.setText("");
+        passWord.setText("");
+        passWordSecond.setText("");
     }
 
 
@@ -408,7 +422,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         {
             valid = true;
         }
-        Log.i(TAG, "the current check is here: " + checks);
 
         return valid;
     }
