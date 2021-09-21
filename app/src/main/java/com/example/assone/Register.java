@@ -418,7 +418,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         }
 
         //TODO: you will need to change this back to 4, I am just setting it to 0 so that I don't have to type anything in
-        if(checks == 2) //testing for matching passwords
+        if(checks == 4) //testing for matching passwords
         {
             valid = true;
         }
