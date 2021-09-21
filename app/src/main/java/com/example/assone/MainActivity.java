@@ -46,11 +46,13 @@ public class MainActivity extends AppCompatActivity {
             case initial:
                 //the graph structure is coming from the graph structure
                 pracGrader = (Graph) getIntent().getSerializableExtra("pracGrader");
-                Instructor testInstructor = new Instructor("s", "283690A","283690A@curtin.edu.au", "Australia");
+
+                //getting rid of these test subjects as they have served their purpoes
+                /*Instructor testInstructor = new Instructor("s", "283690A","283690A@curtin.edu.au", "Australia");
                 Student testStudent = new Student("a", "19476700", "tawana.kwaramba@student.curtin.edu.au", "Australia", "s");
                 pracGrader.addVertex(testInstructor);
                 //adding the students onto the teacher
-                pracGrader.addVertex(testStudent, testInstructor.getName());
+                pracGrader.addVertex(testStudent, testInstructor.getName());*/
 
 
                 //hard coding an instructor and student to make testing of the two classes quicker

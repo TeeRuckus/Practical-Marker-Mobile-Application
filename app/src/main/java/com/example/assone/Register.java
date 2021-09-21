@@ -147,10 +147,6 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         adapterFlag = new FlagAdapter(Register.this, allFlags);
         spinnerFlags.setAdapter(adapterFlag);
 
-        //getting what the selected country is going to be from the recycler view
-        String selCountry = spinnerFlags.getSelectedItem().toString();
-
-
         switch (currState) {
             case instructor:
                 //the problem is that thave this inside an onclick listener
@@ -165,6 +161,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                         getFields();
                         boolean valid = registerUser(newInstructor);
                         Instructor createdInstructor = (Instructor) newInstructor;
+                        createdInstructor.setFlag(FlagAdapter.getSelectedCountry());
                         pracGrader.addVertex(createdInstructor);
 
                         //showing the user that an instructor has being created
@@ -205,6 +202,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                                 getFields();
                                 boolean  valid = registerUser(newStudent);
                                 Student createdStudent = (Student) newStudent;
+                                createdStudent.setFlag(FlagAdapter.getSelectedCountry());
                                 createdStudent.setInstructor(currUser);
                                 //giving all the practicals which the current admin has to the newly created student
 
@@ -222,6 +220,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                         break;
 
                     case instructorAdd:
+                        // TODO: you will need to attach the student to the current poisition which the instructor is goign to be
 
                         register.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -229,6 +228,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                                 getFields();
                                 boolean valid = registerUser(newStudent);
                                 Student createdStudent= (Student) newStudent;
+                                createdStudent.setFlag(FlagAdapter.getSelectedCountry());
                                 pracGrader.addVertex(createdStudent, currUser);
 
                                 if(valid)

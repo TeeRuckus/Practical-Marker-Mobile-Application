@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -247,6 +248,7 @@ public class userViewList extends Fragment
     private class userViewHolder extends RecyclerView.ViewHolder
     {
         private EditText nameEditor;
+        private ImageView currUserFlag;
         private EditText score;
         private Button viewUser;
         private Graph.Vertex vert;
@@ -264,6 +266,7 @@ public class userViewList extends Fragment
             nameEditor = (EditText) itemView.findViewById(R.id.userNameView);
             score = (EditText) itemView.findViewById(R.id.scoreUserView);
             viewUser = (Button) itemView.findViewById(R.id.viewUserList);
+            currUserFlag = (ImageView) itemView.findViewById(R.id.userFlagView);
 
             //grabbing the required objects from the activity which had called us previously which is
             //going to be userViewing.java
@@ -351,7 +354,9 @@ public class userViewList extends Fragment
 
             //nameEditor.removeTextChangedListener(tw);
             nameEditor.setText(inVert.getValue().getName());
-            //nameEditor.addTextChangedListener(tw);
+            currUserFlag.setImageResource(inVert.getValue().getFlag().getImage());
+            //setting what the current flag is going to be
+
 
             //TODO: you will need to do the same thing with the score which you set
             //TODO: you will need to have different bind methods. One for viewing, and one
