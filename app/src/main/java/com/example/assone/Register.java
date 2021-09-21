@@ -39,17 +39,20 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     private EditText emailAddress;
     private TextView country;
     private EditText passWord;
+    private EditText passWordSecond;
     private Button register;
     private TextView errorName;
     private TextView errorStaffID;
     private TextView errorEmail;
     private TextView errorPassword;
+    private TextView errorPasswordSecond;
     private Spinner spinnerFlags;
     private FlagAdapter adapterFlag;
     private String userNameStr;
     private String userIDStr;
     private String emailAddressStr;
-    private int checks;
+    private int passWordOneInt;
+    private int passWordTwoInt;
     private TextView banner;
 
     @Override
@@ -162,7 +165,18 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                         boolean valid = registerUser(newInstructor);
                         Instructor createdInstructor = (Instructor) newInstructor;
                         createdInstructor.setFlag(FlagAdapter.getSelectedCountry());
-                        pracGrader.addVertex(createdInstructor);
+
+                        //this iwll fail if the instructor already exists in the network
+                        try {
+                            pracGrader.addVertex(createdInstructor);
+                        }
+                        catch (IllegalArgumentException e)
+                        {
+                            valid = false;
+                            //displaying the erorr on the user name box
+                            errorName.setText("user already exists");
+                            adminName.setText("");
+                        }
 
                         //showing the user that an instructor has being created
                         if (valid) {
@@ -203,13 +217,27 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                                 boolean  valid = registerUser(newStudent);
                                 Student createdStudent = (Student) newStudent;
                                 createdStudent.setFlag(FlagAdapter.getSelectedCountry());
+                                //making the current isntructor of the student, the admin which added them
                                 createdStudent.setInstructor(currUser);
                                 //giving all the practicals which the current admin has to the newly created student
 
                                 Graph.Vertex adminNode = pracGrader.getVertex();
                                 HashMap<String, Practical> adminPracs = adminNode.getValue().getPracticals();
                                 createdStudent.setPracticals(adminPracs);
-                                pracGrader.addVertex(createdStudent);
+                                // this will fail when a user with the same name is going to exisit in
+                                // teh current  graph
+                                try
+                                {
+                                    pracGrader.addVertex(createdStudent);
+                                }
+                                catch (IllegalArgumentException e)
+                                {
+                                    valid = false;
+                                    //display the error on the user name box
+                                    errorName.setText("user already exists");
+                                    adminName.setText("");
+                                }
+
                                 if(valid)
                                 {
                                     succesfulStudentCreate();
@@ -257,6 +285,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                             MainActivity.initial();
                             //getting the admin node, and setting his flag to the currently selected flag
                             Admin createdAdmin = (Admin) newAdmin;
+                            newAdmin.setPassword(passWordOneInt);
                             newAdmin.setFlag(FlagAdapter.getSelectedCountry());
                             pracGrader.addVertex(createdAdmin);
 
@@ -324,6 +353,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
     {
         boolean valid = false;
 
+        int checks = 0;
+
         try
         {
             inUser.setName(userNameStr);
@@ -361,14 +392,19 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
             errorEmail.setText("invalid email format");
         }
 
-        //TODO: you will need to add code here to grab the text which was selected from the drop down menu
-        inUser.setCountry("AUSTRALIA");
+        if(passWordOneInt == passWordTwoInt)
+        {
+            checks++;
+            errorPassword.setText("");
+        }
+        else
+        {
+            //display the errors to show that the passwords don't match to the user
+            errorPassword.setText("Passwords don't match");
+        }
 
-        //password, they is no need for validation as android studio is going to make sure that it's going to be a length of four
-        //TODO: you will need to come back and figure out what you will need to do for her, and actually get this working
-
-        //TODO: you will need to change this back to 3, I am just setting it to 0 so that I don't have to type anything in
-        if(checks == 1)
+        //TODO: you will need to change this back to 4, I am just setting it to 0 so that I don't have to type anything in
+        if(checks == 2) //testing for matching passwords
         {
             valid = true;
         }
@@ -384,12 +420,13 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         staffID = findViewById(R.id.adminUserName);
         emailAddress = findViewById(R.id.adminEmail);
         passWord = findViewById(R.id.adminPassword);
+        passWordSecond = findViewById(R.id.adminPasswordConfirm);
         register = findViewById(R.id.registerBttn);
 
         errorName = findViewById(R.id.registerErrorUser);
         errorStaffID = findViewById(R.id.registerErrorStaffID);
         errorEmail = findViewById(R.id.registerErrorEmail);
-        errorPassword = findViewById(R.id.errorPassword);
+        errorPassword = findViewById(R.id.registerAdminPassordConfirmError);
         banner = findViewById(R.id.bannerRegister);
 
     }
@@ -400,6 +437,26 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
          userNameStr = adminName.getText().toString();
          userIDStr = staffID.getText().toString();
          emailAddressStr = emailAddress.getText().toString();
+
+         try
+         {
+             //the user can just not enter anything in the programme
+             passWordOneInt = Integer.parseInt(passWord.getText().toString());
+         }
+         catch (NumberFormatException e)
+         {
+             // hence, if the user doesn't anything we're going to purposely make the passwords not match
+             passWordOneInt = 1234;
+         }
+
+         try
+         {
+             passWordTwoInt = Integer.parseInt(passWordSecond.getText().toString());
+         }
+         catch (NumberFormatException e)
+         {
+             passWordTwoInt = 4321;
+         }
     }
 
     //PURPOSE: to be able to reverse search in the look up table, so we can obtain a key from the value

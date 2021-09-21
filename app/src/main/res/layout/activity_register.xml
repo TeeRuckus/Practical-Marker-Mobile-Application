@@ -124,14 +124,39 @@
             android:textColorHint="@color/paleNight_yellow"
             android:textSize="20dp" />
 
+        <EditText
+            android:id="@+id/adminPasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/dark_second"
+            android:gravity="center"
+            android:hint="Confirm password"
+            android:inputType="numberPassword"
+            android:maxLength="4"
+            android:textColor="@color/paleNight_white"
+            android:textColorHint="@color/paleNight_yellow"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/registerAdminPassordConfirmError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/paleNight_error"
+            android:textSize="10dp" />
+
         <Button
             android:id="@+id/registerBttn"
-            android:background="@color/paleNight_buttons"
-            android:textColor="@color/paleNight_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Register" />
+            android:layout_margin="10dp"
+            android:background="@color/paleNight_buttons"
+            android:text="Register"
+            android:textColor="@color/paleNight_white" />
 
 
     </LinearLayout>

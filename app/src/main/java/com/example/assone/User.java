@@ -173,10 +173,7 @@ public abstract class User implements Serializable
 
     public void setPassword(int inPassword)
     {
-        if(validatePassword(inPassword))
-        {
-            password = inPassword;
-        }
+        password = inPassword;
     }
 
     public String getType()
